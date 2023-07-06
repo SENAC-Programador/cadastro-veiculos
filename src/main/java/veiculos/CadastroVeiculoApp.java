@@ -1,13 +1,12 @@
-package cadastroveiculos.cadastro;
-
+package veiculos;
+import javafx.application.Application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CadastroApplication {
-
+public class CadastroVeiculoApp {
 	public static void main(String[] args) {
-		SpringApplication.run(CadastroApplication.class, args);
-	}
+		Application.launch(JavaFxApplication.class, args);
 
+	}
 }
