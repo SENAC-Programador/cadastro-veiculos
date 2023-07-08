@@ -6,135 +6,225 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+import veiculos.model.Marcas;
+import veiculos.model.Modelos;
+import veiculos.model.Veiculos;
+
 import java.util.List;
 import java.util.Optional;
 @Component
 @FxmlView("/main.fxml") // para lincar com o arquivo "main.fxml"
 public class CadastroController {
-    /*
     @FXML
-    private TextField documento;
+    private TextField idVeiculo;
+    // @FXML
+    // private TextField dataCadastroVeiculo;
     @FXML
-    private TextField nome;
+    private TextField chassi;
     @FXML
-    private TextField rg;
+    private TextField placa;
     @FXML
-    private TextField email;
+    private TextField ano;
+    @FXML
+    private TextField cor;
+    @FXML
+    private TextField quilometragem;
+    @FXML
+    private TableView<Veiculos> tabelaVeiculos; // <> se usa para definir um tipo
+    @FXML
+    private TableColumn<Veiculos, Integer> colunaIdVeiculo; // <> se usa para definir um tipo
+    // @FXML
+    // private TableColumn<Veiculos, Date> colunaDataCadastroVeiculo;
+    @FXML
+    private TableColumn<Veiculos, String> colunaChassi;
+    @FXML
+    private TableColumn<Veiculos, String> colunaPlaca;
+    @FXML
+    private TableColumn<Veiculos, String> colunaAno;
+    @FXML
+    private TableColumn<Veiculos, String> colunaCor;
+    @FXML
+    private TableColumn<Veiculos, String> colunaQuilometragem;
+
+    // MARCA
+    @FXML
+    private TextField idMarca;
+    //private TextField codigoVeiculo;
+    @FXML
+    private TextField nomeMarca;
+    @FXML
+    private TextField paisOrigem;
+    @FXML
+    private TextField anoFundacaoMarca;
+    @FXML
+    private TextField endereco;
     @FXML
     private TextField telefone;
     @FXML
-    private TextField codigoCliente;
+    private TextField email;
     @FXML
-    private TextField cep;
+    private TextField site;
     @FXML
-    private TextField rua;
+    private TableView<Marcas> tabelaMarcas; // <> se usa para definir um tipo
     @FXML
-    private TextField numero;
+    private TableColumn<Marcas, Integer> colunaIdMarca;
     @FXML
-    private TextField bairro;
+    private TableColumn<Marcas, Integer> colunaCodigoVeiculo; // <> se usa para definir um tipo
     @FXML
-    private TextField cidade;
+    private TableColumn<Marcas, String> colunaNomeMarca;
     @FXML
-    private TextField estado;
+    private TableColumn<Marcas, String> colunaPaisOrigem;
     @FXML
-    private TableView<Clientes> tabelaClientes; // <> se usa para definir um tipo
+    private TableColumn<Marcas, String> colunaAnoFundacaoMarca;
     @FXML
-    private TableColumn<Clientes, Integer> colunaIdCliente; // <> se usa para definir um tipo
+    private TableColumn<Marcas, String> colunaEndereco;
     @FXML
-    private TableColumn<Clientes, String> colunaDocumento; // <> se usa para definir um tipo
+    private TableColumn<Marcas, String> colunaTelefone;
     @FXML
-    private TableColumn<Clientes, String> colunaNome; // <> se usa para definir um tipo
+    private TableColumn<Marcas, String> colunaEmail;
     @FXML
-    private TableColumn<Clientes, String> colunaRg;
+    private TableColumn<Marcas, String> colunaSite;
+
+    // MODELO
     @FXML
-    private TableColumn<Clientes, String> colunaEmail; // <> se usa para definir um tipo
+    private TextField idModelo;
+    //private TextField codigoMarca;
+    //private TextField codigoVeiculo;
     @FXML
-    private TableColumn<Clientes, String> colunaTelefone; // <> se usa para definir um tipo
+    private TextField nomeModelo;
     @FXML
-    private TableView<Enderecos> tabelaEnderecos; // <> se usa para definir um tipo
+    private TextField anoLancamento;
     @FXML
-    private TableColumn<Enderecos, String> colunaCodigoCliente; // <> se usa para definir um tipo
+    private TextField combustivel;
     @FXML
-    private TableColumn<Enderecos, String> colunaCep; // <> se usa para definir um tipo
+    private TextField numeroPortas;
     @FXML
-    private TableColumn<Enderecos, String> colunaRua; // <> se usa para definir um tipo
+    private TableView<Modelos> tabelaModelos;
     @FXML
-    private TableColumn<Enderecos, String> colunaNumero;
+    private TableColumn<Modelos, Integer> colunaIdModelo;
+    // @FXML
+    // private TableColumn<Modelos, Integer> colunaCodigoMarca;
+    // @FXML
+    // private TableColumn<Modelos, Integer> colunaCodigoVeiculo;
     @FXML
-    private TableColumn<Enderecos, String> colunaBairro; // <> se usa para definir um tipo
+    private TableColumn<Modelos, String> colunaNomeModelo;
     @FXML
-    private TableColumn<Enderecos, String> colunaCidade; // <> se usa para definir um tipo
+    private TableColumn<Modelos, String> colunaAnoLancamento;
     @FXML
-    private TableColumn<Enderecos, String> colunaEstado; // <> se usa para definir um tipo
+    private TableColumn<Modelos, String> colunaCombustivel;
+    @FXML
+    private TableColumn<Modelos, Integer> colunaNumeroPortas;
+
     private int index = -1;
 
-    // ======= Cliente ========
+    // ======= Veiculo ========
     // Método para dizer para o JavaFX ... pesquisar ...
     @FXML
     public void initialize() {
-        colunaIdCliente.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colunaDocumento.setCellValueFactory(new PropertyValueFactory<>("documento"));
-        colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        colunaRg.setCellValueFactory(new PropertyValueFactory<>("rg"));
-        colunaEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colunaTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+        colunaIdVeiculo.setCellValueFactory(new PropertyValueFactory<>("idVeiculo")); // é o nome da variavel, não do banco de dados
+        colunaChassi.setCellValueFactory(new PropertyValueFactory<>("chassi"));
+        colunaPlaca.setCellValueFactory(new PropertyValueFactory<>("placa"));
+        colunaAno.setCellValueFactory(new PropertyValueFactory<>("ano"));
+        colunaCor.setCellValueFactory(new PropertyValueFactory<>("cor"));
+        colunaQuilometragem.setCellValueFactory(new PropertyValueFactory<>("quilometragem"));
 
-        colunaCodigoCliente.setCellValueFactory(new PropertyValueFactory<>("codigoCliente")); // é o nome da variavel, não do banco de dados
-        colunaCep.setCellValueFactory(new PropertyValueFactory<>("cep"));
-        colunaRua.setCellValueFactory(new PropertyValueFactory<>("rua"));
-        colunaNumero.setCellValueFactory(new PropertyValueFactory<>("numero"));
-        colunaBairro.setCellValueFactory(new PropertyValueFactory<>("bairro"));
-        colunaCidade.setCellValueFactory(new PropertyValueFactory<>("cidade"));
-        colunaEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+        // MARCA
+        colunaIdMarca.setCellValueFactory(new PropertyValueFactory<>("idMarca"));
+        //colunaCodigoVeiculo.setCellValueFactory(new PropertyValueFactory<>("codigoVeiculo"));
+        colunaNomeMarca.setCellValueFactory(new PropertyValueFactory<>("nomeMarca"));
+        colunaPaisOrigem.setCellValueFactory(new PropertyValueFactory<>("paisOrigem"));
+        colunaAnoFundacaoMarca.setCellValueFactory(new PropertyValueFactory<>("anoFundacaoMarca"));
+        colunaEndereco.setCellValueFactory(new PropertyValueFactory<>("endereco"));
+        colunaTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+        colunaEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colunaSite.setCellValueFactory(new PropertyValueFactory<>("site"));
+
+        // MODELO
+        colunaIdModelo.setCellValueFactory(new PropertyValueFactory<>("idModelo"));
+        // colunaCodigoMarca.setCellValueFactory(new PropertyValueFactory<>("codigoMarca"));
+        // colunaCodigoVeiculo.setCellValueFactory(new PropertyValueFactory<>("codigoVeiculo"));
+        colunaNomeModelo.setCellValueFactory(new PropertyValueFactory<>("nomeModelo"));
+        colunaAnoLancamento.setCellValueFactory(new PropertyValueFactory<>("anoLancamento"));
+        colunaCombustivel.setCellValueFactory(new PropertyValueFactory<>("combustivel"));
+        colunaNumeroPortas.setCellValueFactory(new PropertyValueFactory<>("numeroPortas"));
 
         // Trazer o método da classe ClienteService
-        this.carregarlistaClientes();
-        this.carregarlistaEnderecos();
+        this.carregarlistaVeiculos();
+        this.carregarlistaMarcas();
+        this.carregarlistaModelos();
 
-        tabelaClientes.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        // VEÍCULO
+        tabelaVeiculos.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) { // quantidades de cliques para acionar, nesse caso dois cliques no evento
-                    Clientes cliente = tabelaClientes.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
-                    documento.setText(cliente.getDocumento());
-                    documento.setDisable(true); // Desabilitar o campo documento para edição ou exclusão
-                    nome.setText(cliente.getNome());
-                    nome.setDisable(true); // Desabilitar o campo nome para edição ou exclusão
-                    rg.setText(cliente.getRg());
-                    email.setText(cliente.getEmail());
-                    telefone.setText(cliente.getTelefone());
+                    Veiculos veiculo = tabelaVeiculos.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
+                    chassi.setText(veiculo.getChassi());
+                    chassi.setDisable(true); // Desabilitar o campo "chassi" para edição ou exclusão
+                    placa.setText(veiculo.getPlaca());
+                    placa.setDisable(true); // Desabilitar o campo "placa" para edição ou exclusão
+                    ano.setText(veiculo.getAno());
+                    cor.setText(veiculo.getCor());
+                    quilometragem.setText(veiculo.getQuilometragem());
 
-                    index = cliente.getId();
+                    index = veiculo.getIdVeiculo();
 
                     // Alerta para alterar
                     Alert alertAlterar = new Alert(Alert.AlertType.CONFIRMATION);
                     alertAlterar.setTitle("Confirmação de alterar");
-                    alertAlterar.setHeaderText("Confirmar alteração do cliente?");
+                    alertAlterar.setHeaderText("Confirmar alteração do veículo?");
                     Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
                 }
             }
         });
 
-        tabelaEnderecos.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        // MARCA
+        tabelaMarcas.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) { // quantidades de cliques para acionar, nesse caso dois cliques no evento
-                    Enderecos endereco = tabelaEnderecos.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
-                    codigoCliente.setText(String.valueOf(endereco.getCodigoCliente()));
-                    codigoCliente.setDisable(true); // Desabilitar o campo Código Cliente para edição ou exclusão
-                    cep.setText(endereco.getCep());
-                    rua.setText(endereco.getRua());
-                    numero.setText(String.valueOf(endereco.getNumero()));
-                    bairro.setText(endereco.getBairro());
-                    cidade.setText(endereco.getCidade());
-                    estado.setText(endereco.getEstado());
+                    Marcas marca = tabelaMarcas.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
+                    //codigoVeiculo.setText(String.valueOf(marca.getCodigoVeiculo()));
+                    //codigoVeiculo.setDisable(true); // Desabilitar o campo "Código Veículo" para edição ou exclusão
+                    nomeMarca.setText(marca.getNomeMarca());
+                    paisOrigem.setText(marca.getPaisOrigem());
+                    anoFundacaoMarca.setText(marca.getAnoFundacaoMarca());
+                    endereco.setText(marca.getEndereco());
+                    telefone.setText(marca.getTelefone());
+                    email.setText(marca.getEmail());
+                    site.setText(marca.getSite());
 
-                    index = endereco.getIdEndereco();
+                    index = marca.getIdMarca();
 
                     // Alerta para alterar
                     Alert alertAlterar = new Alert(Alert.AlertType.CONFIRMATION);
                     alertAlterar.setTitle("Confirmação de alterar");
-                    alertAlterar.setHeaderText("Confirmar alteração do endereço?");
+                    alertAlterar.setHeaderText("Confirmar alteração do marca?");
+                    Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
+                }
+            }
+        });
+
+        // MODELO
+        tabelaModelos.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    Modelos modelo = tabelaModelos.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
+                    idModelo.setText(String.valueOf(modelo.getIdModelo()));
+                    //codigoMarca.setText(String.valueOf(modelo.getCodigoMarca()));
+                    //codigoVeiculo.setText(String.valueOf(modelo.getCodigoVeiculo()));
+                    nomeModelo.setText(modelo.getNomeModelo());
+                    anoLancamento.setText(modelo.getAnoLancamento());
+                    combustivel.setText(modelo.getCombustivel());
+                    numeroPortas.setText(modelo.getNumeroPortas());
+
+                    index = modelo.getIdModelo();
+
+                    // Alerta para alterar
+                    Alert alertAlterar = new Alert(Alert.AlertType.CONFIRMATION);
+                    alertAlterar.setTitle("Confirmação de alterar");
+                    alertAlterar.setHeaderText("Confirmar alteração do modelo?");
                     Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
                 }
             }
