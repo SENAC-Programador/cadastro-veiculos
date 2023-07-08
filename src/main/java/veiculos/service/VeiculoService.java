@@ -86,11 +86,11 @@ public class VeiculoService {
         return false;
     }
 
-    //    // Validar o documento unico,
-    public static boolean buscarVeiculoByDocumento(String documento) {
+    // Validar o chassi unico,
+    public static boolean buscarVeiculoByChassi(String chassi) {
         try {
             Connection conn = conexao.getConexao();
-            String selectSql = "SELECT id FROM veiculos WHERE documento = '" + documento + "'"; // precisa colocar entre aspas simples
+            String selectSql = "SELECT id FROM veiculos WHERE chassi = '" + chassi + "'"; // precisa colocar entre aspas simples
             Statement sta = conn.createStatement();
             ResultSet rs = sta.executeQuery(selectSql);
             return rs.next();
