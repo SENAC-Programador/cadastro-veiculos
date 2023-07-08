@@ -26,7 +26,7 @@ public class JavaFxApplication extends Application {
         Parent root = loader.load();
 
         stage.setScene(new Scene(root));
-        stage.setTitle("Cadastro Cliente");
+        stage.setTitle("Cadastro Veículo");
         stage.show();
     }
 }
