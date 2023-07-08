@@ -1,27 +1,28 @@
 package veiculos.model;
 
-import java.util.Date;
-
 public class Veiculos {
-    private int idVeiculo;
-    // private Date dataCadastroVeiculo;
-    private String chassi; // pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
-    private String placa; // ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
-    private String ano;
-    private String cor;
-    private String quilometragem; // quilometragem atual do veículo, ex: 50.000 km
+    private int idVeiculo; // NOT NULL
+    private String dataCadastroVeiculo; // NOT NULL
+    private String chassi; // NOT NULL, UNIQUE -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
+    private String placa; // NOT NULL, UNIQUE -> ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
+    private String corVeiculo; // NULL
+    private String quilometragem; // NULL -> quilometragem atual do veículo, ex: 50.000 km
+    private String codigoMarca; // NOT NULL, FK
+    private String codigoModelo; // NOT NULL, FK
 
     public Veiculos() {
-
     }
-    // Precisa desse construtor para o VeiculoService funcionar
-    public Veiculos(int idVeiculo, String chassi, String placa, String ano, String cor, String quilometragem) {
+
+    public Veiculos(int idVeiculo, String dataCadastroVeiculo, String chassi, String placa,
+                    String corVeiculo, String quilometragem, String codigoMarca, String codigoModelo) {
         this.idVeiculo = idVeiculo;
+        this.dataCadastroVeiculo = dataCadastroVeiculo;
         this.chassi = chassi;
         this.placa = placa;
-        this.ano = ano;
-        this.cor = cor;
+        this.corVeiculo = corVeiculo;
         this.quilometragem = quilometragem;
+        this.codigoMarca = codigoMarca;
+        this.codigoModelo = codigoModelo;
     }
 
     public int getIdVeiculo() {
@@ -30,6 +31,14 @@ public class Veiculos {
 
     public void setIdVeiculo(int idVeiculo) {
         this.idVeiculo = idVeiculo;
+    }
+
+    public String getDataCadastroVeiculo() {
+        return dataCadastroVeiculo;
+    }
+
+    public void setDataCadastroVeiculo(String dataCadastroVeiculo) {
+        this.dataCadastroVeiculo = dataCadastroVeiculo;
     }
 
     public String getChassi() {
@@ -48,20 +57,12 @@ public class Veiculos {
         this.placa = placa;
     }
 
-    public String getAno() {
-        return ano;
+    public String getCorVeiculo() {
+        return corVeiculo;
     }
 
-    public void setAno(String ano) {
-        this.ano = ano;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
+    public void setCorVeiculo(String corVeiculo) {
+        this.corVeiculo = corVeiculo;
     }
 
     public String getQuilometragem() {
@@ -70,5 +71,21 @@ public class Veiculos {
 
     public void setQuilometragem(String quilometragem) {
         this.quilometragem = quilometragem;
+    }
+
+    public String getCodigoMarca() {
+        return codigoMarca;
+    }
+
+    public void setCodigoMarca(String codigoMarca) {
+        this.codigoMarca = codigoMarca;
+    }
+
+    public String getCodigoModelo() {
+        return codigoModelo;
+    }
+
+    public void setCodigoModelo(String codigoModelo) {
+        this.codigoModelo = codigoModelo;
     }
 }

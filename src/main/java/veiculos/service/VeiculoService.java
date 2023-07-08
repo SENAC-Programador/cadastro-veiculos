@@ -7,7 +7,8 @@ import java.util.List;
 
 public class VeiculoService {
     private static ConexaoDatabase conexao = new ConexaoDatabase();
-    public static List<Veiculos> carregarVeiculos() {
+    // VEÍCULO: idVeiculo, dataCadastroVeiculo, chassi, placa, corVeiculo, quilometragem, codigoMarca, codigoModelo
+    public static List<Veiculos> carregarVeiculo() {
         List<Veiculos> out = new ArrayList<>();
         try {
             Connection conn = conexao.getConexao();
@@ -16,11 +17,13 @@ public class VeiculoService {
             while (rs.next()) {
                 Veiculos veiculo = new Veiculos(
                         rs.getInt("idVeiculo"),
+                        rs.getString("dataCadastroVeiculo"),
                         rs.getString("chassi"),
                         rs.getString("placa"),
-                        rs.getString("ano"),
-                        rs.getString("cor"),
-                        rs.getString("quilometragem"));
+                        rs.getString("corVeiculo"),
+                        rs.getString("quilometragem"),
+                        rs.getString("codigoMarca"),
+                        rs.getString("codigoModelo"));
 
                 out.add(veiculo);
             }
@@ -30,17 +33,20 @@ public class VeiculoService {
         return out;
     }
 
-    // Inserir Veiculo (INSERT)
+    // Inserir (INSERT)
     public static void inserirVeiculo(Veiculos veiculo) {
         try {
             Connection conn = conexao.getConexao();
-            String sql = "INSERT INTO veiculo (chassi, placa, ano, cor, quilometragem) VALUES ( ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO veiculo (dataCadastroVeiculo, chassi, placa, cor, quilometragem,  " +
+                    "codigoMarca, codigoModelo) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setString(1, veiculo.getChassi());
-            pre.setString(2, veiculo.getPlaca());
-            pre.setString(3, veiculo.getAno());
-            pre.setString(4, veiculo.getCor());
+            pre.setString(1, veiculo.getDataCadastroVeiculo());
+            pre.setString(2, veiculo.getChassi());
+            pre.setString(3, veiculo.getPlaca());
+            pre.setString(4, veiculo.getCorVeiculo());
             pre.setString(5, veiculo.getQuilometragem());
+            pre.setString(6, veiculo.getCodigoMarca());
+            pre.setString(7, veiculo.getCodigoMarca());
 
             pre.execute();
             pre.close();
@@ -49,19 +55,22 @@ public class VeiculoService {
             throw new RuntimeException(e);
         }
     }
-    // Atualizar Veículo (UPDATE)
-    public static boolean atualizarCliente(int idVeiculo, Veiculos veiculo) {
+    // Atualizar (UPDATE)
+    public static boolean atualizarVeiculo(int idVeiculo, Veiculos veiculo) {
         try {
             Connection conn = conexao.getConexao();
             String updateSql = "UPDATE veiculos " +
-                    "SET chassi = ?, placa = ?, ano = ?, cor = ?, quilometragem = ? WHERE id = ?";
+                    "SET dataCadastroVeiculo = ?, chassi = ?, placa = ?, cor = ?, quilometragem = ? " +
+                    "codigoMarca = ?, codigoModelo = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(updateSql);
-            ps.setString(1, veiculo.getChassi());
-            ps.setString(2, veiculo.getPlaca());
-            ps.setString(3, veiculo.getAno());
-            ps.setString(4, veiculo.getCor());
+            ps.setString(1, veiculo.getDataCadastroVeiculo());
+            ps.setString(2, veiculo.getChassi());
+            ps.setString(3, veiculo.getPlaca());
+            ps.setString(4, veiculo.getCorVeiculo());
             ps.setString(5, veiculo.getQuilometragem());
-            ps.setInt(6, idVeiculo); // Não funciona dessa forma "cli.getId();"
+            ps.setString(6, veiculo.getCodigoMarca());
+            ps.setString(7, veiculo.getCodigoModelo());
+            ps.setInt(8, idVeiculo);
 
             return ps.execute();
         } catch (Exception e) {
@@ -70,8 +79,8 @@ public class VeiculoService {
         return false;
     }
 
-    // Excluir Veiculo (DELETE)
-    public static boolean deletarCliente(int idVeiculo) {
+    // Excluir (DELETE)
+    public static boolean deletarVeiculo(int idVeiculo) {
         try {
             Connection conn = conexao.getConexao();
             String deleteSql = "DELETE FROM veiculos WHERE id = ?";
@@ -91,6 +100,19 @@ public class VeiculoService {
         try {
             Connection conn = conexao.getConexao();
             String selectSql = "SELECT id FROM veiculos WHERE chassi = '" + chassi + "'"; // precisa colocar entre aspas simples
+            Statement sta = conn.createStatement();
+            ResultSet rs = sta.executeQuery(selectSql);
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean buscarVeiculoByPlaca(String placa) {
+        try {
+            Connection conn = conexao.getConexao();
+            String selectSql = "SELECT id FROM veiculos WHERE placa = '" + placa + "'"; // precisa colocar entre aspas simples
             Statement sta = conn.createStatement();
             ResultSet rs = sta.executeQuery(selectSql);
             return rs.next();

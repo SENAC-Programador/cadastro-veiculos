@@ -1,19 +1,38 @@
 package veiculos.model;
-
 public class Marcas {
-    private int idMarca;
-
-    //private int codigoVeiculo;
-    private String nomeMarca;
-    private String paisOrigem;
-    private String anoFundacaoMarca; // o ano de fundação da marca do veículo
-    private String endereco;
-    private String telefone;
-    private String email;
-    private String site; // site oficial da marca
+    private int idMarca; // NOT NULL
+    private String cnpj; // NOT NULL, UNIQUE
+    private String razaoSocial; // NOT NULL, UNIQUE
+    private String cep; // NOT NULL
+    private String rua; // NOT NULL
+    private String numero; // NULL
+    private String bairro; // NOT NULL
+    private String cidade; // NOT NULL
+    private String uf; // NOT NULL
+    private String pais; // NOT NULL
+    private String telefone; // NOT NULL
+    private String email; // NULL
+    private String site; // NULL -> site oficial da marca
 
     public Marcas() {
+    }
 
+    public Marcas(int idMarca, String cnpj, String razaoSocial, String cep, String rua, String numero,
+                  String bairro, String cidade, String uf, String pais, String telefone, String email,
+                  String site) {
+        this.idMarca = idMarca;
+        this.cnpj = cnpj;
+        this.razaoSocial = razaoSocial;
+        this.cep = cep;
+        this.rua = rua;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.pais = pais;
+        this.telefone = telefone;
+        this.email = email;
+        this.site = site;
     }
 
     public int getIdMarca() {
@@ -24,36 +43,76 @@ public class Marcas {
         this.idMarca = idMarca;
     }
 
-    public String getNomeMarca() {
-        return nomeMarca;
+    public String getCnpj() {
+        return cnpj;
     }
 
-    public void setNomeMarca(String nomeMarca) {
-        this.nomeMarca = nomeMarca;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
-    public String getPaisOrigem() {
-        return paisOrigem;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setPaisOrigem(String paisOrigem) {
-        this.paisOrigem = paisOrigem;
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
 
-    public String getAnoFundacaoMarca() {
-        return anoFundacaoMarca;
+    public String getCep() {
+        return cep;
     }
 
-    public void setAnoFundacaoMarca(String anoFundacaoMarca) {
-        this.anoFundacaoMarca = anoFundacaoMarca;
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getRua() {
+        return rua;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
     public String getTelefone() {
