@@ -1,11 +1,13 @@
 package veiculos.service;
 
 import veiculos.db.ConexaoDatabase;
+import veiculos.model.Marcas;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 public class MarcaService {
-
  private static ConexaoDatabase conexao = new ConexaoDatabase();
- /*
     public static List<Marcas> carregarMarcas() {
         List<Marcas> out = new ArrayList<>();
         try {
@@ -15,13 +17,19 @@ public class MarcaService {
             while (resultado.next()) {
                 Marcas marca = new Marcas(
                         resultado.getInt("id"),
-                        //resultado.getString("id_modelo"),
+                        resultado.getString("cnpj"),
+                        resultado.getString("razaoSocial"),
                         resultado.getString("cep"),
                         resultado.getString("rua"),
                         resultado.getString("numero"),
                         resultado.getString("bairro"),
                         resultado.getString("cidade"),
-                        resultado.getString("estado"));
+                        resultado.getString("uf"),
+                        resultado.getString("pais"),
+                        resultado.getString("telefone"),
+                        resultado.getString("email"),
+                        resultado.getString("site"));
+
                 out.add(marca);
             }
         } catch (SQLException e) {
@@ -34,16 +42,21 @@ public class MarcaService {
     public static void inserirMarca(Marcas marca) {
         try {
             Connection conn = conexao.getConexao();
-            String sql = "INSERT INTO marcas (id_modelo, cep, rua, numero, bairro, cidade, estado) " +
-                    "VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO marcas (cnpj, razaoSocial, cep, rua, numero, bairro, cidade, uf, pais, ) " +
+                    "telefone, email, site VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setInt(1, Integer.parseInt(endereco.getCodigoCliente()));
-            pre.setString(2, marca.getCep());
-            pre.setString(3, marca.getRua());
-            pre.setString(4, marca.getNumero());
-            pre.setString(5, marca.getBairro());
-            pre.setString(6, marca.getCidade());
-            pre.setString(7, marca.getUf());
+            pre.setString(1, marca.getCnpj());
+            pre.setString(2, marca.getRazaoSocial());
+            pre.setString(3, marca.getCep());
+            pre.setString(4, marca.getRua());
+            pre.setString(5, marca.getNumero());
+            pre.setString(6, marca.getBairro());
+            pre.setString(7, marca.getCidade());
+            pre.setString(8, marca.getUf());
+            pre.setString(9, marca.getPais());
+            pre.setString(10, marca.getTelefone());
+            pre.setString(11, marca.getEmail());
+            pre.setString(12, marca.getSite());
 
             pre.execute();
             pre.close();
@@ -58,15 +71,22 @@ public class MarcaService {
         try {
             Connection conn = conexao.getConexao();
             String updateSql = "UPDATE marcas " +
-                    "SET cep = ?, rua = ?, numero = ?, bairro = ?, cidade = ?, estado = ? WHERE id_modelo = ?";
+                    "SET cnpj = ?, razaoSocial = ?, cep = ?, rua = ?, numero = ?, bairro = ?, cidade = ?, uf = ?, " +
+                    "pais = ?, telefone = ?, email = ?, site = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(updateSql);
-            ps.setString(1, marca.getCep());
-            ps.setString(2, marca.getRua());
-            ps.setString(3, marca.getNumero());
-            ps.setString(4, marca.getBairro());
-            ps.setString(5, marca.getCidade());
-            ps.setString(6, marca.getEstado());
-            ps.setInt(7, codigoModelo); // Não funciona dessa forma marca.getId();
+            ps.setString(1, marca.getCnpj());
+            ps.setString(2, marca.getRazaoSocial());
+            ps.setString(3, marca.getCep());
+            ps.setString(4, marca.getRua());
+            ps.setString(5, marca.getNumero());
+            ps.setString(6, marca.getBairro());
+            ps.setString(7, marca.getCidade());
+            ps.setString(8, marca.getUf());
+            ps.setString(9, marca.getPais());
+            ps.setString(10, marca.getTelefone());
+            ps.setString(11, marca.getEmail());
+            ps.setString(12, marca.getSite());
+            //ps.setInt(13, idMarca); // Não funciona dessa forma marca.getId();
 
             return ps.execute();
         } catch (Exception e) {
@@ -90,5 +110,5 @@ public class MarcaService {
 
         return false;
     }
-     */
+
 }
