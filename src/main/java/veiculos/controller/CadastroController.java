@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import veiculos.model.Marcas;
 import veiculos.model.Modelos;
 import veiculos.model.Veiculos;
+import veiculos.service.MarcaService;
+import veiculos.service.ModeloService;
 import veiculos.service.VeiculoService;
 
 import java.util.List;
@@ -367,8 +369,6 @@ public class CadastroController {
         placa.setDisable(false); // habilitar nome
     }
 
-    /*
-
 // MARCA: idMarca, cnpj, razaoSocial, cep, rua, numero, bairro, cidade, uf, pais, telefone, email, site
     public void executarSalvarMarca() {
         Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
@@ -380,27 +380,31 @@ public class CadastroController {
             if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
 
                 Marcas marca = new Marcas();
-                // para mostrar as informações que estão na linha que pertecem as colunas da tabela
-                marca.setCodigoCliente(codigoCliente.getText()); // coluna código do cliente
+                marca.setCnpj(cnpj.getText());
+                marca.setRazaoSocial(razaoSocial.getText());
                 marca.setCep(cep.getText()); // coluna CEP
                 marca.setRua(rua.getText()); // coluna Rua
                 marca.setNumero(numero.getText()); // coluna número
                 marca.setBairro(bairro.getText());
                 marca.setCidade(cidade.getText());
-                marca.setEstado(uf.getText());
+                marca.setUf(uf.getText());
+                marca.setPais(pais.getText());
+                marca.setTelefone(telefone.getText());
+                marca.setEmail(email.getText());
+                marca.setSite(site.getText());
 
                 Alert alertObri = new Alert(Alert.AlertType.ERROR);
                 alertObri.setTitle("Campo obrigatório");
                 Alert alertInvalido = new Alert(Alert.AlertType.ERROR);
                 alertInvalido.setTitle("Erro");
 
-                if (codigoCliente.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o código do cliente!");
+                if (cnpj.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o CNPJ!");
                     alertObri.show(); // precisa para mostrar a tela do alerta
-                } else if (!endereco.getCodigoCliente().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
-                    alertInvalido.setHeaderText("Código do cliente inválido, somente números");
-                    alertInvalido.show();
-                } else if (!endereco.getCep().matches("[0-9]*")) { // expressão regular: [0-9]*,
+                } else if (razaoSocial.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar a Razão Social!");
+                    alertObri.show();
+                } else if (!marca.getCep().matches("[0-9]*")) { // expressão regular: [0-9]*,
                     alertInvalido.setHeaderText("CEP inválido, somente números");
                     alertInvalido.show();
                 } else if (cep.getText().isEmpty()) {
@@ -414,10 +418,19 @@ public class CadastroController {
                     alertObri.show(); // precisa para mostrar a tela do alerta
                 } else if (cidade.getText().isEmpty()) {
                     alertObri.setHeaderText("É obrigatório informar a cidade!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
-                } else if (estado.getText().isEmpty()) {
+                    alertObri.show();
+                } else if (uf.getText().isEmpty()) {
                     alertObri.setHeaderText("É obrigatório informar a sigla do estado!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
+                    alertObri.show();
+                } else if (pais.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o país!");
+                    alertObri.show();
+                } else if (telefone.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o telefone!");
+                    alertObri.show();
+                } else if(!marca.getTelefone().matches("[0-9]*")) {
+                    alertInvalido.setHeaderText("Telefone inválido, somente números");
+                    alertInvalido.show();
                 } else if (index > -1) {
                     MarcaService.atualizarMarca(index, marca);
                     index = -1; // precisa resetar o index, para poder incluir um registro novo
@@ -452,21 +465,24 @@ public class CadastroController {
         List<Marcas> marcaList = MarcaService.carregarMarcas();
         tabelaMarcas.getItems().addAll(marcaList);
     }
+
     public void limparCamposMarca() {
-        codigoCliente.setText("");
+        cnpj.setText("");
+        razaoSocial.setText("");
         cep.setText(""); // zera o campo
         rua.setText("");
         numero.setText("");
         bairro.setText("");
         cidade.setText("");
-        estado.setText("");
-        codigoCliente.setDisable(false); // habilitar o campo código cliente
+        uf.setText("");
+        pais.setText("");
+        telefone.setText("");
+        email.setText("");
+        site.setText("");
+        //codigoVeiculo.setDisable(false); // habilitar o campo código veículo
     }
-    */
 
 // MODELO: idModelo, codigoMarcaModelo, nomeModelo, potencia, motor, anoLancamento, tipoCombustivel, numeroPortas
-
-    /*
     // Método para fazer funcionar o botão "OK" do JavaFX
     public void executarSalvarModelo() {
         Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
@@ -479,43 +495,46 @@ public class CadastroController {
 
                 Modelos modelo = new Modelos();
                 // para mostrar as informações que estão na linha que pertecem as colunas da tabela
-                modelo.setCodigoCliente(codigoCliente.getText()); // coluna código do cliente
-                modelo.setCep(cep.getText()); // coluna CEP
-                modelo.setRua(rua.getText()); // coluna Rua
-                modelo.setNumero(numero.getText()); // coluna número
-                modelo.setBairro(bairro.getText());
-                modelo.setCidade(cidade.getText());
-                modelo.setEstado(estado.getText());
+                modelo.setCodigoMarcaModelo(codigoMarcaModelo.getText()); // coluna código da marca
+                modelo.setNomeModelo(nomeModelo.getText());
+                modelo.setPotencia(potencia.getText());
+                modelo.setMotor(motor.getText());
+                modelo.setAnoLancamento(anoLancamento.getText());
+                modelo.setTipoCombustivel(tipoCombustivel.getText());
+                modelo.setNumeroPortas(numeroPortas.getText());
 
                 Alert alertObri = new Alert(Alert.AlertType.ERROR);
                 alertObri.setTitle("Campo obrigatório");
                 Alert alertInvalido = new Alert(Alert.AlertType.ERROR);
                 alertInvalido.setTitle("Erro");
 
-                if (codigoCliente.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o código do cliente!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
-                } else if (!modelo.getCodigoCliente().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
-                    alertInvalido.setHeaderText("Código do cliente inválido, somente números");
+                if (codigoMarcaModelo.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o código da marca!");
+                    alertObri.show();
+                } else if (!modelo.getCodigoMarcaModelo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
+                    alertInvalido.setHeaderText("Código da marca inválido, somente números");
                     alertInvalido.show();
-                } else if (!modelo.getCep().matches("[0-9]*")) { // expressão regular: [0-9]*,
-                    alertInvalido.setHeaderText("CEP inválido, somente números");
+                } else if (nomeModelo.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o nome do modelo!");
+                    alertObri.show();
+                } else if (potencia.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar a potência");
+                    alertObri.show();
+                } else if (motor.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o motor!");
+                    alertObri.show();
+                } else if (anoLancamento.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o ano do lançamento!");
+                    alertObri.show();
+                } else if (tipoCombustivel.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o tipo do combustivel!");
+                    alertObri.show();
+                } else if (numeroPortas.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o número de portas!");
+                    alertObri.show();
+                } else if (!modelo.getNumeroPortas().matches("[0-9]*")) {
+                    alertInvalido.setHeaderText("Número de portas inválido, somente números");
                     alertInvalido.show();
-                } else if (cep.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o CEP!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
-                } else if (rua.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar a rua!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
-                } else if (bairro.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o bairro!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
-                } else if (cidade.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar a cidade!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
-                } else if (estado.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar a sigla do estado!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
                 } else if (index > -1) {
                     ModeloService.atualizarModelo(index, modelo);
                     index = -1; // precisa resetar o index, para poder incluir um registro novo
@@ -551,15 +570,17 @@ public class CadastroController {
         List<Modelos> modeloList = ModeloService.carregarModelos();
         tabelaModelos.getItems().addAll(modeloList);
     }
+
     public void limparCamposModelo() {
-        codigoMarca.setText("");
-        cep.setText(""); // zera o campo
-        rua.setText("");
-        numero.setText("");
-        bairro.setText("");
-        cidade.setText("");
-        estado.setText("");
-        codigoMarca.setDisable(false); // habilitar o campo código cliente
+        codigoMarcaModelo.setText("");
+        nomeModelo.setText(""); // zera o campo
+        potencia.setText("");
+        motor.setText("");
+        anoLancamento.setText("");
+        tipoCombustivel.setText("");
+        numeroPortas.setText("");
+        codigoMarcaModelo.setDisable(false); // habilitar o campo código da marca
+
     }
-    */
+
 }

@@ -1,12 +1,14 @@
 package veiculos.service;
-
 import veiculos.db.ConexaoDatabase;
+import veiculos.model.Modelos;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModeloService {
 
      private static ConexaoDatabase conexao = new ConexaoDatabase();
-  /*
-    public static List<Modelos> carregarModelos() {
+     public static List<Modelos> carregarModelos() {
         List<Modelos> out = new ArrayList<>();
         try {
             Connection conn = conexao.getConexao();
@@ -16,12 +18,12 @@ public class ModeloService {
                 Modelos modelo = new Modelos(
                         resultado.getInt("id"),
                         resultado.getString("id_marca"),
-                        resultado.getString("cep"),
-                        resultado.getString("rua"),
-                        resultado.getString("numero"),
-                        resultado.getString("bairro"),
-                        resultado.getString("cidade"),
-                        resultado.getString("estado"));
+                        resultado.getString("nomeModelo"),
+                        resultado.getString("potencia"),
+                        resultado.getString("motor"),
+                        resultado.getString("anoLancamento"),
+                        resultado.getString("tipoCombustivel"),
+                        resultado.getString("numeroPortas"));
                 out.add(modelo);
             }
         } catch (SQLException e) {
@@ -34,16 +36,16 @@ public class ModeloService {
     public static void inserirModelo(Modelos modelo) {
         try {
             Connection conn = conexao.getConexao();
-            String sql = "INSERT INTO modelos (id_marca, cep, rua, numero, bairro, cidade, estado) " +
-                    "VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO modelos (id_marca, nomeModelo, potencia, motor, anoLancamento, " +
+                    "tipoCombustivel, numeroPortas) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setInt(1, Integer.parseInt(modelo.getCodigoMarca()));
-            pre.setString(2, modelo.getCep());
-            pre.setString(3, modelo.getRua());
-            pre.setString(4, modelo.getNumero());
-            pre.setString(5, modelo.getBairro());
-            pre.setString(6, modelo.getCidade());
-            pre.setString(7, modelo.getEstado());
+            pre.setInt(1, Integer.parseInt(modelo.getCodigoMarcaModelo()));
+            pre.setString(2, modelo.getNomeModelo());
+            pre.setString(3, modelo.getPotencia());
+            pre.setString(4, modelo.getMotor());
+            pre.setString(5, modelo.getAnoLancamento());
+            pre.setString(6, modelo.getTipoCombustivel());
+            pre.setString(7, modelo.getNumeroPortas());
 
             pre.execute();
             pre.close();
@@ -54,20 +56,20 @@ public class ModeloService {
     }
 
     // Atualizar (UPDATE)
-    public static boolean atualizarModelo(int codigoMarca, Modelos modelo) {
+    public static boolean atualizarModelo(int codigoMarcaModelo, Modelos modelo) {
         try {
             Connection conn = conexao.getConexao();
             String updateSql = "UPDATE modelos " +
-                    "SET cep = ?, rua = ?, numero = ?, bairro = ?, cidade = ?, estado = ? WHERE id_marca = ?";
+                    "SET nomeModelo = ?, potencia = ?, motor = ?, anoLancamento = ?, tipoCombustivel = ?, " +
+                    "numeroPortas = ? WHERE id_marca = ?";
             PreparedStatement ps = conn.prepareStatement(updateSql);
-            ps.setString(1, modelo.getCep());
-            ps.setString(2, modelo.getRua());
-            ps.setString(3, modelo.getNumero());
-            ps.setString(4, modelo.getBairro());
-            ps.setString(5, modelo.getCidade());
-            ps.setString(6, modelo.getEstado());
-            ps.setInt(7, codigoMarca); // Não funciona dessa forma modelo.getIdMarca();
-
+            ps.setString(1, modelo.getNomeModelo());
+            ps.setString(2, modelo.getPotencia());
+            ps.setString(3, modelo.getMotor());
+            ps.setString(4, modelo.getAnoLancamento());
+            ps.setString(5, modelo.getTipoCombustivel());
+            ps.setString(6, modelo.getNumeroPortas());
+            ps.setInt(7, codigoMarcaModelo); // Não funciona dessa forma modelo.getIdMarca();
             return ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,5 +92,5 @@ public class ModeloService {
 
         return false;
     }
-     */
+
 }
