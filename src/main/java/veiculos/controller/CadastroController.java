@@ -6,9 +6,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
-import veiculos.model.Marcas;
-import veiculos.model.Modelos;
-import veiculos.model.Veiculos;
+import veiculos.model.Marca;
+import veiculos.model.Modelo;
+import veiculos.model.Veiculo;
 import veiculos.service.MarcaService;
 import veiculos.service.ModeloService;
 import veiculos.service.VeiculoService;
@@ -35,23 +35,23 @@ public class CadastroController {
     @FXML
     private TextField codigoModelo; // NOT NULL, FK
     @FXML
-    private TableView<Veiculos> tabelaVeiculos;
+    private TableView<Veiculo> tabelaVeiculos;
     @FXML
-    private TableColumn<Veiculos, Integer> colunaIdVeiculo;
+    private TableColumn<Veiculo, Integer> colunaIdVeiculo;
     @FXML
-    private TableColumn<Veiculos, Integer> colunaDataCadastroVeiculo;
+    private TableColumn<Veiculo, Integer> colunaDataCadastroVeiculo;
     @FXML
-    private TableColumn<Veiculos, String> colunaChassi; // NOT NULL, UNIQUE -> ex: 1HGCM82633A123456
+    private TableColumn<Veiculo, String> colunaChassi; // NOT NULL, UNIQUE -> ex: 1HGCM82633A123456
     @FXML
-    private TableColumn<Veiculos, String> colunaPlaca; // NOT NULL, UNIQUE -> ex: ABC-1234
+    private TableColumn<Veiculo, String> colunaPlaca; // NOT NULL, UNIQUE -> ex: ABC-1234
     @FXML
-    private TableColumn<Veiculos, String> colunaCorVeiculo; // NULL
+    private TableColumn<Veiculo, String> colunaCorVeiculo; // NULL
     @FXML
-    private TableColumn<Veiculos, String> colunaQuilometragem; // NULL -> ex: 50.000 km
+    private TableColumn<Veiculo, String> colunaQuilometragem; // NULL -> ex: 50.000 km
     @FXML
-    private TableColumn<Veiculos, String> colunaCodigoMarca; // NOT NULL, FK
+    private TableColumn<Veiculo, String> colunaCodigoMarca; // NOT NULL, FK
     @FXML
-    private TableColumn<Veiculos, String> colunaCodigoModelo; // NOT NULL, FK
+    private TableColumn<Veiculo, String> colunaCodigoModelo; // NOT NULL, FK
 
     // MARCA
     @FXML
@@ -81,33 +81,33 @@ public class CadastroController {
     @FXML
     private TextField site; // NULL -> site oficial da marca
     @FXML
-    private TableView<Marcas> tabelaMarcas;
+    private TableView<Marca> tabelaMarcas;
     @FXML
-    private TableColumn<Marcas, Integer> colunaIdMarca; // int, NOT NULL
+    private TableColumn<Marca, Integer> colunaIdMarca; // int, NOT NULL
     @FXML
-    private TableColumn<Marcas, String> colunaCnpj; // NOT NULL, UNIQUE
+    private TableColumn<Marca, String> colunaCnpj; // NOT NULL, UNIQUE
     @FXML
-    private TableColumn<Marcas, String> colunaRazaoSocial; // NOT NULL, UNIQUE
+    private TableColumn<Marca, String> colunaRazaoSocial; // NOT NULL, UNIQUE
     @FXML
-    private TableColumn<Marcas, String> colunaCep; // NOT NULL
+    private TableColumn<Marca, String> colunaCep; // NOT NULL
     @FXML
-    private TableColumn<Marcas, String> colunaRua; // NOT NULL
+    private TableColumn<Marca, String> colunaRua; // NOT NULL
     @FXML
-    private TableColumn<Marcas, String> colunaNumero; // NULL
+    private TableColumn<Marca, String> colunaNumero; // NULL
     @FXML
-    private TableColumn<Marcas, String> colunaBairro; // NOT NULL
+    private TableColumn<Marca, String> colunaBairro; // NOT NULL
     @FXML
-    private TableColumn<Marcas, String> colunaCidade; // NOT NULL
+    private TableColumn<Marca, String> colunaCidade; // NOT NULL
     @FXML
-    private TableColumn<Marcas, String> colunaUf; // NOT NULL
+    private TableColumn<Marca, String> colunaUf; // NOT NULL
     @FXML
-    private TableColumn<Marcas, String> colunaPais; // NOT NULL
+    private TableColumn<Marca, String> colunaPais; // NOT NULL
     @FXML
-    private TableColumn<Marcas, String> colunaTelefone; // NOT NULL
+    private TableColumn<Marca, String> colunaTelefone; // NOT NULL
     @FXML
-    private TableColumn<Marcas, String> colunaEmail; // NULL
+    private TableColumn<Marca, String> colunaEmail; // NULL
     @FXML
-    private TableColumn<Marcas, String> colunaSite; // NULL -> site oficial da marca
+    private TableColumn<Marca, String> colunaSite; // NULL -> site oficial da marca
 
     // MODELO
     @FXML
@@ -127,23 +127,23 @@ public class CadastroController {
     @FXML
     private TextField numeroPortas; // NOT NUL
     @FXML
-    private TableView<Modelos> tabelaModelos;
+    private TableView<Modelo> tabelaModelos;
     @FXML
-    private TableColumn<Modelos, Integer> colunaIdModelo; // int, NOT NULL
+    private TableColumn<Modelo, Integer> colunaIdModelo; // int, NOT NULL
     @FXML
-    private TableColumn<Modelos, String> colunaCodigoMarcaModelo; // NOT NULL
+    private TableColumn<Modelo, String> colunaCodigoMarcaModelo; // NOT NULL
     @FXML
-    private TableColumn<Modelos, String> colunaNomeModelo; // NOT NULL
+    private TableColumn<Modelo, String> colunaNomeModelo; // NOT NULL
     @FXML
-    private TableColumn<Modelos, String> colunaPotencia; // NOT NULL
+    private TableColumn<Modelo, String> colunaPotencia; // NOT NULL
     @FXML
-    private TableColumn<Modelos, String> colunaMotor; // NOT NULL
+    private TableColumn<Modelo, String> colunaMotor; // NOT NULL
     @FXML
-    private TableColumn<Modelos, String> colunaAnoLancamento; // NOT NULL
+    private TableColumn<Modelo, String> colunaAnoLancamento; // NOT NULL
     @FXML
-    private TableColumn<Modelos, String> colunaTipoCombustivel; // NOT NULL -> tipo de combustível do veículo (ex: gasolina, diesel, elétrico, etc.).
+    private TableColumn<Modelo, String> colunaTipoCombustivel; // NOT NULL -> tipo de combustível do veículo (ex: gasolina, diesel, elétrico, etc.).
     @FXML
-    private TableColumn<Modelos, String> colunaNumeroPortas; // NOT NULL
+    private TableColumn<Modelo, String> colunaNumeroPortas; // NOT NULL
     private int index = -1;
 
     // Método para dizer para o JavaFX ... pesquisar ...
@@ -195,7 +195,7 @@ public class CadastroController {
             @Override
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) { // qtde de cliques, dois cliques no evento
-                    Veiculos veiculo = tabelaVeiculos.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
+                    Veiculo veiculo = tabelaVeiculos.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
                     dataCadastroVeiculo.setText(veiculo.getDataCadastroVeiculo());
                     chassi.setText(veiculo.getChassi());
                     chassi.setDisable(true); // Desabilitar o campo "chassi" para edição ou exclusão
@@ -221,7 +221,7 @@ public class CadastroController {
             @Override
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
-                    Marcas marca = tabelaMarcas.getSelectionModel().getSelectedItem();
+                    Marca marca = tabelaMarcas.getSelectionModel().getSelectedItem();
                     //codigoVeiculo.setText(String.valueOf(marca.getCodigoVeiculo()));
                     //codigoVeiculo.setDisable(true); // Desabilitar o campo "Código Veículo" para edição ou exclusão
                     cnpj.setText(marca.getCnpj());
@@ -253,7 +253,7 @@ public class CadastroController {
             @Override
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
-                    Modelos modelo = tabelaModelos.getSelectionModel().getSelectedItem();
+                    Modelo modelo = tabelaModelos.getSelectionModel().getSelectedItem();
                     codigoMarcaModelo.setText(modelo.getCodigoMarcaModelo());
                     nomeModelo.setText(modelo.getNomeModelo());
                     potencia.setText(modelo.getPotencia());
@@ -283,7 +283,7 @@ public class CadastroController {
         Optional<ButtonType> option = alertInclusao.showAndWait();
 
         if (option.get() != null && option.get() == ButtonType.OK) {
-            Veiculos veiculo = new Veiculos();
+            Veiculo veiculo = new Veiculo();
             veiculo.setDataCadastroVeiculo(dataCadastroVeiculo.getText()); // para mostrar as informações que estão na linha que pertecem a coluna documento da tabela
             veiculo.setChassi(chassi.getText()); // desabilitar o campo chassi
             veiculo.setPlaca(placa.getText());
@@ -354,7 +354,7 @@ public class CadastroController {
     public void carregarlistaVeiculos() {
         // Trazer o método da classe VeiculoService
         tabelaVeiculos.getItems().remove(0, tabelaVeiculos.getItems().size());
-        List<Veiculos> veiculoList = VeiculoService.carregarVeiculo();
+        List<Veiculo> veiculoList = VeiculoService.carregarVeiculo();
         tabelaVeiculos.getItems().addAll(veiculoList);
     }
     public void limparCampos() {
@@ -379,7 +379,7 @@ public class CadastroController {
         try {
             if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
 
-                Marcas marca = new Marcas();
+                Marca marca = new Marca();
                 marca.setCnpj(cnpj.getText());
                 marca.setRazaoSocial(razaoSocial.getText());
                 marca.setCep(cep.getText()); // coluna CEP
@@ -462,7 +462,7 @@ public class CadastroController {
     public void carregarlistaMarcas() {
         // Trazer o método da classe MarcaService
         tabelaMarcas.getItems().remove(0, tabelaMarcas.getItems().size());
-        List<Marcas> marcaList = MarcaService.carregarMarcas();
+        List<Marca> marcaList = MarcaService.carregarMarcas();
         tabelaMarcas.getItems().addAll(marcaList);
     }
 
@@ -493,7 +493,7 @@ public class CadastroController {
         try {
             if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
 
-                Modelos modelo = new Modelos();
+                Modelo modelo = new Modelo();
                 // para mostrar as informações que estão na linha que pertecem as colunas da tabela
                 modelo.setCodigoMarcaModelo(codigoMarcaModelo.getText()); // coluna código da marca
                 modelo.setNomeModelo(nomeModelo.getText());
@@ -567,7 +567,7 @@ public class CadastroController {
     public void carregarlistaModelos() {
         // Trazer o método da classe ModeloService
         tabelaModelos.getItems().remove(0, tabelaModelos.getItems().size());
-        List<Modelos> modeloList = ModeloService.carregarModelos();
+        List<Modelo> modeloList = ModeloService.carregarModelos();
         tabelaModelos.getItems().addAll(modeloList);
     }
 

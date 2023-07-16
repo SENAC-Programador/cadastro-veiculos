@@ -1,21 +1,21 @@
 package veiculos.service;
 
 import veiculos.db.ConexaoDatabase;
-import veiculos.model.Marcas;
+import veiculos.model.Marca;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 public class MarcaService {
  private static ConexaoDatabase conexao = new ConexaoDatabase();
-    public static List<Marcas> carregarMarcas() {
-        List<Marcas> out = new ArrayList<>();
+    public static List<Marca> carregarMarcas() {
+        List<Marca> out = new ArrayList<>();
         try {
             Connection conn = conexao.getConexao();
             Statement sta = conn.createStatement();
             ResultSet resultado = sta.executeQuery("SELECT * FROM marcas");
             while (resultado.next()) {
-                Marcas marca = new Marcas(
+                Marca marca = new Marca(
                         resultado.getInt("id"),
                         resultado.getString("cnpj"),
                         resultado.getString("razaoSocial"),
@@ -39,7 +39,7 @@ public class MarcaService {
     }
 
     // Inserir/Adicionar (INSERT)
-    public static void inserirMarca(Marcas marca) {
+    public static void inserirMarca(Marca marca) {
         try {
             Connection conn = conexao.getConexao();
             String sql = "INSERT INTO marcas (cnpj, razaoSocial, cep, rua, numero, bairro, cidade, uf, pais, ) " +
@@ -67,7 +67,7 @@ public class MarcaService {
     }
 
     // Atualizar (UPDATE)
-    public static boolean atualizarMarca(int codigoModelo, Marcas marca) {
+    public static boolean atualizarMarca(int codigoModelo, Marca marca) {
         try {
             Connection conn = conexao.getConexao();
             String updateSql = "UPDATE marcas " +

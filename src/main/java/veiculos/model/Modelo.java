@@ -1,6 +1,6 @@
 package veiculos.model;
 
-public class Modelos {
+public class Modelo {
     private int idModelo; // NOT NULL
     private String codigoMarcaModelo; // NOT NULL
     private String nomeModelo; // NOT NULL, ex: Parati ou Gol ou Golf
@@ -10,11 +10,11 @@ public class Modelos {
     private String tipoCombustivel; // NOT NULL -> ex: gasolina, diesel, elétrico, etc.
     private String numeroPortas; // NOT NULL
 
-    public Modelos() {
+    public Modelo() {
     }
 
-    public Modelos(int idModelo, String codigoMarcaModelo, String nomeModelo, String potencia, String motor,
-                   String anoLancamento, String tipoCombustivel, String numeroPortas) {
+    public Modelo(int idModelo, String codigoMarcaModelo, String nomeModelo, String potencia, String motor,
+                  String anoLancamento, String tipoCombustivel, String numeroPortas) {
         this.idModelo = idModelo;
         this.codigoMarcaModelo = codigoMarcaModelo;
         this.nomeModelo = nomeModelo;
