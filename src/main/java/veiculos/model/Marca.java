@@ -1,5 +1,5 @@
 package veiculos.model;
-public class Marcas {
+public class Marca {
     private int idMarca; // NOT NULL
     private String cnpj; // NOT NULL, UNIQUE
     private String razaoSocial; // NOT NULL, UNIQUE
@@ -14,12 +14,12 @@ public class Marcas {
     private String email; // NULL
     private String site; // NULL -> site oficial da marca
 
-    public Marcas() {
+    public Marca() {
     }
 
-    public Marcas(int idMarca, String cnpj, String razaoSocial, String cep, String rua, String numero,
-                  String bairro, String cidade, String uf, String pais, String telefone, String email,
-                  String site) {
+    public Marca(int idMarca, String cnpj, String razaoSocial, String cep, String rua, String numero,
+                 String bairro, String cidade, String uf, String pais, String telefone, String email,
+                 String site) {
         this.idMarca = idMarca;
         this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;

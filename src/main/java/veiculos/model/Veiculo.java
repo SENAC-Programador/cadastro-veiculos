@@ -1,6 +1,6 @@
 package veiculos.model;
 
-public class Veiculos {
+public class Veiculo {
     private int idVeiculo; // NOT NULL
     private String dataCadastroVeiculo; // NOT NULL
     private String chassi; // NOT NULL, UNIQUE -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
@@ -10,11 +10,11 @@ public class Veiculos {
     private String codigoMarca; // NOT NULL, FK
     private String codigoModelo; // NOT NULL, FK
 
-    public Veiculos() {
+    public Veiculo() {
     }
 
-    public Veiculos(int idVeiculo, String dataCadastroVeiculo, String chassi, String placa,
-                    String corVeiculo, String quilometragem, String codigoMarca, String codigoModelo) {
+    public Veiculo(int idVeiculo, String dataCadastroVeiculo, String chassi, String placa,
+                   String corVeiculo, String quilometragem, String codigoMarca, String codigoModelo) {
         this.idVeiculo = idVeiculo;
         this.dataCadastroVeiculo = dataCadastroVeiculo;
         this.chassi = chassi;

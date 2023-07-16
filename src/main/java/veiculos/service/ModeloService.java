@@ -1,6 +1,6 @@
 package veiculos.service;
 import veiculos.db.ConexaoDatabase;
-import veiculos.model.Modelos;
+import veiculos.model.Modelo;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +8,14 @@ import java.util.List;
 public class ModeloService {
 
      private static ConexaoDatabase conexao = new ConexaoDatabase();
-     public static List<Modelos> carregarModelos() {
-        List<Modelos> out = new ArrayList<>();
+     public static List<Modelo> carregarModelos() {
+        List<Modelo> out = new ArrayList<>();
         try {
             Connection conn = conexao.getConexao();
             Statement sta = conn.createStatement();
             ResultSet resultado = sta.executeQuery("SELECT * FROM modelos");
             while (resultado.next()) {
-                Modelos modelo = new Modelos(
+                Modelo modelo = new Modelo(
                         resultado.getInt("id"),
                         resultado.getString("id_marca"),
                         resultado.getString("nomeModelo"),
@@ -33,7 +33,7 @@ public class ModeloService {
     }
 
     // Inserir/Adicionar (INSERT)
-    public static void inserirModelo(Modelos modelo) {
+    public static void inserirModelo(Modelo modelo) {
         try {
             Connection conn = conexao.getConexao();
             String sql = "INSERT INTO modelos (id_marca, nomeModelo, potencia, motor, anoLancamento, " +
@@ -56,7 +56,7 @@ public class ModeloService {
     }
 
     // Atualizar (UPDATE)
-    public static boolean atualizarModelo(int codigoMarcaModelo, Modelos modelo) {
+    public static boolean atualizarModelo(int codigoMarcaModelo, Modelo modelo) {
         try {
             Connection conn = conexao.getConexao();
             String updateSql = "UPDATE modelos " +

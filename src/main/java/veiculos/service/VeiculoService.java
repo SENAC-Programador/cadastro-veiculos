@@ -1,6 +1,6 @@
 package veiculos.service;
 import veiculos.db.ConexaoDatabase;
-import veiculos.model.Veiculos;
+import veiculos.model.Veiculo;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +8,14 @@ import java.util.List;
 public class VeiculoService {
     private static ConexaoDatabase conexao = new ConexaoDatabase();
     // VEÍCULO: idVeiculo, dataCadastroVeiculo, chassi, placa, corVeiculo, quilometragem, codigoMarca, codigoModelo
-    public static List<Veiculos> carregarVeiculo() {
-        List<Veiculos> out = new ArrayList<>();
+    public static List<Veiculo> carregarVeiculo() {
+        List<Veiculo> out = new ArrayList<>();
         try {
             Connection conn = conexao.getConexao();
             Statement sta = conn.createStatement();
             ResultSet rs = sta.executeQuery("SELECT * FROM veiculos");
             while (rs.next()) {
-                Veiculos veiculo = new Veiculos(
+                Veiculo veiculo = new Veiculo(
                         rs.getInt("idVeiculo"),
                         rs.getString("dataCadastroVeiculo"),
                         rs.getString("chassi"),
@@ -34,7 +34,7 @@ public class VeiculoService {
     }
 
     // Inserir (INSERT)
-    public static void inserirVeiculo(Veiculos veiculo) {
+    public static void inserirVeiculo(Veiculo veiculo) {
         try {
             Connection conn = conexao.getConexao();
             String sql = "INSERT INTO veiculo (dataCadastroVeiculo, chassi, placa, cor, quilometragem,  " +
@@ -56,7 +56,7 @@ public class VeiculoService {
         }
     }
     // Atualizar (UPDATE)
-    public static boolean atualizarVeiculo(int idVeiculo, Veiculos veiculo) {
+    public static boolean atualizarVeiculo(int idVeiculo, Veiculo veiculo) {
         try {
             Connection conn = conexao.getConexao();
             String updateSql = "UPDATE veiculos " +
