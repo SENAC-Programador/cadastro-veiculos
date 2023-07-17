@@ -11,133 +11,127 @@
     <children>
         <TabPane layoutY="14.0" prefHeight="725.0" prefWidth="784.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="Veículos">
+                <Tab text="Veículo">
                     <content>
-                        <AnchorPane prefHeight="600.0" prefWidth="800.0">
+                        <AnchorPane fx:id="veiculo" prefHeight="600.0" prefWidth="800.0">
                             <children>
-                                <Label layoutX="14.0" layoutY="17.0" text="ID" />
-                                <TextField fx:id="idVeiculo" layoutX="14.0" layoutY="37.0" prefWidth="465.0" />
-                                <Label layoutX="14.0" layoutY="78.0" text="Data Cadastro" />
-								<TextField fx:id="dataCadastroVeiculo" layoutX="14.0" layoutY="98.0" prefHeight="25.0" prefWidth="465.0" />
-                                <Label layoutX="557.0" layoutY="17.0" text="Chassi" />
-                                <TextField fx:id="chassi" layoutX="557.0" layoutY="37.0" prefWidth="400.0" />
-                                <Label layoutX="557.0" layoutY="78.0" text="Placa" />
-                                <TextField fx:id="placa" layoutX="557.0" layoutY="98.0" prefWidth="400.0" />
-                                <Label layoutX="14.0" layoutY="145.0" text="Cor do Veículo" />
-                                <TextField fx:id="corVeiculo" layoutX="14.0" layoutY="165.0" prefHeight="25.0" prefWidth="465.0" />
-                                <Label layoutX="557.0" layoutY="145.0" text="Quilometragem" />
-                                <TextField fx:id="quilometragem" layoutX="557.0" layoutY="165.0" prefWidth="400.0" />
-                                <Label layoutX="14.0" layoutY="213.0" text="Código Marca" />
-                                <TextField fx:id="codigoMarca" layoutX="14.0" layoutY="233.0" prefHeight="25.0" prefWidth="465.0" />
-                                <Label layoutX="557.0" layoutY="218.0" text="Código Modelo" />
-                                <TextField fx:id="codigoModelo" layoutX="557.0" layoutY="238.0" prefWidth="400.0" />
-                                <Button layoutX="14.0" layoutY="278.0" text="Salvar" />
-                                <TableView fx:id="tabelaVeiculos" layoutX="8.0" layoutY="329.0" prefHeight="384.0" prefWidth="980.0">
+                                <Label layoutX="14.0" layoutY="17.0" text="Código Veículo" />
+                                <TextField fx:id="idVeiculo" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="126.0" />
+                                <Label layoutX="177.0" layoutY="17.0" text="Chassi" />
+                                <TextField fx:id="chassi" layoutX="171.0" layoutY="37.0" prefWidth="400.0" />
+                                <Label layoutX="13.0" layoutY="73.0" text="Placa" />
+                                <TextField fx:id="placa" layoutX="10.0" layoutY="94.0" prefWidth="400.0" />
+                                <Label layoutX="14.0" layoutY="133.0" text="Cor do Veículo" />
+                                <TextField fx:id="corVeiculo" layoutX="13.0" layoutY="152.0" prefHeight="25.0" prefWidth="185.0" />
+                                <Label layoutX="17.0" layoutY="192.0" text="Quilometragem" />
+                                <TextField fx:id="quilometragem" layoutX="14.0" layoutY="215.0" prefHeight="25.0" prefWidth="178.0" />
+                                <Button layoutX="14.0" layoutY="278.0" onAction="#executarSalvarNoVeiculo" text="Salvar" />
+                                <TableView fx:id="tabelaVeiculo" layoutX="8.0" layoutY="329.0" prefHeight="384.0" prefWidth="980.0">
                                    <columns>
-                                        <TableColumn fx:id="colunaIdVeiculo" text="ID" />
-                                        <TableColumn fx:id="colunaDataCadastroVeiculo" prefWidth="126.0" text="Data Cadastro" />
-                                        <TableColumn fx:id="colunaChassi" prefWidth="78.0" text="Chassi" />
-                                        <TableColumn fx:id="colunaPlaca" prefWidth="114.0" text="Placa" />
-                                        <TableColumn fx:id="colunaCorVeiculo" prefWidth="128.0" text="Cor do Veículo" />
-                                        <TableColumn fx:id="colunaQuilometragem" prefWidth="178.0" text="Quilometragem" />
-                                        <TableColumn fx:id="colunaCodigoMarca" prefWidth="146.0" text="Código Marca" />
-                                        <TableColumn fx:id="colunaCodigoModelo" prefWidth="129.0" text="Código Modelo" />
+                                        <TableColumn fx:id="colunaCodigoVeiculo" prefWidth="107.0" text="Código Veículo" />
+                                        <TableColumn fx:id="colunaChassi" prefWidth="379.0" text="Chassi" />
+                                        <TableColumn fx:id="colunaPlaca" prefWidth="158.0" text="Placa" />
+                                        <TableColumn fx:id="colunaCorVeiculo" prefWidth="180.0" text="Cor do Veículo" />
+                                        <TableColumn fx:id="colunaQuilometragem" prefWidth="155.0" text="Quilometragem" />
                                     </columns>
                                 </TableView>
+                        <Button layoutX="80.0" layoutY="278.0" mnemonicParsing="false" onAction="#executarExcluirNoVeiculo" text="Excluir" />
                             </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Marcas">
+				<Tab fx:id="modelo" text="Modelo">
 					<content>
 						<AnchorPane prefHeight="600.0" prefWidth="800.0">
 							<children>
-								 <Label layoutX="14.0" layoutY="17.0" text="ID" />
-								<TextField fx:id="idMarca" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="465.0" />
-								<Label layoutX="14.0" layoutY="78.0" text="CNPJ" />
-								<TextField fx:id="cnpj" layoutX="14.0" layoutY="98.0" prefWidth="465.0" />
-								<Label layoutX="557.0" layoutY="17.0" text="Razão Social" />
-								<TextField fx:id="razaoSocial" layoutX="557.0" layoutY="37.0" prefWidth="400.0" />
-								<Label layoutX="557.0" layoutY="78.0" text="CEP" />
-								<TextField fx:id="cep" layoutX="557.0" layoutY="98.0" prefWidth="400.0" />
-								<Label layoutX="14.0" layoutY="145.0" text="Rua" />
-								<TextField fx:id="rua" layoutX="14.0" layoutY="165.0" prefWidth="465.0" />
-								<Label layoutX="557.0" layoutY="145.0" text="Número" />
-								<TextField fx:id="numero" layoutX="557.0" layoutY="165.0" prefWidth="400.0" />
-								<Label layoutX="14.0" layoutY="213.0" text="Bairro" />
-								<TextField fx:id="bairro" layoutX="14.0" layoutY="233.0" prefWidth="465.0" />
-								<Label layoutX="557.0" layoutY="218.0" text="Cidade" />
-								<TextField fx:id="cidade" layoutX="557.0" layoutY="238.0" prefWidth="400.0" />
-								<Label layoutX="14.0" layoutY="285.0" text="UF" />
-								<TextField fx:id="uf" layoutX="14.0" layoutY="305.0" prefWidth="465.0" />
-								<Label layoutX="557.0" layoutY="285.0" text="País" />
-								<TextField fx:id="pais" layoutX="557.0" layoutY="305.0" prefWidth="400.0" />
-								<Label layoutX="14.0" layoutY="352.0" text="Telefone" />
-								<TextField fx:id="telefone" layoutX="14.0" layoutY="372.0" prefWidth="465.0" />
-								<Label layoutX="557.0" layoutY="352.0" text="Email" />
-								<TextField fx:id="email" layoutX="557.0" layoutY="372.0" prefWidth="400.0" />
-								<Label layoutX="14.0" layoutY="419.0" text="Site" />
-								<TextField fx:id="site" layoutX="14.0" layoutY="439.0" prefWidth="465.0" />
-								<Button layoutX="14.0" layoutY="479.0" text="Salvar" />
-								<TableView fx:id="tabelaMarcas" layoutX="14.0" layoutY="539.0" prefHeight="185.0" prefWidth="966.0">
-									<columns>
-										<TableColumn fx:id="colunaIdMarca" prefWidth="43.0" text="ID" />
-										<TableColumn fx:id="colunaCnpj" prefWidth="56.0" text="CNPJ" />
-										<TableColumn fx:id="colunaRazaoSocial" prefWidth="95.0" text="Razão Social" />
-										<TableColumn fx:id="colunaCep" prefWidth="50.0" text="CEP" />
-										<TableColumn fx:id="colunaRua" prefWidth="50.0" text="Rua" />
-										<TableColumn fx:id="colunaNumero" prefWidth="95.0" text="Número" />
-										<TableColumn fx:id="colunaBairro" prefWidth="51.0" text="Bairro" />
-										<TableColumn fx:id="colunaCidade" prefWidth="71.0" text="Cidade" />
-										<TableColumn fx:id="colunaUf" prefWidth="46.0" text="UF" />
-										<TableColumn fx:id="colunaPais" prefWidth="76.0" text="País" />
-										<TableColumn fx:id="colunaTelefone" prefWidth="104.0" text="Telefone" />
-										<TableColumn fx:id="colunaEmail" prefWidth="107.0" text="Email" />
-										<TableColumn fx:id="colunaSite" prefWidth="121.0" text="Site" />
-									</columns>
-								</TableView>
-							</children>
-						</AnchorPane>
-					</content>
-				</Tab>
-				<Tab text="Modelos">
-					<content>
-						<AnchorPane prefHeight="600.0" prefWidth="800.0">
-							<children>
-								<Label layoutX="14.0" layoutY="17.0" text="ID" />
-								<TextField fx:id="idModelo" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="250.0" />
-								<Label layoutX="14.0" layoutY="78.0" text="Código Marca" />
-								<TextField fx:id="codigoMarcaModelo" layoutX="14.0" layoutY="98.0" prefWidth="250.0" />
-								<Label layoutX="300.0" layoutY="17.0" text="Nome Modelo" />
-								<TextField fx:id="nomeModelo" layoutX="300.0" layoutY="37.0" prefWidth="250.0" />
+								<Label layoutX="15.0" layoutY="17.0" text="Código Veículo" />
+								<TextField fx:id="codigoVeiculo" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="126.0" />
+								<Label layoutX="156.0" layoutY="17.0" text="Nome Modelo" />
+								<TextField fx:id="nomeModelo" layoutX="156.0" layoutY="37.0" prefHeight="25.0" prefWidth="537.0" />
 								<Label layoutX="300.0" layoutY="78.0" text="Potência" />
 								<TextField fx:id="potencia" layoutX="300.0" layoutY="98.0" prefWidth="250.0" />
-								<Label layoutX="586.0" layoutY="17.0" text="Motor" />
-								<TextField fx:id="motor" layoutX="586.0" layoutY="37.0" prefWidth="250.0" />
+								<Label layoutX="14.0" layoutY="78.0" text="Motor" />
+								<TextField fx:id="motor" layoutX="14.0" layoutY="98.0" prefWidth="250.0" />
 								<Label layoutX="586.0" layoutY="78.0" text="Ano de Lançamento" />
-								<TextField fx:id="anoLancamento" layoutX="586.0" layoutY="98.0" prefWidth="250.0" />
+								<TextField fx:id="anoLancamento" layoutX="586.0" layoutY="98.0" prefHeight="25.0" prefWidth="108.0" />
 								<Label layoutX="14.0" layoutY="145.0" text="Tipo de Combustível" />
 								<TextField fx:id="tipoCombustivel" layoutX="14.0" layoutY="165.0" prefWidth="250.0" />
 								<Label layoutX="300.0" layoutY="145.0" text="Número de Portas" />
 								<TextField fx:id="numeroPortas" layoutX="300.0" layoutY="165.0" prefWidth="250.0" />
-								<Button layoutX="14.0" layoutY="215.0" text="Salvar" />
-								<TableView fx:id="tabelaModelos" layoutX="14.0" layoutY="265.0" prefHeight="305.0" prefWidth="966.0">
+								<Button layoutX="14.0" layoutY="215.0" onAction="#executarSalvarNoModelo" text="Salvar" />
+								<TableView fx:id="tabelaModelo" layoutX="14.0" layoutY="265.0" prefHeight="305.0" prefWidth="966.0">
 									<columns>
-										<TableColumn fx:id="colunaIdModelo" prefWidth="43.0" text="ID" />
-										<TableColumn fx:id="colunaCodigoMarcaModelo" prefWidth="108.0" text="Código Marca" />
+										<TableColumn fx:id="colunaCodigoModelo" prefWidth="108.0" text="Código Modelo" />
 										<TableColumn fx:id="colunaNomeModelo" prefWidth="179.0" text="Nome Modelo" />
-										<TableColumn fx:id="colunaPotencia" prefWidth="113.0" text="Potência" />
-										<TableColumn fx:id="colunaMotor" prefWidth="108.0" text="Motor" />
+										<TableColumn fx:id="colunaMotor" prefWidth="113.0" text="Motor" />
+										<TableColumn fx:id="colunaPotencia" prefWidth="108.0" text="Potência" />
 										<TableColumn fx:id="colunaAnoLancamento" prefWidth="150.0" text="Ano de Lançamento" />
-										<TableColumn fx:id="colunaTipoCombustivel" prefWidth="126.0" text="Tipo de Combustível" />
-										<TableColumn fx:id="colunaNumeroPortas" prefWidth="138.0" text="Número de Portas" />
+										<TableColumn fx:id="colunaTipoCombustivel" prefWidth="180.0" text="Tipo de Combustível" />
+										<TableColumn fx:id="colunaNumeroPortas" prefWidth="127.0" text="Número de Portas" />
 									</columns>
 								</TableView>
+                        <Button layoutX="70.0" layoutY="215.0" mnemonicParsing="false" onAction="#executarExcluirNoModelo" text="Excluir" />
+							</children>
+						</AnchorPane>
+					</content>
+				</Tab>
+                <Tab fx:id="modelo" text="Marca">
+					<content>
+						<AnchorPane prefHeight="600.0" prefWidth="800.0">
+							<children>
+								 <Label layoutX="14.0" layoutY="17.0" text="Código Modelo" />
+								<TextField fx:id="codigoModeloNaMarca" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="126.0" />
+								<Label layoutX="14.0" layoutY="78.0" text="Razão Social" />
+								<TextField fx:id="razaoSocial" layoutX="14.0" layoutY="98.0" prefHeight="25.0" prefWidth="312.0" />
+								<Label layoutX="169.0" layoutY="17.0" text="CNPJ" />
+								<TextField fx:id="cnpj" layoutX="169.0" layoutY="37.0" prefHeight="25.0" prefWidth="226.0" />
+								<Label layoutX="365.0" layoutY="78.0" text="CEP" />
+								<TextField fx:id="cep" layoutX="359.0" layoutY="98.0" prefHeight="25.0" prefWidth="205.0" />
+								<Label layoutX="14.0" layoutY="145.0" text="Rua e Número" />
+								<TextField fx:id="ruaNumero" layoutX="14.0" layoutY="165.0" prefHeight="25.0" prefWidth="550.0" />
+								<Label layoutX="14.0" layoutY="213.0" text="Bairro" />
+								<TextField fx:id="bairro" layoutX="14.0" layoutY="233.0" prefHeight="25.0" prefWidth="218.0" />
+								<Label layoutX="262.0" layoutY="213.0" text="Cidade" />
+								<TextField fx:id="cidade" layoutX="259.0" layoutY="233.0" prefHeight="25.0" prefWidth="313.0" />
+								<Label layoutX="14.0" layoutY="280.0" text="UF" />
+								<TextField fx:id="uf" layoutX="14.0" layoutY="298.0" prefHeight="25.0" prefWidth="218.0" />
+								<Label layoutX="265.0" layoutY="280.0" text="País" />
+								<TextField fx:id="pais" layoutX="259.0" layoutY="298.0" prefHeight="25.0" prefWidth="313.0" />
+								<Label layoutX="14.0" layoutY="352.0" text="Telefone" />
+								<TextField fx:id="telefone" layoutX="14.0" layoutY="372.0" prefHeight="25.0" prefWidth="218.0" />
+								<Label layoutX="262.0" layoutY="354.0" text="Email" />
+								<TextField fx:id="email" layoutX="259.0" layoutY="372.0" prefHeight="25.0" prefWidth="413.0" />
+								<Label layoutX="14.0" layoutY="419.0" text="Site" />
+								<TextField fx:id="site" layoutX="14.0" layoutY="439.0" prefHeight="25.0" prefWidth="658.0" />
+								<Button layoutX="14.0" layoutY="479.0" onAction="#executarSalvarNaMarca" text="Salvar" />
+								<TableView fx:id="tabelaMarca" layoutX="14.0" layoutY="539.0" prefHeight="185.0" prefWidth="966.0">
+									<columns>
+										<TableColumn fx:id="colunaCodigoModelo" prefWidth="108.0" text="Código Modelo" />
+										<TableColumn fx:id="colunaCnpj" prefWidth="69.0" text="CNPJ" />
+										<TableColumn fx:id="colunaRazaoSocial" prefWidth="81.0" text="Razão Social" />
+										<TableColumn fx:id="colunaCep" prefWidth="48.0" text="CEP" />
+										<TableColumn fx:id="colunaRuaNumero" prefWidth="62.0" text="Rua" />
+										<TableColumn fx:id="colunaBairro" prefWidth="87.0" text="Bairro" />
+										<TableColumn fx:id="colunaCidade" prefWidth="68.0" text="Cidade" />
+										<TableColumn fx:id="colunaUf" prefWidth="54.0" text="UF" />
+										<TableColumn fx:id="colunaPais" prefWidth="81.0" text="País" />
+										<TableColumn fx:id="colunaTelefone" prefWidth="74.0" text="Telefone" />
+										<TableColumn fx:id="colunaEmail" prefWidth="77.0" text="Email" />
+										<TableColumn fx:id="colunaSite" prefWidth="156.0" text="Site" />
+									</columns>
+								</TableView>
+                        <Button layoutX="76.0" layoutY="479.0" mnemonicParsing="false" onAction="#executarExcluirNaMarca" text="Excluir" />
 							</children>
 						</AnchorPane>
 					</content>
 				</Tab>
             </tabs>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
         </TabPane>
     </children>
 </VBox>

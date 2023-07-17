@@ -42,21 +42,20 @@ public class MarcaService {
     public static void inserirMarca(Marca marca) {
         try {
             Connection conn = conexao.getConexao();
-            String sql = "INSERT INTO marcas (cnpj, razaoSocial, cep, rua, numero, bairro, cidade, uf, pais, ) " +
-                    "telefone, email, site VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO marcas (cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, ) " +
+                    "telefone, email, site VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setString(1, marca.getCnpj());
             pre.setString(2, marca.getRazaoSocial());
             pre.setString(3, marca.getCep());
-            pre.setString(4, marca.getRua());
-            pre.setString(5, marca.getNumero());
-            pre.setString(6, marca.getBairro());
-            pre.setString(7, marca.getCidade());
-            pre.setString(8, marca.getUf());
-            pre.setString(9, marca.getPais());
-            pre.setString(10, marca.getTelefone());
-            pre.setString(11, marca.getEmail());
-            pre.setString(12, marca.getSite());
+            pre.setString(4, marca.getRuaNumero());
+            pre.setString(5, marca.getBairro());
+            pre.setString(6, marca.getCidade());
+            pre.setString(7, marca.getUf());
+            pre.setString(8, marca.getPais());
+            pre.setString(9, marca.getTelefone());
+            pre.setString(10, marca.getEmail());
+            pre.setString(11, marca.getSite());
 
             pre.execute();
             pre.close();

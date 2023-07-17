@@ -19,154 +19,146 @@ import java.util.Optional;
 @FxmlView("/main.fxml") // para lincar com o arquivo "main.fxml"
 public class CadastroController {
     @FXML
-    private TextField idVeiculo; // int, NOT NULL
+    private TextField idVeiculo; // idVeiculo/ - SERIAL PRIMARY KEY - executarSalvarNoVeiculo/executarExcluirNoVeiculo/tabelaVeiculo
     @FXML
-    private TextField dataCadastroVeiculo;
+    private TextField chassi; // chassi/colunaChassi - VARCHAR(17) NOT NULL UNIQUE, -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
     @FXML
-    private TextField chassi; // NOT NULL, UNIQUE -> ex: 1HGCM82633A123456
+    private TextField placa; // placa/colunaPlaca - VARCHAR(7) NOT NULL UNIQUE, -> ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
     @FXML
-    private TextField placa; // NOT NULL, UNIQUE -> ex: ABC-1234
+    private TextField corVeiculo; // corVeiculo/colunaCorVeiculo - VARCHAR(50) NOT NULL,
     @FXML
-    private TextField corVeiculo; // NULL
+    private TextField quilometragem; // quilometragem/colunaQuilometragem - VARCHAR(20) NOT NULL -> quilometragem at
     @FXML
-    private TextField quilometragem; // NULL -> ex: 50.000 km
+    private TableView<Veiculo> tabelaVeiculo;
     @FXML
-    private TextField codigoMarca; // NOT NULL, FK
+    private TableColumn<Veiculo, Integer> colunaCodigoVeiculo;
     @FXML
-    private TextField codigoModelo; // NOT NULL, FK
+    private TableColumn<Veiculo, String> colunaChassi; // chassi/colunaChassi - VARCHAR(17) NOT NULL UNIQUE, -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
     @FXML
-    private TableView<Veiculo> tabelaVeiculos;
+    private TableColumn<Veiculo, String> colunaPlaca; // placa/colunaPlaca - VARCHAR(7) NOT NULL UNIQUE, -> ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
     @FXML
-    private TableColumn<Veiculo, Integer> colunaIdVeiculo;
+    private TableColumn<Veiculo, String> colunaCorVeiculo; // corVeiculo/colunaCorVeiculo - VARCHAR(50) NOT NULL,
     @FXML
-    private TableColumn<Veiculo, Integer> colunaDataCadastroVeiculo;
-    @FXML
-    private TableColumn<Veiculo, String> colunaChassi; // NOT NULL, UNIQUE -> ex: 1HGCM82633A123456
-    @FXML
-    private TableColumn<Veiculo, String> colunaPlaca; // NOT NULL, UNIQUE -> ex: ABC-1234
-    @FXML
-    private TableColumn<Veiculo, String> colunaCorVeiculo; // NULL
-    @FXML
-    private TableColumn<Veiculo, String> colunaQuilometragem; // NULL -> ex: 50.000 km
-    @FXML
-    private TableColumn<Veiculo, String> colunaCodigoMarca; // NOT NULL, FK
-    @FXML
-    private TableColumn<Veiculo, String> colunaCodigoModelo; // NOT NULL, FK
+    private TableColumn<Veiculo, String> colunaQuilometragem; // quilometragem/colunaQuilometragem - VARCHAR(20) NOT NULL -> quil
 
-    // MARCA
+// MODELO
     @FXML
-    private TextField idMarca; // int, NOT NULL
+    private TextField idModelo; // // colunaCodigoModelo/tabelaModelo/executarSalvarNoModelo/executarExcluirNoModelo - id SERIAL PRIMARY K
     @FXML
-    private TextField cnpj; // NOT NULL, UNIQUE
+    private TextField codigoVeiculo; //  codigoVeiculo/ - id_veiculo INT NOT NULL,
     @FXML
-    private TextField razaoSocial; // NOT NULL, UNIQUE
+    private TextField nomeModelo; // nomeModelo/colunaNomeModelo - VARCHAR(100) NOT NULL, ex: Parati ou Gol ou Golf
     @FXML
-    private TextField cep; // NOT NULL
+    private TextField motor; // motor/colunaMotor - VARCHAR(50) NOT NULL, 16V
     @FXML
-    private TextField rua; // NOT NULL
+    private TextField potencia; // potencia/colunaPotencia - VARCHAR(50) NOT NULL, ex: 1.8
     @FXML
-    private TextField numero; // NULL
+    private TextField anoLancamento; // anoLancamento/colunaAnoLancamento -  VARCHAR(4) NOT NULL,
     @FXML
-    private TextField bairro; // NOT NULL
+    private TextField tipoCombustivel; // tipoCombustivel/colunaTipoCombustivel - VARCHAR(50) NOT NULL, -> ex: gasolina, diesel, elétrico, etc.
     @FXML
-    private TextField cidade; // NOT NULL
+    private TextField numeroPortas; // numeroPortas/colunaNumeroPortas -  VARCHAR(2) NOT NULL,
     @FXML
-    private TextField uf; // NOT NULL
+    private TableView<Modelo> tabelaModelo;
     @FXML
-    private TextField pais; // NOT NULL
+    private TableColumn<Modelo, Integer> colunaCodigoModelo; //  codigoVeiculo/ - id_veiculo INT NOT NULL,
     @FXML
-    private TextField telefone; // NOT NULL
+    private TableColumn<Modelo, String> colunaNomeModelo; // nomeModelo/colunaNomeModelo - VARCHAR(100) NOT NULL, ex: Parati ou Gol ou Golf
     @FXML
-    private TextField email; // NULL
+    private TableColumn<Modelo, String> colunaMotor; // motor/colunaMotor - VARCHAR(50) NOT NULL, 16V
     @FXML
-    private TextField site; // NULL -> site oficial da marca
+    private TableColumn<Modelo, String> colunaPotencia; // potencia/colunaPotencia - VARCHAR(50) NOT NULL, ex: 1.8
     @FXML
-    private TableView<Marca> tabelaMarcas;
+    private TableColumn<Modelo, String> colunaAnoLancamento; // anoLancamento/colunaAnoLancamento -  VARCHAR(4) NOT NULL,
     @FXML
-    private TableColumn<Marca, Integer> colunaIdMarca; // int, NOT NULL
+    private TableColumn<Modelo, String> colunaTipoCombustivel; // tipoCombustivel/colunaTipoCombustivel - VARCHAR(50) NOT NULL, -> ex: gasolina, diesel, elétrico, etc.
     @FXML
-    private TableColumn<Marca, String> colunaCnpj; // NOT NULL, UNIQUE
-    @FXML
-    private TableColumn<Marca, String> colunaRazaoSocial; // NOT NULL, UNIQUE
-    @FXML
-    private TableColumn<Marca, String> colunaCep; // NOT NULL
-    @FXML
-    private TableColumn<Marca, String> colunaRua; // NOT NULL
-    @FXML
-    private TableColumn<Marca, String> colunaNumero; // NULL
-    @FXML
-    private TableColumn<Marca, String> colunaBairro; // NOT NULL
-    @FXML
-    private TableColumn<Marca, String> colunaCidade; // NOT NULL
-    @FXML
-    private TableColumn<Marca, String> colunaUf; // NOT NULL
-    @FXML
-    private TableColumn<Marca, String> colunaPais; // NOT NULL
-    @FXML
-    private TableColumn<Marca, String> colunaTelefone; // NOT NULL
-    @FXML
-    private TableColumn<Marca, String> colunaEmail; // NULL
-    @FXML
-    private TableColumn<Marca, String> colunaSite; // NULL -> site oficial da marca
+    private TableColumn<Modelo, String> colunaNumeroPortas; // numeroPortas/colunaNumeroPortas -  VARCHAR(2) NOT NULL,
 
-    // MODELO
+// MARCA
     @FXML
-    private TextField idModelo; // int, NOT NULL
+    private TextField idMarca; // tabelaMarca/executarSalvarNaMarca/executarExcluirNaMarca - id SERIAL PRIMARY KEY,
     @FXML
-    private TextField codigoMarcaModelo; // NOT NULL
+    private TextField codigoModelo; // codigoModelo/colunaCodigoModelo - id_modelo INT NOT NULL,
     @FXML
-    private TextField nomeModelo; // NOT NULL
+    private TextField cnpj; // cnpj/colunaCnpj - VARCHAR(14) NOT NULL UNIQUE,
     @FXML
-    private TextField potencia; // NOT NULL
+    private TextField razaoSocial; // razaoSocial/colunaRazaoSocial - VARCHAR(100) NOT NULL,
     @FXML
-    private TextField motor; // NOT NULL
+    private TextField cep; // cep/colunaCep -  VARCHAR(8) NOT NULL,
     @FXML
-    private TextField anoLancamento; // NOT NULL
+    private TextField ruaNumero; // ruaNumero/colunaRuaNumero - VARCHAR(100) NOT NULL,
     @FXML
-    private TextField tipoCombustivel; // NOT NULL -> tipo de combustível do veículo (ex: gasolina, diesel, elétrico, etc.).
+    private TextField bairro; // bairro/colunaBairro - VARCHAR(100) NOT NULL,
     @FXML
-    private TextField numeroPortas; // NOT NUL
+    private TextField cidade; // cidade/colunaCidade - VARCHAR(100) NOT NULL,
     @FXML
-    private TableView<Modelo> tabelaModelos;
+    private TextField uf; // uf/colunaUf  - VARCHAR(2) NOT NULL,
     @FXML
-    private TableColumn<Modelo, Integer> colunaIdModelo; // int, NOT NULL
+    private TextField pais; // pais/colunaPais - VARCHAR(100) NOT NULL,
     @FXML
-    private TableColumn<Modelo, String> colunaCodigoMarcaModelo; // NOT NULL
+    private TextField telefone; // telefone/colunaTelefone - VARCHAR(20) NOT NULL,
     @FXML
-    private TableColumn<Modelo, String> colunaNomeModelo; // NOT NULL
+    private TextField email; // email/colunaEmail - VARCHAR(100) NOT NULL,
     @FXML
-    private TableColumn<Modelo, String> colunaPotencia; // NOT NULL
+    private TextField site; // site/colunaSite - VARCHAR(100) NOT NULL, -> site oficial da marca
     @FXML
-    private TableColumn<Modelo, String> colunaMotor; // NOT NULL
+    private TableView<Marca> tabelaMarca;
     @FXML
-    private TableColumn<Modelo, String> colunaAnoLancamento; // NOT NULL
+    private TableColumn<Marca, Integer> codigoModeloNaMarca; // codigoModelo/codigoModeloNaMarca - id_modelo INT NOT NULL,
     @FXML
-    private TableColumn<Modelo, String> colunaTipoCombustivel; // NOT NULL -> tipo de combustível do veículo (ex: gasolina, diesel, elétrico, etc.).
+    private TableColumn<Marca, String> colunaCnpj; // cnpj/colunaCnpj - VARCHAR(14) NOT NULL UNIQUE,
     @FXML
-    private TableColumn<Modelo, String> colunaNumeroPortas; // NOT NULL
+    private TableColumn<Marca, String> colunaRazaoSocial; // razaoSocial/colunaRazaoSocial - VARCHAR(100) NOT NULL,
+    @FXML
+    private TableColumn<Marca, String> colunaCep; // cep/colunaCep -  VARCHAR(8) NOT NULL,
+    @FXML
+    private TableColumn<Marca, String> colunaRuaNumero; // ruaNumero/colunaRuaNumero - VARCHAR(100) NOT NULL,
+    @FXML
+    private TableColumn<Marca, String> colunaBairro; // bairro/colunaBairro - VARCHAR(100) NOT NULL,
+    @FXML
+    private TableColumn<Marca, String> colunaCidade; // cidade/colunaCidade - VARCHAR(100) NOT NULL,
+    @FXML
+    private TableColumn<Marca, String> colunaUf; // uf/colunaUf  - VARCHAR(2) NOT NULL,
+    @FXML
+    private TableColumn<Marca, String> colunaPais; // pais/colunaPais - VARCHAR(100) NOT NULL,
+    @FXML
+    private TableColumn<Marca, String> colunaTelefone; // telefone/colunaTelefone - VARCHAR(20) NOT NULL,
+    @FXML
+    private TableColumn<Marca, String> colunaEmail; // email/colunaEmail - VARCHAR(100) NOT NULL,
+    @FXML
+    private TableColumn<Marca, String> colunaSite; // site/colunaSite - VARCHAR(100) NOT NULL, -> site oficial da marca
+
     private int index = -1;
 
     // Método para dizer para o JavaFX ... pesquisar ...
     @FXML
     public void initialize() {
 
-// VEÍCULO: idVeiculo, dataCadastroVeiculo, chassi, placa, corVeiculo, quilometragem, codigoMarca, codigoModelo
-        colunaIdVeiculo.setCellValueFactory(new PropertyValueFactory<>("idVeiculo")); // é o nome da variavel, não do banco de dados
-        colunaDataCadastroVeiculo.setCellValueFactory(new PropertyValueFactory<>("dataCadastroVeiculo"));
+// VEÍCULO: int idVeiculo, String chassi, String placa, String corVeiculo, String quilometragem
+        colunaCodigoVeiculo.setCellValueFactory(new PropertyValueFactory<>("idVeiculo")); // é o nome da variavel, não do banco de dados
         colunaChassi.setCellValueFactory(new PropertyValueFactory<>("chassi"));
         colunaPlaca.setCellValueFactory(new PropertyValueFactory<>("placa"));
         colunaCorVeiculo.setCellValueFactory(new PropertyValueFactory<>("corVeiculo"));
         colunaQuilometragem.setCellValueFactory(new PropertyValueFactory<>("quilometragem"));
-        colunaCodigoMarca.setCellValueFactory(new PropertyValueFactory<>("codigoMarca"));
-        colunaCodigoModelo.setCellValueFactory(new PropertyValueFactory<>("codigoModelo"));
 
-// MARCA: idMarca, cnpj, razaoSocial, cep, rua, numero, bairro, cidade, uf, pais, telefone, email, site
-        colunaIdMarca.setCellValueFactory(new PropertyValueFactory<>("idMarca"));
+// MODELO: int idModelo, String nomeModelo, String motor, String potencia, String anoLancamento,
+//   String tipoCombustivel, String numeroPortas
+        colunaCodigoModelo.setCellValueFactory(new PropertyValueFactory<>("idModelo"));
+        colunaNomeModelo.setCellValueFactory(new PropertyValueFactory<>("nomeModelo"));
+        colunaMotor.setCellValueFactory(new PropertyValueFactory<>("motor"));
+        colunaPotencia.setCellValueFactory(new PropertyValueFactory<>("potencia"));
+        colunaAnoLancamento.setCellValueFactory(new PropertyValueFactory<>("anoLancamento"));
+        colunaTipoCombustivel.setCellValueFactory(new PropertyValueFactory<>("tipoCombustivel"));
+        colunaNumeroPortas.setCellValueFactory(new PropertyValueFactory<>("numeroPortas"));
+
+// MARCA: int idMarca, int codigoModelo, String cnpj, String razaoSocial, String cep, String ruaNumero,
+//  String bairro, String cidade, String uf, String pais, String telefone, String email, String site
+        codigoModeloNaMarca.setCellValueFactory(new PropertyValueFactory<>("codigoModeloNaMarca"));
         colunaCnpj.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
         colunaRazaoSocial.setCellValueFactory(new PropertyValueFactory<>("razaoSocial"));
         colunaCep.setCellValueFactory(new PropertyValueFactory<>("cep"));
-        colunaRua.setCellValueFactory(new PropertyValueFactory<>("rua"));
-        colunaNumero.setCellValueFactory(new PropertyValueFactory<>("numero"));
+        colunaRuaNumero.setCellValueFactory(new PropertyValueFactory<>("ruaNumero"));
         colunaBairro.setCellValueFactory(new PropertyValueFactory<>("bairro"));
         colunaCidade.setCellValueFactory(new PropertyValueFactory<>("cidade"));
         colunaUf.setCellValueFactory(new PropertyValueFactory<>("uf"));
@@ -175,36 +167,22 @@ public class CadastroController {
         colunaEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colunaSite.setCellValueFactory(new PropertyValueFactory<>("site"));
 
-// MODELO: idModelo, codigoMarcaModelo, nomeModelo, potencia, motor, anoLancamento, tipoCombustivel, numeroPortas
-        colunaIdModelo.setCellValueFactory(new PropertyValueFactory<>("idModelo"));
-        colunaCodigoMarcaModelo.setCellValueFactory(new PropertyValueFactory<>("codigoMarcaModelo"));
-        colunaNomeModelo.setCellValueFactory(new PropertyValueFactory<>("nomeModelo"));
-        colunaPotencia.setCellValueFactory(new PropertyValueFactory<>("potencia"));
-        colunaMotor.setCellValueFactory(new PropertyValueFactory<>("motor"));
-        colunaAnoLancamento.setCellValueFactory(new PropertyValueFactory<>("anoLancamento"));
-        colunaTipoCombustivel.setCellValueFactory(new PropertyValueFactory<>("tipoCombustivel"));
-        colunaNumeroPortas.setCellValueFactory(new PropertyValueFactory<>("numeroPortas"));
-
         // Trazer o método das classes Services
         this.carregarlistaVeiculos();
         this.carregarlistaMarcas();
         this.carregarlistaModelos();
 
-// VEÍCULO: idVeiculo, dataCadastroVeiculo, chassi, placa, corVeiculo, quilometragem, codigoMarca, codigoModelo
-        tabelaVeiculos.setOnMouseClicked(new EventHandler<MouseEvent>() {
+// // VEÍCULO: int idVeiculo, String chassi, String placa, String corVeiculo, String quilometragem
+        tabelaVeiculo.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) { // qtde de cliques, dois cliques no evento
-                    Veiculo veiculo = tabelaVeiculos.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
-                    dataCadastroVeiculo.setText(veiculo.getDataCadastroVeiculo());
+                    Veiculo veiculo = tabelaVeiculo.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
+                    idVeiculo.setText(String.valueOf(veiculo.getIdVeiculo()));
                     chassi.setText(veiculo.getChassi());
-                    chassi.setDisable(true); // Desabilitar o campo "chassi" para edição ou exclusão
                     placa.setText(veiculo.getPlaca());
-                    placa.setDisable(true); // Desabilitar o campo "placa" para edição ou exclusão
                     corVeiculo.setText(veiculo.getCorVeiculo());
                     quilometragem.setText(veiculo.getQuilometragem());
-                    codigoMarca.setText(veiculo.getCodigoMarca());
-                    codigoModelo.setText(veiculo.getCodigoModelo());
 
                     index = veiculo.getIdVeiculo();
 
@@ -216,19 +194,45 @@ public class CadastroController {
                 }
             }
         });
-// MARCA: idMarca, cnpj, razaoSocial, cep, rua, numero, bairro, cidade, uf, pais, telefone, email, site
-        tabelaMarcas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+// // MODELO: int idModelo, String codigoVeiculo, String nomeModelo, String motor, String potencia,
+////  String anoLancamento, String tipoCombustivel, String numeroPortas
+        tabelaModelo.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
-                    Marca marca = tabelaMarcas.getSelectionModel().getSelectedItem();
-                    //codigoVeiculo.setText(String.valueOf(marca.getCodigoVeiculo()));
-                    //codigoVeiculo.setDisable(true); // Desabilitar o campo "Código Veículo" para edição ou exclusão
+                    Modelo modelo = tabelaModelo.getSelectionModel().getSelectedItem();
+                    codigoVeiculo.setText(String.valueOf(modelo.getCodigoVeiculo()));
+                    nomeModelo.setText(modelo.getNomeModelo());
+                    motor.setText(modelo.getMotor());
+                    potencia.setText(modelo.getPotencia());
+                    anoLancamento.setText(modelo.getAnoLancamento());
+                    tipoCombustivel.setText(modelo.getTipoCombustivel());
+                    numeroPortas.setText(modelo.getNumeroPortas());
+
+                    index = modelo.getIdModelo();
+
+                    // Alerta para alterar
+                    Alert alertAlterar = new Alert(Alert.AlertType.CONFIRMATION);
+                    alertAlterar.setTitle("Confirmação de alterar");
+                    alertAlterar.setHeaderText("Confirmar alteração do modelo?");
+                    Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
+                }
+            }
+        });
+
+// MARCA: int idMarca, int codigoModelo, String cnpj, String razaoSocial, String cep, String ruaNumero,
+//  String bairro, String cidade, String uf, String pais, String telefone, String email, String site
+        tabelaMarca.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    Marca marca = tabelaMarca.getSelectionModel().getSelectedItem();
+                    codigoModeloNaMarca.setText(String.valueOf(marca.getCodigoModeloNaMarca()));
                     cnpj.setText(marca.getCnpj());
                     razaoSocial.setText(marca.getRazaoSocial());
                     cep.setText(marca.getCep());
-                    rua.setText(marca.getRua());
-                    numero.setText(marca.getNumero());
+                    ruaNumero.setText(marca.getRuaNumero());
                     bairro.setText(marca.getBairro());
                     cidade.setText(marca.getCidade());
                     uf.setText(marca.getUf());
@@ -247,36 +251,11 @@ public class CadastroController {
                 }
             }
         });
-
-// MODELO: idModelo, codigoMarcaModelo, nomeModelo, potencia, motor, anoLancamento, tipoCombustivel, numeroPortas
-        tabelaModelos.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent evt) {
-                if (evt.getClickCount() == 2) {
-                    Modelo modelo = tabelaModelos.getSelectionModel().getSelectedItem();
-                    codigoMarcaModelo.setText(modelo.getCodigoMarcaModelo());
-                    nomeModelo.setText(modelo.getNomeModelo());
-                    potencia.setText(modelo.getPotencia());
-                    motor.setText(modelo.getMotor());
-                    anoLancamento.setText(modelo.getAnoLancamento());
-                    tipoCombustivel.setText(modelo.getTipoCombustivel());
-                    numeroPortas.setText(modelo.getNumeroPortas());
-
-                    index = modelo.getIdModelo();
-
-                    // Alerta para alterar
-                    Alert alertAlterar = new Alert(Alert.AlertType.CONFIRMATION);
-                    alertAlterar.setTitle("Confirmação de alterar");
-                    alertAlterar.setHeaderText("Confirmar alteração do modelo?");
-                    Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
-                }
-            }
-        });
     }
 
-// VEÍCULO: idVeiculo, dataCadastroVeiculo, chassi, placa, corVeiculo, quilometragem, codigoMarca, codigoModelo
+// // VEÍCULO: int idVeiculo, String chassi, String placa, String corVeiculo, String quilometragem
     // Método para fazer funcionar o botão "Salvar" do JavaFX
-    public void executarSalvarVeiculo() {
+    public void executarSalvarNoVeiculo() {
         Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertInclusao.setTitle("Confirmação de inclusão");
         alertInclusao.setHeaderText("Confirmar inclusão do veículo?");
@@ -284,13 +263,10 @@ public class CadastroController {
 
         if (option.get() != null && option.get() == ButtonType.OK) {
             Veiculo veiculo = new Veiculo();
-            veiculo.setDataCadastroVeiculo(dataCadastroVeiculo.getText()); // para mostrar as informações que estão na linha que pertecem a coluna documento da tabela
-            veiculo.setChassi(chassi.getText()); // desabilitar o campo chassi
+            veiculo.setChassi(chassi.getText()); // para mostrar as informações que estão na linha que pertecem a coluna documento da tabela
             veiculo.setPlaca(placa.getText());
             veiculo.setCorVeiculo(corVeiculo.getText());
             veiculo.setQuilometragem(quilometragem.getText());
-            veiculo.setCodigoMarca(codigoMarca.getText());
-            veiculo.setCodigoModelo(codigoModelo.getText());
 
             try {
                 Alert alertaObrig = new Alert(Alert.AlertType.ERROR);
@@ -298,10 +274,7 @@ public class CadastroController {
                 Alert alertaInval = new Alert(Alert.AlertType.ERROR);
                 alertaInval.setTitle("Erro");
 
-                if (dataCadastroVeiculo.getText().isEmpty()) {
-                    alertaObrig.setHeaderText("É obrigatório informar a data do cadastro!");
-                    alertaObrig.show(); // precisa para mostrar a tela do alerta
-                }  else if (chassi.getText().isEmpty()) {
+                if (chassi.getText().isEmpty()) {
                     alertaObrig.setHeaderText("É obrigatório informar o chassi!");
                     alertaObrig.show(); // precisa para mostrar a tela do alerta
                 }  else if (placa.getText().isEmpty()) {
@@ -325,7 +298,7 @@ public class CadastroController {
                     } else {
                         VeiculoService.inserirVeiculo(veiculo);
                     }
-                    // Substituido --> tabelaVeiculos.getItems().add(veiculo);
+                    // Substituido --> tabelaVeiculo.getItems().add(veiculo);
                 } else {
                     VeiculoService.atualizarVeiculo(index, veiculo);
                     index = -1;
@@ -338,7 +311,7 @@ public class CadastroController {
         }
     }
 
-    public void executarExcluirVeiculo() {
+    public void executarExcluirNoVeiculo() {
         Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertExclusao.setTitle("Confirmação de Exclusão");
         alertExclusao.setHeaderText("Confirmar exclusão do veículo?");
@@ -353,24 +326,120 @@ public class CadastroController {
 
     public void carregarlistaVeiculos() {
         // Trazer o método da classe VeiculoService
-        tabelaVeiculos.getItems().remove(0, tabelaVeiculos.getItems().size());
+        tabelaVeiculo.getItems().remove(0, tabelaVeiculo.getItems().size());
         List<Veiculo> veiculoList = VeiculoService.carregarVeiculo();
-        tabelaVeiculos.getItems().addAll(veiculoList);
+        tabelaVeiculo.getItems().addAll(veiculoList);
     }
     public void limparCampos() {
-        dataCadastroVeiculo.setText("");
         chassi.setText(""); // zera o campo
         placa.setText("");
         corVeiculo.setText("");
         quilometragem.setText("");
-        codigoMarca.setText("");
-        codigoModelo.setText("");
-        chassi.setDisable(false); // habilitar documento
-        placa.setDisable(false); // habilitar nome
+        //chassi.setDisable(false); // habilitar documento
+        //placa.setDisable(false); // habilitar nome
     }
 
-// MARCA: idMarca, cnpj, razaoSocial, cep, rua, numero, bairro, cidade, uf, pais, telefone, email, site
-    public void executarSalvarMarca() {
+// MODELO: int idModelo, String codigoVeiculo, String nomeModelo, String motor, String potencia,
+//  String anoLancamento, String tipoCombustivel, String numeroPortas
+    // Método para fazer funcionar o botão "OK" do JavaFX
+    public void executarSalvarNoModelo() {
+        Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
+        alertInclusao.setTitle("Confirmação de Inclusão");
+        alertInclusao.setHeaderText("Confirmar inclusão do modelo?");
+        Optional<ButtonType> retornoAlerta = alertInclusao.showAndWait();
+
+        try {
+            if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
+
+                Modelo modelo = new Modelo();
+                // para mostrar as informações que estão na linha que pertecem as colunas da tabela
+                modelo.setCodigoVeiculo(String.valueOf(codigoVeiculo.getText())); // coluna código do modelo
+                modelo.setNomeModelo(nomeModelo.getText());
+                modelo.setMotor(motor.getText());
+                modelo.setPotencia(potencia.getText());
+                modelo.setAnoLancamento(anoLancamento.getText());
+                modelo.setTipoCombustivel(tipoCombustivel.getText());
+                modelo.setNumeroPortas(numeroPortas.getText());
+
+                Alert alertObri = new Alert(Alert.AlertType.ERROR);
+                alertObri.setTitle("Campo obrigatório");
+                Alert alertInvalido = new Alert(Alert.AlertType.ERROR);
+                alertInvalido.setTitle("Erro");
+
+                if (!modelo.getCodigoVeiculo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
+                    alertInvalido.setHeaderText("Código do veículo inválido, somente números");
+                    alertInvalido.show();
+                } else if (nomeModelo.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o nome do modelo!");
+                    alertObri.show();
+                } else if (motor.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o motor!");
+                    alertObri.show();
+                } else if (potencia.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar a potência");
+                    alertObri.show();
+                } else if (anoLancamento.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o ano do lançamento!");
+                    alertObri.show();
+                } else if (tipoCombustivel.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o tipo do combustivel!");
+                    alertObri.show();
+                } else if (numeroPortas.getText().isEmpty()) {
+                    alertObri.setHeaderText("É obrigatório informar o número de portas!");
+                    alertObri.show();
+                } else if (!modelo.getNumeroPortas().matches("[0-9]*")) {
+                    alertInvalido.setHeaderText("Número de portas inválido, somente números");
+                    alertInvalido.show();
+                } else if (index > -1) {
+                    ModeloService.atualizarModelo(index, modelo);
+                    index = -1; // precisa resetar o index, para poder incluir um registro novo
+                } else {
+                    ModeloService.inserirModelo(modelo);
+                }
+            }
+            this.carregarlistaModelos();
+            this.limparCamposModelo();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void executarExcluirNoModelo() {
+        Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
+        alertExclusao.setTitle("Confirmação de Exclusão");
+        alertExclusao.setHeaderText("Confirmar exclusão do modelo?");
+        Optional<ButtonType> retornoAlerta = alertExclusao.showAndWait();
+
+        if (index > -1) {
+            ModeloService.deletarModelo(index);
+            this.carregarlistaModelos();
+            index = -1;
+            this.limparCamposModelo();
+        }
+    }
+    public void carregarlistaModelos() {
+        // Trazer o método da classe ModeloService
+        tabelaModelo.getItems().remove(0, tabelaModelo.getItems().size());
+        List<Modelo> modeloList = ModeloService.carregarModelos();
+        tabelaModelo.getItems().addAll(modeloList);
+    }
+
+    public void limparCamposModelo() {
+        codigoVeiculo.setText("");
+        nomeModelo.setText(""); // zera o campo
+        potencia.setText("");
+        motor.setText("");
+        anoLancamento.setText("");
+        tipoCombustivel.setText("");
+        numeroPortas.setText("");
+
+    }
+
+// MARCA: int idMarca, int codigoModelo, String cnpj, String razaoSocial, String cep, String ruaNumero,
+//  String bairro, String cidade, String uf, String pais, String telefone, String email, String site
+    public void executarSalvarNaMarca() {
         Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertInclusao.setTitle("Confirmação de Inclusão");
         alertInclusao.setHeaderText("Confirmar inclusão da marca?");
@@ -378,13 +447,12 @@ public class CadastroController {
 
         try {
             if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
-
                 Marca marca = new Marca();
+                marca.setCodigoModeloNaMarca(String.valueOf(codigoModeloNaMarca.getText()));
                 marca.setCnpj(cnpj.getText());
                 marca.setRazaoSocial(razaoSocial.getText());
                 marca.setCep(cep.getText()); // coluna CEP
-                marca.setRua(rua.getText()); // coluna Rua
-                marca.setNumero(numero.getText()); // coluna número
+                marca.setRuaNumero(ruaNumero.getText()); // coluna Rua
                 marca.setBairro(bairro.getText());
                 marca.setCidade(cidade.getText());
                 marca.setUf(uf.getText());
@@ -410,7 +478,7 @@ public class CadastroController {
                 } else if (cep.getText().isEmpty()) {
                     alertObri.setHeaderText("É obrigatório informar o CEP!");
                     alertObri.show(); // precisa para mostrar a tela do alerta
-                } else if (rua.getText().isEmpty()) {
+                } else if (ruaNumero.getText().isEmpty()) {
                     alertObri.setHeaderText("É obrigatório informar a rua!");
                     alertObri.show(); // precisa para mostrar a tela do alerta
                 } else if (bairro.getText().isEmpty()) {
@@ -446,8 +514,7 @@ public class CadastroController {
         }
 
     }
-
-    public void executarExcluirMarca() {
+    public void executarExcluirNaMarca() {
         Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertExclusao.setTitle("Confirmação de Exclusão");
         alertExclusao.setHeaderText("Confirmar exclusão da marca?");
@@ -461,17 +528,16 @@ public class CadastroController {
     }
     public void carregarlistaMarcas() {
         // Trazer o método da classe MarcaService
-        tabelaMarcas.getItems().remove(0, tabelaMarcas.getItems().size());
+        tabelaMarca.getItems().remove(0, tabelaMarca.getItems().size());
         List<Marca> marcaList = MarcaService.carregarMarcas();
-        tabelaMarcas.getItems().addAll(marcaList);
+        tabelaMarca.getItems().addAll(marcaList);
     }
 
     public void limparCamposMarca() {
         cnpj.setText("");
         razaoSocial.setText("");
         cep.setText(""); // zera o campo
-        rua.setText("");
-        numero.setText("");
+        ruaNumero.setText("");
         bairro.setText("");
         cidade.setText("");
         uf.setText("");
@@ -480,107 +546,6 @@ public class CadastroController {
         email.setText("");
         site.setText("");
         //codigoVeiculo.setDisable(false); // habilitar o campo código veículo
-    }
-
-// MODELO: idModelo, codigoMarcaModelo, nomeModelo, potencia, motor, anoLancamento, tipoCombustivel, numeroPortas
-    // Método para fazer funcionar o botão "OK" do JavaFX
-    public void executarSalvarModelo() {
-        Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
-        alertInclusao.setTitle("Confirmação de Inclusão");
-        alertInclusao.setHeaderText("Confirmar inclusão do modelo?");
-        Optional<ButtonType> retornoAlerta = alertInclusao.showAndWait();
-
-        try {
-            if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
-
-                Modelo modelo = new Modelo();
-                // para mostrar as informações que estão na linha que pertecem as colunas da tabela
-                modelo.setCodigoMarcaModelo(codigoMarcaModelo.getText()); // coluna código da marca
-                modelo.setNomeModelo(nomeModelo.getText());
-                modelo.setPotencia(potencia.getText());
-                modelo.setMotor(motor.getText());
-                modelo.setAnoLancamento(anoLancamento.getText());
-                modelo.setTipoCombustivel(tipoCombustivel.getText());
-                modelo.setNumeroPortas(numeroPortas.getText());
-
-                Alert alertObri = new Alert(Alert.AlertType.ERROR);
-                alertObri.setTitle("Campo obrigatório");
-                Alert alertInvalido = new Alert(Alert.AlertType.ERROR);
-                alertInvalido.setTitle("Erro");
-
-                if (codigoMarcaModelo.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o código da marca!");
-                    alertObri.show();
-                } else if (!modelo.getCodigoMarcaModelo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
-                    alertInvalido.setHeaderText("Código da marca inválido, somente números");
-                    alertInvalido.show();
-                } else if (nomeModelo.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o nome do modelo!");
-                    alertObri.show();
-                } else if (potencia.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar a potência");
-                    alertObri.show();
-                } else if (motor.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o motor!");
-                    alertObri.show();
-                } else if (anoLancamento.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o ano do lançamento!");
-                    alertObri.show();
-                } else if (tipoCombustivel.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o tipo do combustivel!");
-                    alertObri.show();
-                } else if (numeroPortas.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o número de portas!");
-                    alertObri.show();
-                } else if (!modelo.getNumeroPortas().matches("[0-9]*")) {
-                    alertInvalido.setHeaderText("Número de portas inválido, somente números");
-                    alertInvalido.show();
-                } else if (index > -1) {
-                    ModeloService.atualizarModelo(index, modelo);
-                    index = -1; // precisa resetar o index, para poder incluir um registro novo
-                } else {
-                    ModeloService.inserirModelo(modelo);
-                }
-            }
-            this.carregarlistaModelos();
-            this.limparCamposModelo();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void executarExcluirModelo() {
-        Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
-        alertExclusao.setTitle("Confirmação de Exclusão");
-        alertExclusao.setHeaderText("Confirmar exclusão do modelo?");
-        Optional<ButtonType> retornoAlerta = alertExclusao.showAndWait();
-
-        if (index > -1) {
-            ModeloService.deletarModelo(index);
-            this.carregarlistaModelos();
-            index = -1;
-            this.limparCamposModelo();
-        }
-    }
-    public void carregarlistaModelos() {
-        // Trazer o método da classe ModeloService
-        tabelaModelos.getItems().remove(0, tabelaModelos.getItems().size());
-        List<Modelo> modeloList = ModeloService.carregarModelos();
-        tabelaModelos.getItems().addAll(modeloList);
-    }
-
-    public void limparCamposModelo() {
-        codigoMarcaModelo.setText("");
-        nomeModelo.setText(""); // zera o campo
-        potencia.setText("");
-        motor.setText("");
-        anoLancamento.setText("");
-        tipoCombustivel.setText("");
-        numeroPortas.setText("");
-        codigoMarcaModelo.setDisable(false); // habilitar o campo código da marca
-
     }
 
 }

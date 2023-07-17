@@ -1,31 +1,29 @@
 package veiculos.model;
 public class Marca {
-    private int idMarca; // NOT NULL
-    private String cnpj; // NOT NULL, UNIQUE
-    private String razaoSocial; // NOT NULL, UNIQUE
-    private String cep; // NOT NULL
-    private String rua; // NOT NULL
-    private String numero; // NULL
-    private String bairro; // NOT NULL
-    private String cidade; // NOT NULL
-    private String uf; // NOT NULL
-    private String pais; // NOT NULL
-    private String telefone; // NOT NULL
-    private String email; // NULL
-    private String site; // NULL -> site oficial da marca
-
+    private int idMarca; // tabelaMarca/executarSalvarNaMarca/executarExcluirNaMarca - id SERIAL PRIMARY KEY,
+    private String codigoModeloNaMarca; // codigoModelo/codigoModeloNaMarca - id_modelo INT NOT NULL,
+    private String cnpj; // cnpj/colunaCnpj - VARCHAR(14) NOT NULL UNIQUE,
+    private String razaoSocial; // razaoSocial/colunaRazaoSocial - VARCHAR(100) NOT NULL,
+    private String cep; // cep/colunaCep -  VARCHAR(8) NOT NULL,
+    private String ruaNumero; // ruaNumero/colunaRuaNumero - VARCHAR(100) NOT NULL,
+    private String bairro; // bairro/colunaBairro - VARCHAR(100) NOT NULL,
+    private String cidade; // cidade/colunaCidade - VARCHAR(100) NOT NULL,
+    private String uf; // uf/colunaUf  - VARCHAR(2) NOT NULL,
+    private String pais; // pais/colunaPais - VARCHAR(100) NOT NULL,
+    private String telefone; // telefone/colunaTelefone - VARCHAR(20) NOT NULL,
+    private String email; // email/colunaEmail - VARCHAR(100) NOT NULL,
+    private String site; // site/colunaSite - VARCHAR(100) NOT NULL, -> site oficial da marca
     public Marca() {
     }
 
-    public Marca(int idMarca, String cnpj, String razaoSocial, String cep, String rua, String numero,
-                 String bairro, String cidade, String uf, String pais, String telefone, String email,
-                 String site) {
+    public Marca(int idMarca, String codigoModeloNaMarca, String cnpj, String razaoSocial, String cep, String ruaNumero,
+                 String bairro, String cidade, String uf, String pais, String telefone, String email, String site) {
         this.idMarca = idMarca;
+        this.codigoModeloNaMarca = codigoModeloNaMarca;
         this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;
         this.cep = cep;
-        this.rua = rua;
-        this.numero = numero;
+        this.ruaNumero = ruaNumero;
         this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
@@ -41,6 +39,14 @@ public class Marca {
 
     public void setIdMarca(int idMarca) {
         this.idMarca = idMarca;
+    }
+
+    public String getCodigoModeloNaMarca() {
+        return codigoModeloNaMarca;
+    }
+
+    public void setCodigoModeloNaMarca(String codigoModeloNaMarca) {
+        this.codigoModeloNaMarca = codigoModeloNaMarca;
     }
 
     public String getCnpj() {
@@ -67,20 +73,12 @@ public class Marca {
         this.cep = cep;
     }
 
-    public String getRua() {
-        return rua;
+    public String getRuaNumero() {
+        return ruaNumero;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setRuaNumero(String ruaNumero) {
+        this.ruaNumero = ruaNumero;
     }
 
     public String getBairro() {
