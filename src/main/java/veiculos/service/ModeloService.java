@@ -8,22 +8,24 @@ import java.util.List;
 public class ModeloService {
 
      private static ConexaoDatabase conexao = new ConexaoDatabase();
+
+// MODELO: id, id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
      public static List<Modelo> carregarModelos() {
         List<Modelo> out = new ArrayList<>();
         try {
-            Connection conn = conexao.getConexao();
-            Statement sta = conn.createStatement();
-            ResultSet resultado = sta.executeQuery("SELECT * FROM modelos");
-            while (resultado.next()) {
+            Connection conexaoSelect = conexao.getConexao();
+            Statement statementSelect = conexaoSelect.createStatement();
+            ResultSet resultadoSelect = statementSelect.executeQuery("SELECT * FROM modelos");
+            while (resultadoSelect.next()) {
                 Modelo modelo = new Modelo(
-                        resultado.getInt("id"),
-                        resultado.getString("id_marca"),
-                        resultado.getString("nomeModelo"),
-                        resultado.getString("potencia"),
-                        resultado.getString("motor"),
-                        resultado.getString("anoLancamento"),
-                        resultado.getString("tipoCombustivel"),
-                        resultado.getString("numeroPortas"));
+                        resultadoSelect.getInt("id"),
+                        resultadoSelect.getString("id_veiculo"),
+                        resultadoSelect.getString("nomeModelo"),
+                        resultadoSelect.getString("motor"),
+                        resultadoSelect.getString("potencia"),
+                        resultadoSelect.getString("anoLancamento"),
+                        resultadoSelect.getString("tipoCombustivel"),
+                        resultadoSelect.getString("numeroPortas"));
                 out.add(modelo);
             }
         } catch (SQLException e) {
@@ -32,23 +34,24 @@ public class ModeloService {
         return out;
     }
 
-    // Inserir/Adicionar (INSERT)
+    // Inserir/Adicionar (INSERT) -
+    // MODELO: id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
     public static void inserirModelo(Modelo modelo) {
         try {
-            Connection conn = conexao.getConexao();
-            String sql = "INSERT INTO modelos (id_marca, nomeModelo, potencia, motor, anoLancamento, " +
+            Connection conexaoInsert = conexao.getConexao();
+            String insertSql = "INSERT INTO modelos (id_veiculo, nomeModelo, motor, potencia, anoLancamento, " +
                     "tipoCombustivel, numeroPortas) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setInt(1, Integer.parseInt(modelo.getCodigoMarcaModelo()));
-            pre.setString(2, modelo.getNomeModelo());
-            pre.setString(3, modelo.getPotencia());
-            pre.setString(4, modelo.getMotor());
-            pre.setString(5, modelo.getAnoLancamento());
-            pre.setString(6, modelo.getTipoCombustivel());
-            pre.setString(7, modelo.getNumeroPortas());
+            PreparedStatement prepareStatementInsert = conexaoInsert.prepareStatement(insertSql);
+            prepareStatementInsert.setInt(1, Integer.parseInt(modelo.getCodigoVeiculo()));
+            prepareStatementInsert.setString(2, modelo.getNomeModelo());
+            prepareStatementInsert.setString(3, modelo.getMotor());
+            prepareStatementInsert.setString(4, modelo.getPotencia());
+            prepareStatementInsert.setString(5, modelo.getAnoLancamento());
+            prepareStatementInsert.setString(6, modelo.getTipoCombustivel());
+            prepareStatementInsert.setString(7, modelo.getNumeroPortas());
 
-            pre.execute();
-            pre.close();
+            prepareStatementInsert.execute();
+            prepareStatementInsert.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -56,21 +59,23 @@ public class ModeloService {
     }
 
     // Atualizar (UPDATE)
-    public static boolean atualizarModelo(int codigoMarcaModelo, Modelo modelo) {
+    // MODELO: id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
+    public static boolean atualizarModelo(int codigoVeiculo, Modelo modelo) {
         try {
-            Connection conn = conexao.getConexao();
+            Connection conexaoUpdate = conexao.getConexao();
             String updateSql = "UPDATE modelos " +
-                    "SET nomeModelo = ?, potencia = ?, motor = ?, anoLancamento = ?, tipoCombustivel = ?, " +
-                    "numeroPortas = ? WHERE id_marca = ?";
-            PreparedStatement ps = conn.prepareStatement(updateSql);
-            ps.setString(1, modelo.getNomeModelo());
-            ps.setString(2, modelo.getPotencia());
-            ps.setString(3, modelo.getMotor());
-            ps.setString(4, modelo.getAnoLancamento());
-            ps.setString(5, modelo.getTipoCombustivel());
-            ps.setString(6, modelo.getNumeroPortas());
-            ps.setInt(7, codigoMarcaModelo); // Não funciona dessa forma modelo.getIdMarca();
-            return ps.execute();
+                    "SET id_veiculo = ?, nomeModelo = ?, motor = ?, potencia = ?, anoLancamento = ?, " +
+                    "tipoCombustivel = ?, numeroPortas = ? WHERE id = ?";
+            PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
+            prepareStatementUpdate.setInt(1, Integer.parseInt(modelo.getCodigoVeiculo()));
+            prepareStatementUpdate.setString(2, modelo.getNomeModelo());
+            prepareStatementUpdate.setString(3, modelo.getPotencia());
+            prepareStatementUpdate.setString(4, modelo.getMotor());
+            prepareStatementUpdate.setString(5, modelo.getAnoLancamento());
+            prepareStatementUpdate.setString(6, modelo.getTipoCombustivel());
+            prepareStatementUpdate.setString(7, modelo.getNumeroPortas());
+            prepareStatementUpdate.setInt(8, codigoVeiculo); // Não funciona dessa forma modelo.getIdMarca();
+            return prepareStatementUpdate.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,12 +85,12 @@ public class ModeloService {
     // Excluir (DELETE)
     public static boolean deletarModelo(int idModelo) {
         try {
-            Connection conn = conexao.getConexao();
+            Connection conexaoDelete = conexao.getConexao();
             String deleteSql = "DELETE FROM modelos WHERE id = ?";
-            PreparedStatement ps = conn.prepareStatement(deleteSql);
-            ps.setInt(1, idModelo);
+            PreparedStatement prepareStatementDelete = conexaoDelete.prepareStatement(deleteSql);
+            prepareStatementDelete.setInt(1, idModelo);
 
-            return ps.execute();
+            return prepareStatementDelete.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
