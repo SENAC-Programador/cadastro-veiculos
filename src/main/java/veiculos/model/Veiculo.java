@@ -1,28 +1,21 @@
 package veiculos.model;
 
 public class Veiculo {
-    private int idVeiculo; // NOT NULL
-    private String dataCadastroVeiculo; // NOT NULL
-    private String chassi; // NOT NULL, UNIQUE -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
-    private String placa; // NOT NULL, UNIQUE -> ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
-    private String corVeiculo; // NULL
-    private String quilometragem; // NULL -> quilometragem atual do veículo, ex: 50.000 km
-    private String codigoMarca; // NOT NULL, FK
-    private String codigoModelo; // NOT NULL, FK
+    private int idVeiculo; // idVeiculo/ - SERIAL PRIMARY KEY - executarSalvarNoVeiculo/executarExcluirNoVeiculo/tabelaVeiculo
+    private String chassi; // chassi/colunaChassi - VARCHAR(17) NOT NULL UNIQUE, -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
+    private String placa; // placa/colunaPlaca - VARCHAR(7) NOT NULL UNIQUE, -> ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
+    private String corVeiculo; // corVeiculo/colunaCorVeiculo - VARCHAR(50) NOT NULL,
+    private String quilometragem; // quilometragem/colunaQuilometragem - VARCHAR(20) NOT NULL -> quilometragem atual do veículo, ex: 50.000 km
 
     public Veiculo() {
     }
 
-    public Veiculo(int idVeiculo, String dataCadastroVeiculo, String chassi, String placa,
-                   String corVeiculo, String quilometragem, String codigoMarca, String codigoModelo) {
+    public Veiculo(int idVeiculo, String chassi, String placa, String corVeiculo, String quilometragem) {
         this.idVeiculo = idVeiculo;
-        this.dataCadastroVeiculo = dataCadastroVeiculo;
         this.chassi = chassi;
         this.placa = placa;
         this.corVeiculo = corVeiculo;
         this.quilometragem = quilometragem;
-        this.codigoMarca = codigoMarca;
-        this.codigoModelo = codigoModelo;
     }
 
     public int getIdVeiculo() {
@@ -31,14 +24,6 @@ public class Veiculo {
 
     public void setIdVeiculo(int idVeiculo) {
         this.idVeiculo = idVeiculo;
-    }
-
-    public String getDataCadastroVeiculo() {
-        return dataCadastroVeiculo;
-    }
-
-    public void setDataCadastroVeiculo(String dataCadastroVeiculo) {
-        this.dataCadastroVeiculo = dataCadastroVeiculo;
     }
 
     public String getChassi() {
@@ -71,21 +56,5 @@ public class Veiculo {
 
     public void setQuilometragem(String quilometragem) {
         this.quilometragem = quilometragem;
-    }
-
-    public String getCodigoMarca() {
-        return codigoMarca;
-    }
-
-    public void setCodigoMarca(String codigoMarca) {
-        this.codigoMarca = codigoMarca;
-    }
-
-    public String getCodigoModelo() {
-        return codigoModelo;
-    }
-
-    public void setCodigoModelo(String codigoModelo) {
-        this.codigoModelo = codigoModelo;
     }
 }
