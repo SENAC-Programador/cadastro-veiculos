@@ -19,14 +19,14 @@ public class JavaFxApplication extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage estagio) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/main.fxml");
-        loader.setLocation(xmlUrl);
+        URL urlDoXml = getClass().getResource("/main.fxml");
+        loader.setLocation(urlDoXml);
         Parent root = loader.load();
 
-        stage.setScene(new Scene(root));
-        stage.setTitle("Cadastro Veículo");
-        stage.show();
+        estagio.setScene(new Scene(root));
+        estagio.setTitle("Cadastro Veículo");
+        estagio.show();
     }
 }

@@ -284,12 +284,12 @@ public class CadastroController {
                     alertaInval.setHeaderText("Quilometragem inválida, somente números.");
                     alertaInval.show();
                 } else if (index < 0) {
-                    if (VeiculoService.buscarVeiculoByChassi(veiculo.getChassi())) {
+                    if (VeiculoService.buscarVeiculoPorChassi(veiculo.getChassi())) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Alerta");
                         alert.setHeaderText("Chassi " + chassi.getText() + " já existe na base.");
                         alert.show(); // precisa para mostrar a tela do alerta
-                    } else if (VeiculoService.buscarVeiculoByPlaca(veiculo.getPlaca())) {
+                    } else if (VeiculoService.buscarVeiculoPorPlaca(veiculo.getPlaca())) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Alerta");
                         alert.setHeaderText("Placa " + placa.getText() + " já existe na base.");
