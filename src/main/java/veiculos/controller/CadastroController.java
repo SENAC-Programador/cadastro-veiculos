@@ -19,8 +19,6 @@ import java.util.Optional;
 @FxmlView("/main.fxml") // para lincar com o arquivo "main.fxml"
 public class CadastroController {
     @FXML
-    private TextField idVeiculo; // idVeiculo/ - SERIAL PRIMARY KEY - executarSalvarNoVeiculo/executarExcluirNoVeiculo/tabelaVeiculo
-    @FXML
     private TextField chassi; // chassi/colunaChassi - VARCHAR(17) NOT NULL UNIQUE, -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
     @FXML
     private TextField placa; // placa/colunaPlaca - VARCHAR(7) NOT NULL UNIQUE, -> ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
@@ -42,8 +40,6 @@ public class CadastroController {
     private TableColumn<Veiculo, String> colunaQuilometragem; // quilometragem/colunaQuilometragem - VARCHAR(20) NOT NULL -> quil
 
 // MODELO
-    @FXML
-    private TextField idModelo; // // colunaCodigoModelo/tabelaModelo/executarSalvarNoModelo/executarExcluirNoModelo - id SERIAL PRIMARY K
     @FXML
     private TextField codigoVeiculo; //  codigoVeiculo/ - id_veiculo INT NOT NULL,
     @FXML
@@ -77,9 +73,7 @@ public class CadastroController {
 
 // MARCA
     @FXML
-    private TextField idMarca; // tabelaMarca/executarSalvarNaMarca/executarExcluirNaMarca - id SERIAL PRIMARY KEY,
-    @FXML
-    private TextField codigoModelo; // codigoModelo/colunaCodigoModelo - id_modelo INT NOT NULL,
+    private TextField codigoModeloNaMarca; // codigoModelo/colunaCodigoModelo - id_modelo INT NOT NULL,
     @FXML
     private TextField cnpj; // cnpj/colunaCnpj - VARCHAR(14) NOT NULL UNIQUE,
     @FXML
@@ -104,8 +98,6 @@ public class CadastroController {
     private TextField site; // site/colunaSite - VARCHAR(100) NOT NULL, -> site oficial da marca
     @FXML
     private TableView<Marca> tabelaMarca;
-    @FXML
-    private TableColumn<Marca, Integer> codigoModeloNaMarca; // codigoModelo/codigoModeloNaMarca - id_modelo INT NOT NULL,
     @FXML
     private TableColumn<Marca, String> colunaCnpj; // cnpj/colunaCnpj - VARCHAR(14) NOT NULL UNIQUE,
     @FXML
@@ -154,7 +146,6 @@ public class CadastroController {
 
 // MARCA: int idMarca, int codigoModelo, String cnpj, String razaoSocial, String cep, String ruaNumero,
 //  String bairro, String cidade, String uf, String pais, String telefone, String email, String site
-        codigoModeloNaMarca.setCellValueFactory(new PropertyValueFactory<>("codigoModeloNaMarca"));
         colunaCnpj.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
         colunaRazaoSocial.setCellValueFactory(new PropertyValueFactory<>("razaoSocial"));
         colunaCep.setCellValueFactory(new PropertyValueFactory<>("cep"));
@@ -178,7 +169,6 @@ public class CadastroController {
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) { // qtde de cliques, dois cliques no evento
                     Veiculo veiculo = tabelaVeiculo.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
-                    idVeiculo.setText(String.valueOf(veiculo.getIdVeiculo()));
                     chassi.setText(veiculo.getChassi());
                     placa.setText(veiculo.getPlaca());
                     corVeiculo.setText(veiculo.getCorVeiculo());
@@ -335,8 +325,8 @@ public class CadastroController {
         placa.setText("");
         corVeiculo.setText("");
         quilometragem.setText("");
-        //chassi.setDisable(false); // habilitar documento
-        //placa.setDisable(false); // habilitar nome
+        chassi.setDisable(false); // habilitar documento
+        placa.setDisable(false); // habilitar nome
     }
 
 // MODELO: int idModelo, String codigoVeiculo, String nomeModelo, String motor, String potencia,
@@ -434,6 +424,7 @@ public class CadastroController {
         anoLancamento.setText("");
         tipoCombustivel.setText("");
         numeroPortas.setText("");
+        codigoVeiculo.setDisable(false); // habilitar Código Veículo
 
     }
 
@@ -534,6 +525,7 @@ public class CadastroController {
     }
 
     public void limparCamposMarca() {
+        codigoModeloNaMarca.setText("");
         cnpj.setText("");
         razaoSocial.setText("");
         cep.setText(""); // zera o campo
@@ -545,7 +537,10 @@ public class CadastroController {
         telefone.setText("");
         email.setText("");
         site.setText("");
-        //codigoVeiculo.setDisable(false); // habilitar o campo código veículo
+
+        codigoVeiculo.setDisable(false); // habilitar o campo código veículo
+        cnpj.setDisable(false); // habilitar documento
+
     }
 
 }

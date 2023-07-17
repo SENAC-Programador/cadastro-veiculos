@@ -14,18 +14,18 @@ public class ModeloService {
         List<Modelo> out = new ArrayList<>();
         try {
             Connection conexaoSelect = conexao.getConexao();
-            Statement selectStatement = conexaoSelect.createStatement();
-            ResultSet selectResultado = selectStatement.executeQuery("SELECT * FROM modelos");
-            while (selectResultado.next()) {
+            Statement statementSelect = conexaoSelect.createStatement();
+            ResultSet resultadoSelect = statementSelect.executeQuery("SELECT * FROM modelos");
+            while (resultadoSelect.next()) {
                 Modelo modelo = new Modelo(
-                        selectResultado.getInt("id"),
-                        selectResultado.getString("id_veiculo"),
-                        selectResultado.getString("nomeModelo"),
-                        selectResultado.getString("motor"),
-                        selectResultado.getString("potencia"),
-                        selectResultado.getString("anoLancamento"),
-                        selectResultado.getString("tipoCombustivel"),
-                        selectResultado.getString("numeroPortas"));
+                        resultadoSelect.getInt("id"),
+                        resultadoSelect.getString("id_veiculo"),
+                        resultadoSelect.getString("nomeModelo"),
+                        resultadoSelect.getString("motor"),
+                        resultadoSelect.getString("potencia"),
+                        resultadoSelect.getString("anoLancamento"),
+                        resultadoSelect.getString("tipoCombustivel"),
+                        resultadoSelect.getString("numeroPortas"));
                 out.add(modelo);
             }
         } catch (SQLException e) {
@@ -38,20 +38,20 @@ public class ModeloService {
     // MODELO: id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
     public static void inserirModelo(Modelo modelo) {
         try {
-            Connection conn = conexao.getConexao();
-            String sql = "INSERT INTO modelos (id_veiculo, nomeModelo, motor, potencia, anoLancamento, " +
+            Connection conexaoInsert = conexao.getConexao();
+            String insertSql = "INSERT INTO modelos (id_veiculo, nomeModelo, motor, potencia, anoLancamento, " +
                     "tipoCombustivel, numeroPortas) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement insertPrepareStatement = conn.prepareStatement(sql);
-            insertPrepareStatement.setInt(1, Integer.parseInt(modelo.getCodigoVeiculo()));
-            insertPrepareStatement.setString(2, modelo.getNomeModelo());
-            insertPrepareStatement.setString(3, modelo.getMotor());
-            insertPrepareStatement.setString(4, modelo.getPotencia());
-            insertPrepareStatement.setString(5, modelo.getAnoLancamento());
-            insertPrepareStatement.setString(6, modelo.getTipoCombustivel());
-            insertPrepareStatement.setString(7, modelo.getNumeroPortas());
+            PreparedStatement prepareStatementInsert = conexaoInsert.prepareStatement(insertSql);
+            prepareStatementInsert.setInt(1, Integer.parseInt(modelo.getCodigoVeiculo()));
+            prepareStatementInsert.setString(2, modelo.getNomeModelo());
+            prepareStatementInsert.setString(3, modelo.getMotor());
+            prepareStatementInsert.setString(4, modelo.getPotencia());
+            prepareStatementInsert.setString(5, modelo.getAnoLancamento());
+            prepareStatementInsert.setString(6, modelo.getTipoCombustivel());
+            prepareStatementInsert.setString(7, modelo.getNumeroPortas());
 
-            insertPrepareStatement.execute();
-            insertPrepareStatement.close();
+            prepareStatementInsert.execute();
+            prepareStatementInsert.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -64,17 +64,18 @@ public class ModeloService {
         try {
             Connection conexaoUpdate = conexao.getConexao();
             String updateSql = "UPDATE modelos " +
-                    "SET nomeModelo = ?, potencia = ?, motor = ?, anoLancamento = ?, tipoCombustivel = ?, " +
-                    "numeroPortas = ? WHERE id_veiculo = ?";
-            PreparedStatement updatePrepareStatement = conexaoUpdate.prepareStatement(updateSql);
-            updatePrepareStatement.setString(1, modelo.getNomeModelo());
-            updatePrepareStatement.setString(2, modelo.getPotencia());
-            updatePrepareStatement.setString(3, modelo.getMotor());
-            updatePrepareStatement.setString(4, modelo.getAnoLancamento());
-            updatePrepareStatement.setString(5, modelo.getTipoCombustivel());
-            updatePrepareStatement.setString(6, modelo.getNumeroPortas());
-            updatePrepareStatement.setInt(7, codigoVeiculo); // Não funciona dessa forma modelo.getIdMarca();
-            return updatePrepareStatement.execute();
+                    "SET id_veiculo = ?, nomeModelo = ?, motor = ?, potencia = ?, anoLancamento = ?, " +
+                    "tipoCombustivel = ?, numeroPortas = ? WHERE id = ?";
+            PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
+            prepareStatementUpdate.setInt(1, Integer.parseInt(modelo.getCodigoVeiculo()));
+            prepareStatementUpdate.setString(2, modelo.getNomeModelo());
+            prepareStatementUpdate.setString(3, modelo.getPotencia());
+            prepareStatementUpdate.setString(4, modelo.getMotor());
+            prepareStatementUpdate.setString(5, modelo.getAnoLancamento());
+            prepareStatementUpdate.setString(6, modelo.getTipoCombustivel());
+            prepareStatementUpdate.setString(7, modelo.getNumeroPortas());
+            prepareStatementUpdate.setInt(8, codigoVeiculo); // Não funciona dessa forma modelo.getIdMarca();
+            return prepareStatementUpdate.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,10 +87,10 @@ public class ModeloService {
         try {
             Connection conexaoDelete = conexao.getConexao();
             String deleteSql = "DELETE FROM modelos WHERE id = ?";
-            PreparedStatement deletePrepareStatement = conexaoDelete.prepareStatement(deleteSql);
-            deletePrepareStatement.setInt(1, idModelo);
+            PreparedStatement prepareStatementDelete = conexaoDelete.prepareStatement(deleteSql);
+            prepareStatementDelete.setInt(1, idModelo);
 
-            return deletePrepareStatement.execute();
+            return prepareStatementDelete.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }

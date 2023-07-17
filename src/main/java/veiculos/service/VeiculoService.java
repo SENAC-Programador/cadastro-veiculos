@@ -7,20 +7,21 @@ import java.util.List;
 
 public class VeiculoService {
     private static ConexaoDatabase conexao = new ConexaoDatabase();
-    // VEÍCULO: int idVeiculo, String chassi, String placa, String corVeiculo, String quilometragem
+
+// VEÍCULO: id, chassi, placa, corVeiculo, quilometragem
     public static List<Veiculo> carregarVeiculo() {
         List<Veiculo> out = new ArrayList<>();
         try {
-            Connection conn = conexao.getConexao();
-            Statement sta = conn.createStatement();
-            ResultSet rs = sta.executeQuery("SELECT * FROM veiculos");
-            while (rs.next()) {
+            Connection conexaoSelect = conexao.getConexao();
+            Statement statementSelect = conexaoSelect.createStatement();
+            ResultSet resultadoSelect = statementSelect.executeQuery("SELECT * FROM veiculos");
+            while (resultadoSelect.next()) {
                 Veiculo veiculo = new Veiculo(
-                        rs.getInt("idVeiculo"),
-                        rs.getString("chassi"),
-                        rs.getString("placa"),
-                        rs.getString("corVeiculo"),
-                        rs.getString("quilometragem"));
+                        resultadoSelect.getInt("id"),
+                        resultadoSelect.getString("chassi"),
+                        resultadoSelect.getString("placa"),
+                        resultadoSelect.getString("corVeiculo"),
+                        resultadoSelect.getString("quilometragem"));
 
                 out.add(veiculo);
             }
@@ -34,16 +35,16 @@ public class VeiculoService {
     public static void inserirVeiculo(Veiculo veiculo) {
         try {
             Connection conexaoInsert = conexao.getConexao();
-            String insertSql = "INSERT INTO veiculo (chassi, placa, cor, quilometragem) " +
+            String insertSql = "INSERT INTO veiculos (chassi, placa, corVeiculo, quilometragem) " +
                     "VALUES ( ?, ?, ?, ?)";
-            PreparedStatement preInsert = conexaoInsert.prepareStatement(insertSql);
-            preInsert.setString(1, veiculo.getChassi());
-            preInsert.setString(2, veiculo.getPlaca());
-            preInsert.setString(3, veiculo.getCorVeiculo());
-            preInsert.setString(4, veiculo.getQuilometragem());
+            PreparedStatement prepareStatementInsert = conexaoInsert.prepareStatement(insertSql);
+            prepareStatementInsert.setString(1, veiculo.getChassi());
+            prepareStatementInsert.setString(2, veiculo.getPlaca());
+            prepareStatementInsert.setString(3, veiculo.getCorVeiculo());
+            prepareStatementInsert.setString(4, veiculo.getQuilometragem());
 
-            preInsert.execute();
-            preInsert.close();
+            prepareStatementInsert.execute();
+            prepareStatementInsert.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -55,14 +56,14 @@ public class VeiculoService {
             Connection conexaoUpdate = conexao.getConexao();
             String updateSql = "UPDATE veiculos " +
                     "SET chassi = ?, placa = ?, corVeiculo = ?, quilometragem = ? WHERE id = ?";
-            PreparedStatement preUpdate = conexaoUpdate.prepareStatement(updateSql);
-            preUpdate.setString(1, veiculo.getChassi());
-            preUpdate.setString(2, veiculo.getPlaca());
-            preUpdate.setString(3, veiculo.getCorVeiculo());
-            preUpdate.setString(4, veiculo.getQuilometragem());
-            preUpdate.setInt(5, idVeiculo);
+            PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
+            prepareStatementUpdate.setString(1, veiculo.getChassi());
+            prepareStatementUpdate.setString(2, veiculo.getPlaca());
+            prepareStatementUpdate.setString(3, veiculo.getCorVeiculo());
+            prepareStatementUpdate.setString(4, veiculo.getQuilometragem());
+            prepareStatementUpdate.setInt(5, idVeiculo);
 
-            return preUpdate.execute();
+            return prepareStatementUpdate.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
