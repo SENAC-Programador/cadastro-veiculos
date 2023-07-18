@@ -332,69 +332,80 @@ public class CadastroController {
 // MODELO: int idModelo, String codigoVeiculo, String nomeModelo, String motor, String potencia,
 //  String anoLancamento, String tipoCombustivel, String numeroPortas
     // Método para fazer funcionar o botão "OK" do JavaFX
-    public void executarSalvarNoModelo() {
-        Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
-        alertInclusao.setTitle("Confirmação de Inclusão");
-        alertInclusao.setHeaderText("Confirmar inclusão do modelo?");
-        Optional<ButtonType> retornoAlerta = alertInclusao.showAndWait();
+public void executarSalvarNoModelo() {
+    Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
+    alertInclusao.setTitle("Confirmação de Inclusão");
+    alertInclusao.setHeaderText("Confirmar inclusão do modelo?");
+    Optional<ButtonType> retornoAlerta = alertInclusao.showAndWait();
 
-        try {
-            if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
+    try {
+        if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
+            Modelo modelo = new Modelo();
+            // para mostrar as informações que estão na linha que pertencem às colunas da tabela
+            modelo.setCodigoVeiculo(String.valueOf(codigoVeiculo.getText())); // coluna código do modelo
+            modelo.setNomeModelo(nomeModelo.getText());
+            modelo.setMotor(motor.getText());
+            modelo.setPotencia(potencia.getText());
+            modelo.setAnoLancamento(anoLancamento.getText());
+            modelo.setTipoCombustivel(tipoCombustivel.getText());
+            modelo.setNumeroPortas(numeroPortas.getText());
 
-                Modelo modelo = new Modelo();
-                // para mostrar as informações que estão na linha que pertecem as colunas da tabela
-                modelo.setCodigoVeiculo(String.valueOf(codigoVeiculo.getText())); // coluna código do modelo
-                modelo.setNomeModelo(nomeModelo.getText());
-                modelo.setMotor(motor.getText());
-                modelo.setPotencia(potencia.getText());
-                modelo.setAnoLancamento(anoLancamento.getText());
-                modelo.setTipoCombustivel(tipoCombustivel.getText());
-                modelo.setNumeroPortas(numeroPortas.getText());
+            Alert alertObri = new Alert(Alert.AlertType.ERROR);
+            alertObri.setTitle("Campo obrigatório");
+            Alert alertInvalido = new Alert(Alert.AlertType.ERROR);
+            alertInvalido.setTitle("Erro");
 
-                Alert alertObri = new Alert(Alert.AlertType.ERROR);
-                alertObri.setTitle("Campo obrigatório");
-                Alert alertInvalido = new Alert(Alert.AlertType.ERROR);
-                alertInvalido.setTitle("Erro");
-
-                if (!modelo.getCodigoVeiculo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
-                    alertInvalido.setHeaderText("Código do veículo inválido, somente números");
+            if (!modelo.getCodigoVeiculo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
+                alertInvalido.setHeaderText("Código do veículo inválido, somente números");
+                alertInvalido.show();
+            } else if (nomeModelo.getText().isEmpty()) {
+                alertObri.setHeaderText("É obrigatório informar o nome do modelo!");
+                alertObri.show();
+            } else if (motor.getText().isEmpty()) {
+                alertObri.setHeaderText("É obrigatório informar o motor!");
+                alertObri.show();
+            } else if (potencia.getText().isEmpty()) {
+                alertObri.setHeaderText("É obrigatório informar a potência");
+                alertObri.show();
+            } else if (anoLancamento.getText().isEmpty()) {
+                alertObri.setHeaderText("É obrigatório informar o ano do lançamento!");
+                alertObri.show();
+            } else if (tipoCombustivel.getText().isEmpty()) {
+                alertObri.setHeaderText("É obrigatório informar o tipo do combustivel!");
+                alertObri.show();
+            } else if (numeroPortas.getText().isEmpty()) {
+                alertObri.setHeaderText("É obrigatório informar o número de portas!");
+                alertObri.show();
+            } else if (!modelo.getNumeroPortas().matches("[0-9]*")) {
+                alertInvalido.setHeaderText("Número de portas inválido, somente números");
+                alertInvalido.show();
+            } else {
+                // Verificar se o ID do veículo existe
+                int idVeiculo = Integer.parseInt(modelo.getCodigoVeiculo());
+                if (!VeiculoService.verificarExistenciaVeiculoPorId(idVeiculo)) {
+                    alertInvalido.setHeaderText("ID do veículo inválido");
+                    alertInvalido.setContentText("O ID do veículo fornecido não existe. Verifique o ID do veículo e tente novamente.");
                     alertInvalido.show();
-                } else if (nomeModelo.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o nome do modelo!");
-                    alertObri.show();
-                } else if (motor.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o motor!");
-                    alertObri.show();
-                } else if (potencia.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar a potência");
-                    alertObri.show();
-                } else if (anoLancamento.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o ano do lançamento!");
-                    alertObri.show();
-                } else if (tipoCombustivel.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o tipo do combustivel!");
-                    alertObri.show();
-                } else if (numeroPortas.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o número de portas!");
-                    alertObri.show();
-                } else if (!modelo.getNumeroPortas().matches("[0-9]*")) {
-                    alertInvalido.setHeaderText("Número de portas inválido, somente números");
-                    alertInvalido.show();
-                } else if (index > -1) {
+                    return;
+                }
+
+                if (index > -1) {
                     ModeloService.atualizarModelo(index, modelo);
-                    index = -1; // precisa resetar o index, para poder incluir um registro novo
+                    index = -1; // precisa resetar o index para poder incluir um registro novo
                 } else {
                     ModeloService.inserirModelo(modelo);
                 }
+
+                this.carregarlistaModelos();
+                this.limparCamposModelo();
             }
-            this.carregarlistaModelos();
-            this.limparCamposModelo();
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
+
 
     public void executarExcluirNoModelo() {
         Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);

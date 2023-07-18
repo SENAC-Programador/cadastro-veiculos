@@ -8,7 +8,7 @@ import java.util.List;
 public class VeiculoService {
     private static ConexaoDatabase conexao = new ConexaoDatabase();
 
-// VEÍCULO: id, chassi, placa, corVeiculo, quilometragem
+    // VEÍCULO: id, chassi, placa, corVeiculo, quilometragem
     public static List<Veiculo> carregarVeiculo() {
         List<Veiculo> out = new ArrayList<>();
         try {
@@ -50,6 +50,7 @@ public class VeiculoService {
             throw new RuntimeException(e);
         }
     }
+
     // Atualizar (UPDATE) - VEÍCULO: chassi, placa, corVeiculo, quilometragem
     public static boolean atualizarVeiculo(int idVeiculo, Veiculo veiculo) {
         try {
@@ -113,4 +114,17 @@ public class VeiculoService {
         }
         return false;
     }
-}
+
+    public static boolean verificarExistenciaVeiculoPorId(int idVeiculo) {
+             List<Veiculo> listaVeiculos = VeiculoService.carregarVeiculo(); // Obtenha a lista de veículos existentes
+
+            for (Veiculo veiculo : listaVeiculos) {
+                if (veiculo.getIdVeiculo() == idVeiculo) {
+                    return true; // O veículo com o ID especificado existe
+                }
+            }
+
+            return false; // O veículo com o ID especificado não existe
+        }
+    }
+
