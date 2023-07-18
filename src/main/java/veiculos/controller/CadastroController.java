@@ -236,7 +236,7 @@ public class CadastroController {
                     // Alerta para alterar
                     Alert alertAlterar = new Alert(Alert.AlertType.CONFIRMATION);
                     alertAlterar.setTitle("Confirmação de alterar");
-                    alertAlterar.setHeaderText("Confirmar alteração do marca?");
+                    alertAlterar.setHeaderText("Confirmar alteração da marca?");
                     Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
                 }
             }
@@ -259,20 +259,12 @@ public class CadastroController {
             veiculo.setQuilometragem(quilometragem.getText());
 
             try {
-                Alert alertaObrig = new Alert(Alert.AlertType.ERROR);
-                alertaObrig.setTitle("Campo obrigatório");
-                Alert alertaInval = new Alert(Alert.AlertType.ERROR);
-                alertaInval.setTitle("Erro");
-
                 if (chassi.getText().isEmpty()) {
-                    alertaObrig.setHeaderText("É obrigatório informar o chassi!");
-                    alertaObrig.show(); // precisa para mostrar a tela do alerta
+                    alertaDeErroOuInvalido("Campo obrigatório", "É obrigatório informar o chassi!");
                 }  else if (placa.getText().isEmpty()) {
-                    alertaObrig.setHeaderText("É obrigatório informar a placa!");
-                    alertaObrig.show(); // precisa para mostrar a tela do alerta
+                    alertaDeErroOuInvalido("Campo obrigatório","É obrigatório informar a placa!");
                 } else if (!veiculo.getQuilometragem().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
-                    alertaInval.setHeaderText("Quilometragem inválida, somente números.");
-                    alertaInval.show();
+                    alertaDeErroOuInvalido("Erro", "Quilometragem inválida, somente números.");
                 } else if (index < 0) {
                     if (VeiculoService.buscarVeiculoPorChassi(veiculo.getChassi())) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -300,7 +292,6 @@ public class CadastroController {
             this.limparCampos();
         }
     }
-
     public void executarExcluirNoVeiculo() {
         Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertExclusao.setTitle("Confirmação de Exclusão");
@@ -356,35 +347,32 @@ public void executarSalvarNoModelo() {
             alertInvalido.setTitle("Erro");
 
             if (!modelo.getCodigoVeiculo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
-                alertInvalido.setHeaderText("Código do veículo inválido, somente números");
-                alertInvalido.show();
+                alertaDeErroOuInvalido("Erro", "Código do veículo inválido, somente números");
             } else if (nomeModelo.getText().isEmpty()) {
-                alertObri.setHeaderText("É obrigatório informar o nome do modelo!");
-                alertObri.show();
+                alertaDeErroOuInvalido
+                        ("Campo obrigatório", "É obrigatório informar o nome do modelo!");
             } else if (motor.getText().isEmpty()) {
-                alertObri.setHeaderText("É obrigatório informar o motor!");
-                alertObri.show();
+                alertaDeErroOuInvalido("Campo obrigatório", "É obrigatório informar o motor!");
             } else if (potencia.getText().isEmpty()) {
-                alertObri.setHeaderText("É obrigatório informar a potência");
-                alertObri.show();
+                alertaDeErroOuInvalido("Campo obrigatório", "É obrigatório informar a potência");
             } else if (anoLancamento.getText().isEmpty()) {
-                alertObri.setHeaderText("É obrigatório informar o ano do lançamento!");
-                alertObri.show();
+                alertaDeErroOuInvalido
+                        ("Campo obrigatório", "É obrigatório informar o ano do lançamento!");
             } else if (tipoCombustivel.getText().isEmpty()) {
-                alertObri.setHeaderText("É obrigatório informar o tipo do combustivel!");
-                alertObri.show();
+                alertaDeErroOuInvalido
+                        ("Campo obrigatório", "É obrigatório informar o tipo do combustivel!");
             } else if (numeroPortas.getText().isEmpty()) {
-                alertObri.setHeaderText("É obrigatório informar o número de portas!");
-                alertObri.show();
+                alertaDeErroOuInvalido
+                        ("Campo obrigatório", "É obrigatório informar o número de portas!");
             } else if (!modelo.getNumeroPortas().matches("[0-9]*")) {
-                alertInvalido.setHeaderText("Número de portas inválido, somente números");
-                alertInvalido.show();
+                alertaDeErroOuInvalido("Erro", "Número de portas inválido, somente números");
             } else {
                 // Verificar se o ID do veículo existe
                 int idVeiculo = Integer.parseInt(modelo.getCodigoVeiculo());
                 if (!VeiculoService.verificarExistenciaVeiculoPorId(idVeiculo)) {
-                    alertInvalido.setHeaderText("ID do veículo inválido");
-                    alertInvalido.setContentText("O ID do veículo fornecido não existe. Verifique o ID do veículo e tente novamente.");
+                    alertInvalido.setHeaderText("Código do veículo inválido");
+                    alertInvalido.setContentText
+                         ("O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
                     alertInvalido.show();
                     return;
                 }
@@ -463,44 +451,35 @@ public void executarSalvarNoModelo() {
                 marca.setEmail(email.getText());
                 marca.setSite(site.getText());
 
-                Alert alertObri = new Alert(Alert.AlertType.ERROR);
-                alertObri.setTitle("Campo obrigatório");
-                Alert alertInvalido = new Alert(Alert.AlertType.ERROR);
-                alertInvalido.setTitle("Erro");
-
-                if (cnpj.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o CNPJ!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
+                if (codigoModeloNaMarca.getText().isEmpty()) {
+                    alertaDeErroOuInvalido
+                            ("Campo Obrigatório", "É obrigatório informar o código do modelo!");
+                } else if (cnpj.getText().isEmpty()) {
+                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o CNPJ!");
+                } else if (!marca.getCnpj().matches("[0-9]*")) { // expressão regular: [0-9]*,
+                    alertaDeErroOuInvalido("Erro", "CNPJ inválido, somente números");
+                } else if (!marca.getCnpj().matches("\\d{14}")) { // expressão regular: [0-9]*,
+                        alertaDeErroOuInvalido("Erro", "CNPJ inválido, tamanho incorreto");
                 } else if (razaoSocial.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar a Razão Social!");
-                    alertObri.show();
+                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar a Razão Social!");
                 } else if (!marca.getCep().matches("[0-9]*")) { // expressão regular: [0-9]*,
-                    alertInvalido.setHeaderText("CEP inválido, somente números");
-                    alertInvalido.show();
+                    alertaDeErroOuInvalido("Erro", "CEP inválido, somente números");
                 } else if (cep.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o CEP!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
+                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o CEP!");
                 } else if (ruaNumero.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar a rua!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
+                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar a rua!");
                 } else if (bairro.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o bairro!");
-                    alertObri.show(); // precisa para mostrar a tela do alerta
+                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o bairro!");
                 } else if (cidade.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar a cidade!");
-                    alertObri.show();
+                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar a cidade!");
                 } else if (uf.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar a sigla do estado!");
-                    alertObri.show();
+                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar a sigla do estado!");
                 } else if (pais.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o país!");
-                    alertObri.show();
+                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o país!");
                 } else if (telefone.getText().isEmpty()) {
-                    alertObri.setHeaderText("É obrigatório informar o telefone!");
-                    alertObri.show();
+                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o telefone!");
                 } else if(!marca.getTelefone().matches("[0-9]*")) {
-                    alertInvalido.setHeaderText("Telefone inválido, somente números");
-                    alertInvalido.show();
+                    alertaDeErroOuInvalido("Erro", "Telefone inválido, somente números");
                 } else if (index > -1) {
                     MarcaService.atualizarMarca(index, marca);
                     index = -1; // precisa resetar o index, para poder incluir um registro novo
@@ -554,4 +533,10 @@ public void executarSalvarNoModelo() {
 
     }
 
+    private void alertaDeErroOuInvalido(String titulo, String textoDoAlerta) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(textoDoAlerta);
+        alerta.show();
+    }
 }
