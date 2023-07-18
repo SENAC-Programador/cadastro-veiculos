@@ -112,4 +112,17 @@ public class MarcaService {
         return false;
     }
 
+    public static boolean buscarMarcaPorCnpj(String cnpj) {
+        try {
+            Connection conexaoBusca = conexao.getConexao();
+            String selectSql = "SELECT id FROM veiculos WHERE placa = '" + cnpj + "'"; // precisa colocar entre aspas simples
+            Statement buscaPlacaStatement = conexaoBusca.createStatement();
+            ResultSet buscaPlacaResultado = buscaPlacaStatement.executeQuery(selectSql);
+            return buscaPlacaResultado.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
