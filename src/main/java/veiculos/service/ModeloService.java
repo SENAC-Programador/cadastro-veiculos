@@ -7,10 +7,10 @@ import java.util.List;
 
 public class ModeloService {
 
-     private static ConexaoDatabase conexao = new ConexaoDatabase();
+    private static ConexaoDatabase conexao = new ConexaoDatabase();
 
-// MODELO: id, id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
-     public static List<Modelo> carregarModelos() {
+    // MODELO: id, id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
+    public static List<Modelo> carregarModelos() {
         List<Modelo> out = new ArrayList<>();
         try {
             Connection conexaoSelect = conexao.getConexao();
@@ -64,17 +64,13 @@ public class ModeloService {
         try {
             Connection conexaoUpdate = conexao.getConexao();
             String updateSql = "UPDATE modelos " +
-                    "SET id_veiculo = ?, nomeModelo = ?, motor = ?, potencia = ?, anoLancamento = ?, " +
-                    "tipoCombustivel = ?, numeroPortas = ? WHERE id = ?";
+                    "SET nomeModelo = ?, motor = ?, potencia = ?, tipoCombustivel = ? WHERE id = ?";
             PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
-            prepareStatementUpdate.setInt(1, Integer.parseInt(modelo.getCodigoVeiculo()));
-            prepareStatementUpdate.setString(2, modelo.getNomeModelo());
+            prepareStatementUpdate.setString(1, modelo.getNomeModelo());
+            prepareStatementUpdate.setString(2, modelo.getMotor());
             prepareStatementUpdate.setString(3, modelo.getPotencia());
-            prepareStatementUpdate.setString(4, modelo.getMotor());
-            prepareStatementUpdate.setString(5, modelo.getAnoLancamento());
-            prepareStatementUpdate.setString(6, modelo.getTipoCombustivel());
-            prepareStatementUpdate.setString(7, modelo.getNumeroPortas());
-            prepareStatementUpdate.setInt(8, codigoVeiculo); // Não funciona dessa forma modelo.getIdMarca();
+            prepareStatementUpdate.setString(4, modelo.getTipoCombustivel());
+            prepareStatementUpdate.setInt(5, codigoVeiculo); // Não funciona dessa forma modelo.getIdMarca();
             return prepareStatementUpdate.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,14 +98,6 @@ public class ModeloService {
     public static boolean verificarExistenciaCodigoModelo(String codigoModelo) {
         List<Modelo> modelos = ModeloService.carregarModelos(); // Obtenha a lista de modelos de veículos
 
-            for (Modelo modelo : modelos) {
-                if (modelo.getCodigoVeiculo().equals(codigoModelo)) {
-                    return true; // O código do modelo existe na lista
-                }
-            }
-
-            return false; // O código do modelo não foi encontrado na lista
-        }
 
     public static boolean verificarExistenciaModeloPorId(int idModelo) {
         List<Modelo> modelos = ModeloService.carregarModelos(); // Obtenha a lista de modelos de veículos
@@ -122,6 +110,4 @@ public class ModeloService {
 
         return false; // O código do modelo não foi encontrado na lista
     }
-    }
-
 

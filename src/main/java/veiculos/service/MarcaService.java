@@ -5,8 +5,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 public class MarcaService {
- private static ConexaoDatabase conexao = new ConexaoDatabase();
-//MARCA: id, id_modelo, cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
+    private static ConexaoDatabase conexao = new ConexaoDatabase();
+    //MARCA: id, id_modelo, cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
     public static List<Marca> carregarMarcas() {
         List<Marca> out = new ArrayList<>();
         try {
@@ -37,7 +37,7 @@ public class MarcaService {
         return out;
     }
 
-// Inserir/Adicionar (INSERT)
+    // Inserir/Adicionar (INSERT)
 //MARCA: id, id_modelo, cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
     public static void inserirMarca(Marca marca) {
         try {
@@ -66,28 +66,26 @@ public class MarcaService {
         }
     }
 
-// Atualizar (UPDATE)
+    // Atualizar (UPDATE)
 //MARCA: id, id_modelo, cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
     public static boolean atualizarMarca(int codigoModelo, Marca marca) {
         try {
             Connection conn = conexao.getConexao();
             String updateSql = "UPDATE marcas " +
-                    "SET id_modelo = ?, cnpj = ?, razaoSocial = ?, cep = ?, ruaNumero = ?, bairro = ?, " +
+                    "SET razaoSocial = ?, cep = ?, ruaNumero = ?, bairro = ?, " +
                     "cidade = ?, uf = ?, pais = ?, telefone = ?, email = ?, site = ? WHERE id = ?";
             PreparedStatement prepareStatementUpdate = conn.prepareStatement(updateSql);
-            prepareStatementUpdate.setInt(1, Integer.parseInt(marca.getCodigoModeloNaMarca()));
-            prepareStatementUpdate.setString(2, marca.getCnpj());
-            prepareStatementUpdate.setString(3, marca.getRazaoSocial());
-            prepareStatementUpdate.setString(4, marca.getCep());
-            prepareStatementUpdate.setString(5, marca.getRuaNumero());
-            prepareStatementUpdate.setString(6, marca.getBairro());
-            prepareStatementUpdate.setString(7, marca.getCidade());
-            prepareStatementUpdate.setString(8, marca.getUf());
-            prepareStatementUpdate.setString(9, marca.getPais());
-            prepareStatementUpdate.setString(10, marca.getTelefone());
-            prepareStatementUpdate.setString(11, marca.getEmail());
-            prepareStatementUpdate.setString(12, marca.getSite());
-            prepareStatementUpdate.setInt(13, codigoModelo); // Não funciona dessa forma marca.getId();
+            prepareStatementUpdate.setString(1, marca.getRazaoSocial());
+            prepareStatementUpdate.setString(2, marca.getCep());
+            prepareStatementUpdate.setString(3, marca.getRuaNumero());
+            prepareStatementUpdate.setString(4, marca.getBairro());
+            prepareStatementUpdate.setString(5, marca.getCidade());
+            prepareStatementUpdate.setString(6, marca.getUf());
+            prepareStatementUpdate.setString(7, marca.getPais());
+            prepareStatementUpdate.setString(8, marca.getTelefone());
+            prepareStatementUpdate.setString(9, marca.getEmail());
+            prepareStatementUpdate.setString(10, marca.getSite());
+            prepareStatementUpdate.setInt(11, codigoModelo); // Não funciona dessa forma marca.getId();
 
             return prepareStatementUpdate.execute();
         } catch (Exception e) {

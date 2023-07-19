@@ -56,13 +56,11 @@ public class VeiculoService {
         try {
             Connection conexaoUpdate = conexao.getConexao();
             String updateSql = "UPDATE veiculos " +
-                    "SET chassi = ?, placa = ?, corVeiculo = ?, quilometragem = ? WHERE id = ?";
+                    "SET corVeiculo = ?, quilometragem = ? WHERE id = ?";
             PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
-            prepareStatementUpdate.setString(1, veiculo.getChassi());
-            prepareStatementUpdate.setString(2, veiculo.getPlaca());
-            prepareStatementUpdate.setString(3, veiculo.getCorVeiculo());
-            prepareStatementUpdate.setString(4, veiculo.getQuilometragem());
-            prepareStatementUpdate.setInt(5, idVeiculo);
+            prepareStatementUpdate.setString(1, veiculo.getCorVeiculo());
+            prepareStatementUpdate.setString(2, veiculo.getQuilometragem());
+            prepareStatementUpdate.setInt(3, idVeiculo);
 
             return prepareStatementUpdate.execute();
         } catch (Exception e) {
@@ -116,15 +114,14 @@ public class VeiculoService {
     }
 
     public static boolean verificarExistenciaVeiculoPorId(int idVeiculo) {
-             List<Veiculo> listaVeiculos = VeiculoService.carregarVeiculo(); // Obtenha a lista de veículos existentes
+        List<Veiculo> listaVeiculos = VeiculoService.carregarVeiculo(); // Obtenha a lista de veículos existentes
 
-            for (Veiculo veiculo : listaVeiculos) {
-                if (veiculo.getIdVeiculo() == idVeiculo) {
-                    return true; // O veículo com o ID especificado existe
-                }
+        for (Veiculo veiculo : listaVeiculos) {
+            if (veiculo.getIdVeiculo() == idVeiculo) {
+                return true; // O veículo com o ID especificado existe
             }
-
-            return false; // O veículo com o ID especificado não existe
         }
-    }
 
+        return false; // O veículo com o ID especificado não existe
+    }
+}
