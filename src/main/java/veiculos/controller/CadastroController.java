@@ -253,8 +253,8 @@ public class CadastroController {
             }
         });
     }
-    // Método para fazer funcionar o botão "Salvar" do JavaFX
-// VEÍCULO:
+
+// VEÍCULO: ------------------------------------
     public void executarSalvarNoVeiculo() {
         Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertInclusao.setTitle("Confirmação de inclusão");
@@ -288,6 +288,7 @@ public class CadastroController {
                     alertaDeErroOuInvalido
                             ("Erro", "Quilometragem inválida, somente números.",
                                     "Precisa ter no máximo 10 dígitos");
+
                 } else if (index < 0) {
                     if (VeiculoService.buscarVeiculoPorChassi(veiculo.getChassi())) {
                         alertaRegistroExistenete("Chassi", chassi.getText());
@@ -395,28 +396,21 @@ public class CadastroController {
                 } else if (!modelo.getNumeroPortas().matches("[0-9]{1,2}")) {
                     alertaDeErroOuInvalido
                             ("Erro", "Número de portas inválido, somente números", "");
-                } else {
+                } else if (index < 0) {
                     // Verificar se o ID do veículo existe
-                    int idVeiculo = Integer.parseInt(modelo.getCodigoVeiculo());
-                    if (!VeiculoService.verificarExistenciaVeiculoPorId(idVeiculo)) {
-                        alertaDeErroOuInvalido("Erro", "Código do veículo inválido",
-                                "O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
-                        return; // Precisa ter esse return???
-                    }
-
-                    if (index > -1) {
-                        ModeloService.atualizarModelo(index, modelo);
-                        index = -1; // precisa resetar o index para poder incluir um registro novo
-                        this.limparCamposModelo();
+                    if (ModeloService.verificarExistenciaModeloPorId(Integer.parseInt(modelo.getCodigoVeiculo()))) {
+                        alertaRegistroExistenete("Código do veículo", codigoVeiculo.getText());
                     } else {
                         ModeloService.inserirModelo(modelo);
                         this.limparCamposModelo();
                     }
-
-                    this.carregarlistaModelos();
-
+                } else {
+                    ModeloService.atualizarModelo(index, modelo);
+                    index = -1; // precisa resetar o index para poder incluir um registro novo
+                    this.limparCamposModelo();
                 }
-            }
+                    this.carregarlistaModelos();
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -494,8 +488,6 @@ public class CadastroController {
                     alertaDeErroOuInvalido
                             ("Erro", "CNPJ inválido, tamanho incorreto",
                                     "Exatamente 14 dígitos");
-                } else if (MarcaService.buscarMarcaPorCnpj(marca.getCnpj())) {
-                    alertaRegistroExistenete("CNPJ", cnpj.getText());
                 } else if (razaoSocial.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo Obrigatório", "É obrigatório informar a Razão Social!",
@@ -537,26 +529,24 @@ public class CadastroController {
                                     "");
                 } else if(!marca.getTelefone().matches("[0-9]{0,14}")) {
                     alertaDeErroOuInvalido("Erro", "Telefone inválido, somente números",
-                            "Verifique se o telefone digitado está correto, digitar apenas números e no máximo 14 dígitos.");
-
-                } else {
+                        "Verifique se o telefone digitado está correto, digitar apenas números e no máximo 14 dígitos.");
+                } else if (index < 0) {
                     // verificar se o ID de modelo existe
-                    int idModelo = Integer.parseInt(marca.getCodigoModeloNaMarca());
-                    if (!ModeloService.verificarExistenciaModeloPorId(idModelo)) {
-                        alertaDeErroOuInvalido("Erro", "Código do modelo inválido",
-                                "O código do modelo fornecido não existe. Verifique o " +
-                                        "código do veículo e tente novamente.");
+                    if (MarcaService.verificarExistenciaModeloPorMarca(marca.getCodigoModeloNaMarca())) {
+                        alertaRegistroExistenete("Código do modelo", codigoModeloNaMarca.getText());
+                    }else if (MarcaService.buscarMarcaPorCnpj(marca.getCnpj())) {
+                        alertaRegistroExistenete("CNPJ", cnpj.getText());
+                    } else {
+                        MarcaService.inserirMarca(marca);
+                        this.limparCamposMarca();
                     }
-
-                    if (index > -1) {
-                        MarcaService.atualizarMarca(index, marca);
-                        index = -1; // precisa resetar o index para poder incluir um registro novo
-
-                    }
+                } else {
+                    MarcaService.atualizarMarca(index, marca);
+                    index = -1; // precisa resetar o index para poder incluir um registro novo
+                    this.limparCamposMarca();
                 }
             }
             this.carregarlistaMarcas();
-
 
         } catch (Exception e) {
             e.printStackTrace();

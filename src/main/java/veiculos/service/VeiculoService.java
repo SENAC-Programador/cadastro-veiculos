@@ -4,11 +4,10 @@ import veiculos.model.Veiculo;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 public class VeiculoService {
     private static ConexaoDatabase conexao = new ConexaoDatabase();
 
-    // VEÍCULO: id, chassi, placa, corVeiculo, quilometragem
+// Consultar (SELECT)
     public static List<Veiculo> carregarVeiculo() {
         List<Veiculo> out = new ArrayList<>();
         try {
@@ -31,7 +30,7 @@ public class VeiculoService {
         return out;
     }
 
-    // Inserir (INSERT) -> VEÍCULO: chassi, placa, corVeiculo, quilometragem
+// Inserir (INSERT)
     public static void inserirVeiculo(Veiculo veiculo) {
         try {
             Connection conexaoInsert = conexao.getConexao();
@@ -51,7 +50,7 @@ public class VeiculoService {
         }
     }
 
-    // Atualizar (UPDATE) - VEÍCULO: chassi, placa, corVeiculo, quilometragem
+// Atualizar (UPDATE)
     public static boolean atualizarVeiculo(int idVeiculo, Veiculo veiculo) {
         try {
             Connection conexaoUpdate = conexao.getConexao();
@@ -69,7 +68,7 @@ public class VeiculoService {
         return false;
     }
 
-    // Excluir (DELETE) - VEÍCULO: chassi, placa, corVeiculo, quilometragem
+// Excluir (DELETE)
     public static boolean deletarVeiculo(int idVeiculo) {
         try {
             Connection conexaoDelete = conexao.getConexao();
@@ -86,7 +85,7 @@ public class VeiculoService {
         return false;
     }
 
-    // Validar o chassi unico,
+// Validar o chassi unico,
     public static boolean buscarVeiculoPorChassi(String chassi) {
         try {
             Connection conexaoBusca = conexao.getConexao();
@@ -115,13 +114,11 @@ public class VeiculoService {
 
     public static boolean verificarExistenciaVeiculoPorId(int idVeiculo) {
         List<Veiculo> listaVeiculos = VeiculoService.carregarVeiculo(); // Obtenha a lista de veículos existentes
-
         for (Veiculo veiculo : listaVeiculos) {
             if (veiculo.getIdVeiculo() == idVeiculo) {
                 return true; // O veículo com o ID especificado existe
             }
         }
-
         return false; // O veículo com o ID especificado não existe
     }
 }
