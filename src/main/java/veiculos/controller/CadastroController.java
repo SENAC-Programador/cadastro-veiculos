@@ -170,7 +170,9 @@ public class CadastroController {
                 if (evt.getClickCount() == 2) { // qtde de cliques, dois cliques no evento
                     Veiculo veiculo = tabelaVeiculo.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
                     chassi.setText(veiculo.getChassi());
+                    chassi.setDisable(true); // desabilitar o campo Chassi na alteração
                     placa.setText(veiculo.getPlaca());
+                    placa.setDisable(true); // desabilitar o campo Placa na alteração
                     corVeiculo.setText(veiculo.getCorVeiculo());
                     quilometragem.setText(veiculo.getQuilometragem());
 
@@ -181,6 +183,9 @@ public class CadastroController {
                     alertAlterar.setTitle("Confirmação de alterar");
                     alertAlterar.setHeaderText("Confirmar alteração do veículo?");
                     Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
+                    if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
+                        limparCamposDoVeiculo();
+                    }
                 }
             }
         });
@@ -210,6 +215,9 @@ public class CadastroController {
                     alertAlterar.setTitle("Confirmação de alterar");
                     alertAlterar.setHeaderText("Confirmar alteração do modelo?");
                     Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
+                    if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
+                        limparCamposModelo();
+                    }
                 }
             }
         });
@@ -243,6 +251,9 @@ public class CadastroController {
                     alertAlterar.setTitle("Confirmação de alterar");
                     alertAlterar.setHeaderText("Confirmar alteração da marca?");
                     Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
+                    if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
+                        limparCamposMarca();
+                    }
                 }
             }
         });
@@ -265,44 +276,51 @@ public class CadastroController {
 
             try {
                 if (chassi.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo obrigatório", "É obrigatório informar o chassi!");
+                    alertaDeErroOuInvalido
+                        ("Campo obrigatório", "É obrigatório informar o chassi!", "");
                 } else if (placa.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo obrigatório", "É obrigatório informar a placa!");
+                    alertaDeErroOuInvalido
+                        ("Campo obrigatório", "É obrigatório informar a placa!", "");
                 } else if (!veiculo.getPlaca().matches("[a-zA-Z0-9]{7}")) { // Aceita letras e números com 7 dígitos
-                    alertaDeErroOuInvalido("Erro","Placa inválida.");
+                    alertaDeErroOuInvalido("Erro","Placa inválida.",
+                            "Confira se colocou letars e números, precisa ter exatamente 7 dígitos");
                 } else if (corVeiculo.getText().isEmpty()) { // [a-zA-Z0-9]{0,7}
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar a cor do veículo!");
+                       ("Campo obrigatório", "É obrigatório informar a cor do veículo!", "");
                 } else if (quilometragem.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório","É obrigatório informar a quilometragem!");
+                       ("Campo obrigatório","É obrigatório informar a quilometragem!", "");
                 } else if (!veiculo.getQuilometragem().matches("[0-9]{0,10}")) { // expressão regular
-                    alertaDeErroOuInvalido("Erro", "Quilometragem inválida, somente números.");
+                    alertaDeErroOuInvalido
+                         ("Erro", "Quilometragem inválida, somente números.",
+                                 "Precisa ter no maximo 10 dígitos");
                 } else if (index < 0) {
                     if (VeiculoService.buscarVeiculoPorChassi(veiculo.getChassi())) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Alerta");
-                        alert.setHeaderText("Chassi " + chassi.getText() + " já existe na base.");
+                        alert.setHeaderText("Chassi " + chassi.getText() + " já existe.");
                         alert.show(); // precisa para mostrar a tela do alerta
                     } else if (VeiculoService.buscarVeiculoPorPlaca(veiculo.getPlaca())) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Alerta");
-                        alert.setHeaderText("Placa " + placa.getText() + " já existe na base.");
+                        alert.setHeaderText("Placa " + placa.getText() + " já existe.");
                         alert.show(); // precisa para mostrar a tela do alerta
 
                     } else {
                         VeiculoService.inserirVeiculo(veiculo); // INSERT
+                        this.limparCamposDoVeiculo();
                     }
 
                 } else {
                     VeiculoService.atualizarVeiculo(index, veiculo); // UPDATE
                     index = -1;
+                    this.limparCamposDoVeiculo();
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
-            this.carregarlistaVeiculos();
 
+            this.carregarlistaVeiculos();
         }
     }
     public void executarExcluirNoVeiculo() {
@@ -310,7 +328,10 @@ public class CadastroController {
         alertExclusao.setTitle("Confirmação de Exclusão");
         alertExclusao.setHeaderText("Confirmar exclusão do veículo?");
         Optional<ButtonType> retornoAlerta = alertExclusao.showAndWait();
-        if (index > -1) {
+
+        if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
+            limparCamposDoVeiculo();
+        } else if (index > -1) {
             VeiculoService.deletarVeiculo(index);
             this.carregarlistaVeiculos();
             index = -1;
@@ -361,47 +382,53 @@ public class CadastroController {
                 alertInvalido.setTitle("Erro");
 
                 if (!modelo.getCodigoVeiculo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
-                    alertaDeErroOuInvalido("Erro", "Código do veículo inválido, somente números");
+                    alertaDeErroOuInvalido
+                        ("Erro", "Código do veículo inválido, somente números","");
                 } else if (nomeModelo.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar o nome do modelo!");
+                        ("Campo obrigatório", "É obrigatório informar o nome do modelo!", "");
                 } else if (motor.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo obrigatório", "É obrigatório informar o motor!");
+                    alertaDeErroOuInvalido
+                            ("Campo obrigatório", "É obrigatório informar o motor!", "");
                 } else if (potencia.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo obrigatório", "É obrigatório informar a potência");
+                    alertaDeErroOuInvalido
+                        ("Campo obrigatório", "É obrigatório informar a potência", "");
                 } else if (anoLancamento.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar o ano do lançamento!");
+                       ("Campo obrigatório", "É obrigatório informar o ano do lançamento!",
+                               "");
                 } else if (!modelo.getAnoLancamento().matches("\\d{4}")) {
-                    alertaDeErroOuInvalido("Erro", "Ano de Lançamento inválido");
+                    alertaDeErroOuInvalido("Erro", "Ano de Lançamento inválido",
+                            "Confira se colocou apenas números ou somente o ano (4 dígitos)");
                 } else if (tipoCombustivel.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar o tipo do combustivel!");
+                            ("Campo obrigatório", "É obrigatório informar o tipo do combustivel!", "");
                 } else if (numeroPortas.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar o número de portas!");
+                            ("Campo obrigatório", "É obrigatório informar o número de portas!", "");
                 } else if (!modelo.getNumeroPortas().matches("[0-9]{1,2}")) {
-                    alertaDeErroOuInvalido("Erro", "Número de portas inválido, somente números");
+                    alertaDeErroOuInvalido
+                         ("Erro", "Número de portas inválido, somente números", "");
                 } else {
                     // Verificar se o ID do veículo existe
                     int idVeiculo = Integer.parseInt(modelo.getCodigoVeiculo());
                     if (!VeiculoService.verificarExistenciaVeiculoPorId(idVeiculo)) {
-                        alertInvalido.setHeaderText("Código do veículo inválido");
-                        alertInvalido.setContentText
-                                ("O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
-                        alertInvalido.show();
-                        return;
+                        alertaDeErroOuInvalido("Erro", "Código do veículo inválido",
+                           "O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
+                        return; // Precisa ter esse return???
                     }
 
                     if (index > -1) {
                         ModeloService.atualizarModelo(index, modelo);
                         index = -1; // precisa resetar o index para poder incluir um registro novo
+                        this.limparCamposModelo();
                     } else {
                         ModeloService.inserirModelo(modelo);
+                        this.limparCamposModelo();
                     }
 
                     this.carregarlistaModelos();
-                    this.limparCamposModelo();
+
                 }
             }
         } catch (Exception e) {
@@ -414,7 +441,9 @@ public class CadastroController {
         alertExclusao.setHeaderText("Confirmar exclusão do modelo?");
         Optional<ButtonType> retornoAlerta = alertExclusao.showAndWait();
 
-        if (index > -1) {
+        if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
+            limparCamposModelo();
+        } else if (index > -1) {
             ModeloService.deletarModelo(index);
             this.carregarlistaModelos();
             index = -1;
@@ -468,64 +497,77 @@ public class CadastroController {
 
                 if (codigoModeloNaMarca.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo Obrigatório", "É obrigatório informar o código do modelo!");
+                        ("Campo Obrigatório", "É obrigatório informar o código do modelo!",
+                                "");
                 } else if (cnpj.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o CNPJ!");
+                    alertaDeErroOuInvalido
+                        ("Campo Obrigatório", "É obrigatório informar o CNPJ!", "");
                 } else if (!marca.getCnpj().matches("[0-9]*")) { // expressão regular: [0-9]*,
                     alertaDeErroOuInvalido
-                            ("Erro", "CNPJ inválido, somente números");
+                            ("Erro", "CNPJ inválido, somente números", "");
                 } else if (!marca.getCnpj().matches("\\d{14}")) { // expressão regular: [0-9]*,
-                    alertaDeErroOuInvalido("Erro", "CNPJ inválido, tamanho incorreto");
+                    alertaDeErroOuInvalido
+                       ("Erro", "CNPJ inválido, tamanho incorreto", "Exatamente 14 dígitos");
                 } else if (MarcaService.buscarMarcaPorCnpj(marca.getCnpj())) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Alerta");
-                    alert.setHeaderText("CNPJ " + cnpj.getText() + " já existe na base.");
+                    alert.setHeaderText("CNPJ " + cnpj.getText() + " já existe.");
                     alert.show();
                 } else if (razaoSocial.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar a Razão Social!");
-                } else if (!marca.getCep().matches("\\d{8}")) { // expressão regular: \d{8}
-                    alertaDeErroOuInvalido("Erro", "CEP inválido, somente números");
+                    alertaDeErroOuInvalido
+                        ("Campo Obrigatório", "É obrigatório informar a Razão Social!", "");
+                } else if (!marca.getCep().matches("\\d{8}")) { // expressão regular: \d{8} - Exatamente 8 dígitos
+                    alertaDeErroOuInvalido
+                        ("Erro", "CEP inválido, somente números", "Exatamente 8 dígitos");
                 } else if (cep.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o CEP!");
+                    alertaDeErroOuInvalido
+                       ("Campo Obrigatório", "É obrigatório informar o CEP!", "");
                 } else if (ruaNumero.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar a rua!");
+                    alertaDeErroOuInvalido
+                          ("Campo Obrigatório", "É obrigatório informar a rua!", "");
                 } else if (bairro.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o bairro!");
+                    alertaDeErroOuInvalido
+                        ("Campo Obrigatório", "É obrigatório informar o bairro!", "");
                 } else if (cidade.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar a cidade!");
+                    alertaDeErroOuInvalido
+                       ("Campo Obrigatório", "É obrigatório informar a cidade!", "");
                 } else if (uf.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar a sigla do estado!");
+                    alertaDeErroOuInvalido
+                       ("Campo Obrigatório", "É obrigatório informar a sigla do estado!", "");
                 } else if (!marca.getUf().matches("[a-zA-Z]{2}")) { // [a-zA-Z]{2} - Exatamente 2 dígitos e somente letras
-                    alertaDeErroOuInvalido("Erro", "UF inválido");
+                    alertaDeErroOuInvalido
+                            ("Erro", "UF inválido", "Confira o tamanho");
                 } else if (pais.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o país!");
+                    alertaDeErroOuInvalido
+                            ("Campo Obrigatório", "É obrigatório informar o país!", "");
                 } else if (telefone.getText().isEmpty()) {
-                    alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o telefone!");
+                    alertaDeErroOuInvalido
+                            ("Campo Obrigatório", "É obrigatório informar o telefone!", "");
                 } else if(!marca.getTelefone().matches("[0-9]{0,14}")) {
-                    alertaDeErroOuInvalido("Erro", "Telefone inválido, somente números");
+                    alertaDeErroOuInvalido
+                            ("Erro", "Telefone inválido, somente números", "");
                 } else {
                     // verificar se o ID de modelo existe
                     int idModelo = Integer.parseInt(marca.getCodigoModeloNaMarca());
                     if (!ModeloService.verificarExistenciaModeloPorId(idModelo)) {
-                        Alert alertInvalido = new Alert(Alert.AlertType.ERROR);
-                        alertInvalido.setTitle("Erro");
-                        alertInvalido.setHeaderText("ID do modelo inválido");
-                        alertInvalido.setContentText
-                                ("O ID do modelo fornecido não existe. Verifique o ID do modelo e tente novamente.");
-                        alertInvalido.show();
-                        return;
+                        alertaDeErroOuInvalido
+                          ("Erro", "Código do modelo inválido",
+                             "O código do modelo fornecido não existe. Verifique o ID do modelo e tente novamente.");
+                        return; // Precisa desse "return????"
                     }
 
                     if (index > -1) {
                         MarcaService.atualizarMarca(index, marca);
                         index = -1; // precisa resetar o index para poder incluir um registro novo
+                        this.limparCamposMarca();
                     } else {
                         MarcaService.inserirMarca(marca);
+                        this.limparCamposMarca();
                     }
                 }
             }
             this.carregarlistaMarcas();
-            this.limparCamposMarca();
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -536,7 +578,10 @@ public class CadastroController {
         alertExclusao.setTitle("Confirmação de Exclusão");
         alertExclusao.setHeaderText("Confirmar exclusão da marca?");
         Optional<ButtonType> retornoAlerta = alertExclusao.showAndWait();
-        if (index > -1) {
+
+        if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
+            limparCamposMarca();
+        } else if (index > -1) {
             MarcaService.deletarMarca(index);
             this.carregarlistaMarcas();
             index = -1;
@@ -570,10 +615,11 @@ public class CadastroController {
 
     }
 
-    private void alertaDeErroOuInvalido(String titulo, String textoDoAlerta) {
+    private void alertaDeErroOuInvalido(String titulo, String textoDoAlerta, String textoExplicacaoDoPossivelMotivo) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle(titulo);
         alerta.setHeaderText(textoDoAlerta);
+        alerta.setContentText(textoExplicacaoDoPossivelMotivo); // Ex: "O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
         alerta.show();
     }
 }

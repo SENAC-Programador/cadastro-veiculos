@@ -56,13 +56,11 @@ public class VeiculoService {
         try {
             Connection conexaoUpdate = conexao.getConexao();
             String updateSql = "UPDATE veiculos " +
-                    "SET chassi = ?, placa = ?, corVeiculo = ?, quilometragem = ? WHERE id = ?";
+                    "SET corVeiculo = ?, quilometragem = ? WHERE id = ?";
             PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
-            prepareStatementUpdate.setString(1, veiculo.getChassi());
-            prepareStatementUpdate.setString(2, veiculo.getPlaca());
-            prepareStatementUpdate.setString(3, veiculo.getCorVeiculo());
-            prepareStatementUpdate.setString(4, veiculo.getQuilometragem());
-            prepareStatementUpdate.setInt(5, idVeiculo);
+            prepareStatementUpdate.setString(1, veiculo.getCorVeiculo());
+            prepareStatementUpdate.setString(2, veiculo.getQuilometragem());
+            prepareStatementUpdate.setInt(3, idVeiculo);
 
             return prepareStatementUpdate.execute();
         } catch (Exception e) {
