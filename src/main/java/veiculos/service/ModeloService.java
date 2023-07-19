@@ -1,6 +1,8 @@
 package veiculos.service;
 import veiculos.db.ConexaoDatabase;
 import veiculos.model.Modelo;
+import veiculos.model.Veiculo;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,21 +95,16 @@ public class ModeloService {
 
         return false;
     }
-
-
-    public static boolean verificarExistenciaCodigoModelo(String codigoModelo) {
-        List<Modelo> modelos = ModeloService.carregarModelos(); // Obtenha a lista de modelos de veículos
-
-
     public static boolean verificarExistenciaModeloPorId(int idModelo) {
-        List<Modelo> modelos = ModeloService.carregarModelos(); // Obtenha a lista de modelos de veículos
+        List<Modelo> listaModelo = ModeloService.carregarModelos(); // Obtenha a lista de veículos existentes
 
-        for (Modelo modelo : modelos) {
+        for (Modelo modelo : listaModelo) {
             if (modelo.getIdModelo() == idModelo) {
-                return true; // O código do modelo existe na lista
+                return true; // O veículo com o ID especificado existe
             }
         }
 
-        return false; // O código do modelo não foi encontrado na lista
+        return false; // O veículo com o ID especificado não existe
     }
 
+}

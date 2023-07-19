@@ -19,25 +19,25 @@ import java.util.Optional;
 @FxmlView("/main.fxml") // para lincar com o arquivo "main.fxml"
 public class CadastroController {
     @FXML
-    private TextField chassi; // chassi/colunaChassi - VARCHAR(17) NOT NULL UNIQUE, -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
+    private TextField chassi;
     @FXML
-    private TextField placa; // placa/colunaPlaca - VARCHAR(7) NOT NULL UNIQUE, -> ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
+    private TextField placa;
     @FXML
-    private TextField corVeiculo; // corVeiculo/colunaCorVeiculo - VARCHAR(50) NOT NULL,
+    private TextField corVeiculo;
     @FXML
-    private TextField quilometragem; // quilometragem/colunaQuilometragem - VARCHAR(20) NOT NULL -> quilometragem at
+    private TextField quilometragem;
     @FXML
     private TableView<Veiculo> tabelaVeiculo;
     @FXML
     private TableColumn<Veiculo, Integer> colunaCodigoVeiculo;
     @FXML
-    private TableColumn<Veiculo, String> colunaChassi; // chassi/colunaChassi - VARCHAR(17) NOT NULL UNIQUE, -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
+    private TableColumn<Veiculo, String> colunaChassi;
     @FXML
-    private TableColumn<Veiculo, String> colunaPlaca; // placa/colunaPlaca - VARCHAR(7) NOT NULL UNIQUE, -> ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
+    private TableColumn<Veiculo, String> colunaPlaca;
     @FXML
-    private TableColumn<Veiculo, String> colunaCorVeiculo; // corVeiculo/colunaCorVeiculo - VARCHAR(50) NOT NULL,
+    private TableColumn<Veiculo, String> colunaCorVeiculo;
     @FXML
-    private TableColumn<Veiculo, String> colunaQuilometragem; // quilometragem/colunaQuilometragem - VARCHAR(20) NOT NULL -> quil
+    private TableColumn<Veiculo, String> colunaQuilometragem;
 
     // MODELO
     @FXML
@@ -126,16 +126,14 @@ public class CadastroController {
     // Método para dizer para o JavaFX ... pesquisar ...
     @FXML
     public void initialize() {
-
-// VEÍCULO: int idVeiculo, String chassi, String placa, String corVeiculo, String quilometragem
+// VEÍCULO:
         colunaCodigoVeiculo.setCellValueFactory(new PropertyValueFactory<>("idVeiculo")); // é o nome da variavel, não do banco de dados
         colunaChassi.setCellValueFactory(new PropertyValueFactory<>("chassi"));
         colunaPlaca.setCellValueFactory(new PropertyValueFactory<>("placa"));
         colunaCorVeiculo.setCellValueFactory(new PropertyValueFactory<>("corVeiculo"));
         colunaQuilometragem.setCellValueFactory(new PropertyValueFactory<>("quilometragem"));
 
-// MODELO: int idModelo, String nomeModelo, String motor, String potencia, String anoLancamento,
-//   String tipoCombustivel, String numeroPortas
+// MODELO:
         colunaCodigoModelo.setCellValueFactory(new PropertyValueFactory<>("idModelo"));
         colunaNomeModelo.setCellValueFactory(new PropertyValueFactory<>("nomeModelo"));
         colunaMotor.setCellValueFactory(new PropertyValueFactory<>("motor"));
@@ -144,8 +142,7 @@ public class CadastroController {
         colunaTipoCombustivel.setCellValueFactory(new PropertyValueFactory<>("tipoCombustivel"));
         colunaNumeroPortas.setCellValueFactory(new PropertyValueFactory<>("numeroPortas"));
 
-// MARCA: int idMarca, int codigoModelo, String cnpj, String razaoSocial, String cep, String ruaNumero,
-//  String bairro, String cidade, String uf, String pais, String telefone, String email, String site
+// MARCA:
         colunaCnpj.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
         colunaRazaoSocial.setCellValueFactory(new PropertyValueFactory<>("razaoSocial"));
         colunaCep.setCellValueFactory(new PropertyValueFactory<>("cep"));
@@ -163,7 +160,7 @@ public class CadastroController {
         this.carregarlistaMarcas();
         this.carregarlistaModelos();
 
-// // VEÍCULO: int idVeiculo, String chassi, String placa, String corVeiculo, String quilometragem
+// VEÍCULO:
         tabelaVeiculo.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent evt) {
@@ -190,8 +187,7 @@ public class CadastroController {
             }
         });
 
-// // MODELO: int idModelo, String codigoVeiculo, String nomeModelo, String motor, String potencia,
-////  String anoLancamento, String tipoCombustivel, String numeroPortas
+// MODELO:
         tabelaModelo.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent evt) {
@@ -222,8 +218,7 @@ public class CadastroController {
             }
         });
 
-// MARCA: int idMarca, int codigoModelo, String cnpj, String razaoSocial, String cep, String ruaNumero,
-//  String bairro, String cidade, String uf, String pais, String telefone, String email, String site
+// MARCA:
         tabelaMarca.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent evt) {
@@ -258,9 +253,8 @@ public class CadastroController {
             }
         });
     }
-
-    // // VEÍCULO: int idVeiculo, String chassi, String placa, String corVeiculo, String quilometragem
     // Método para fazer funcionar o botão "Salvar" do JavaFX
+// VEÍCULO:
     public void executarSalvarNoVeiculo() {
         Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertInclusao.setTitle("Confirmação de inclusão");
@@ -277,23 +271,23 @@ public class CadastroController {
             try {
                 if (chassi.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                        ("Campo obrigatório", "É obrigatório informar o chassi!", "");
+                            ("Campo obrigatório", "É obrigatório informar o chassi!", "");
                 } else if (placa.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                        ("Campo obrigatório", "É obrigatório informar a placa!", "");
+                            ("Campo obrigatório", "É obrigatório informar a placa!", "");
                 } else if (!veiculo.getPlaca().matches("[a-zA-Z0-9]{7}")) { // Aceita letras e números com 7 dígitos
                     alertaDeErroOuInvalido("Erro","Placa inválida.",
                             "Confira se colocou letars e números, precisa ter exatamente 7 dígitos");
                 } else if (corVeiculo.getText().isEmpty()) { // [a-zA-Z0-9]{0,7}
                     alertaDeErroOuInvalido
-                       ("Campo obrigatório", "É obrigatório informar a cor do veículo!", "");
+                            ("Campo obrigatório", "É obrigatório informar a cor do veículo!", "");
                 } else if (quilometragem.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                       ("Campo obrigatório","É obrigatório informar a quilometragem!", "");
+                            ("Campo obrigatório","É obrigatório informar a quilometragem!", "");
                 } else if (!veiculo.getQuilometragem().matches("[0-9]{0,10}")) { // expressão regular
                     alertaDeErroOuInvalido
-                         ("Erro", "Quilometragem inválida, somente números.",
-                                 "Precisa ter no maximo 10 dígitos");
+                            ("Erro", "Quilometragem inválida, somente números.",
+                                    "Precisa ter no máximo 10 dígitos");
                 } else if (index < 0) {
                     if (VeiculoService.buscarVeiculoPorChassi(veiculo.getChassi())) {
                         alertaRegistroExistenete("Chassi", chassi.getText());
@@ -349,9 +343,7 @@ public class CadastroController {
         placa.setDisable(false); // habilitar nome
     }
 
-    // MODELO: int idModelo, String codigoVeiculo, String nomeModelo, String motor, String potencia,
-//  String anoLancamento, String tipoCombustivel, String numeroPortas
-    // Método para fazer funcionar o botão "OK" do JavaFX
+    // MODELO: -------------------
     public void executarSalvarNoModelo() {
         Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertInclusao.setTitle("Confirmação de Inclusão");
@@ -377,20 +369,20 @@ public class CadastroController {
 
                 if (!modelo.getCodigoVeiculo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
                     alertaDeErroOuInvalido
-                        ("Erro", "Código do veículo inválido, somente números","");
+                            ("Erro", "Código do veículo inválido, somente números","");
                 } else if (nomeModelo.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                        ("Campo obrigatório", "É obrigatório informar o nome do modelo!", "");
+                            ("Campo obrigatório", "É obrigatório informar o nome do modelo!", "");
                 } else if (motor.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo obrigatório", "É obrigatório informar o motor!", "");
                 } else if (potencia.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                        ("Campo obrigatório", "É obrigatório informar a potência", "");
+                            ("Campo obrigatório", "É obrigatório informar a potência", "");
                 } else if (anoLancamento.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                       ("Campo obrigatório", "É obrigatório informar o ano do lançamento!",
-                               "");
+                            ("Campo obrigatório", "É obrigatório informar o ano do lançamento!",
+                                    "");
                 } else if (!modelo.getAnoLancamento().matches("\\d{4}")) {
                     alertaDeErroOuInvalido("Erro", "Ano de Lançamento inválido",
                             "Confira se colocou apenas números ou somente o ano (4 dígitos)");
@@ -402,13 +394,13 @@ public class CadastroController {
                             ("Campo obrigatório", "É obrigatório informar o número de portas!", "");
                 } else if (!modelo.getNumeroPortas().matches("[0-9]{1,2}")) {
                     alertaDeErroOuInvalido
-                         ("Erro", "Número de portas inválido, somente números", "");
+                            ("Erro", "Número de portas inválido, somente números", "");
                 } else {
                     // Verificar se o ID do veículo existe
                     int idVeiculo = Integer.parseInt(modelo.getCodigoVeiculo());
                     if (!VeiculoService.verificarExistenciaVeiculoPorId(idVeiculo)) {
                         alertaDeErroOuInvalido("Erro", "Código do veículo inválido",
-                           "O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
+                                "O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
                         return; // Precisa ter esse return???
                     }
 
@@ -450,7 +442,6 @@ public class CadastroController {
         List<Modelo> modeloList = ModeloService.carregarModelos();
         tabelaModelo.getItems().addAll(modeloList);
     }
-
     public void limparCamposModelo() {
         codigoVeiculo.setText("");
         nomeModelo.setText(""); // zera o campo
@@ -465,8 +456,7 @@ public class CadastroController {
 
     }
 
-    // MARCA: int idMarca, int codigoModelo, String cnpj, String razaoSocial, String cep, String ruaNumero,
-//  String bairro, String cidade, String uf, String pais, String telefone, String email, String site
+    // MARCA: --------------
     public void executarSalvarNaMarca() {
         Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertInclusao.setTitle("Confirmação de Inclusão");
@@ -491,56 +481,71 @@ public class CadastroController {
 
                 if (codigoModeloNaMarca.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                        ("Campo Obrigatório", "É obrigatório informar o código do modelo!",
-                                "");
+                            ("Campo Obrigatório", "É obrigatório informar o código do modelo!",
+                                    "");
                 } else if (cnpj.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                        ("Campo Obrigatório", "É obrigatório informar o CNPJ!", "");
+                            ("Campo Obrigatório", "É obrigatório informar o CNPJ!",
+                                    "");
                 } else if (!marca.getCnpj().matches("[0-9]*")) { // expressão regular: [0-9]*,
                     alertaDeErroOuInvalido
                             ("Erro", "CNPJ inválido, somente números", "");
                 } else if (!marca.getCnpj().matches("\\d{14}")) { // expressão regular: [0-9]*,
                     alertaDeErroOuInvalido
-                       ("Erro", "CNPJ inválido, tamanho incorreto", "Exatamente 14 dígitos");
+                            ("Erro", "CNPJ inválido, tamanho incorreto",
+                                    "Exatamente 14 dígitos");
                 } else if (MarcaService.buscarMarcaPorCnpj(marca.getCnpj())) {
                     alertaRegistroExistenete("CNPJ", cnpj.getText());
                 } else if (razaoSocial.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                        ("Campo Obrigatório", "É obrigatório informar a Razão Social!", "");
+                            ("Campo Obrigatório", "É obrigatório informar a Razão Social!",
+                                    "");
                 } else if (!marca.getCep().matches("\\d{8}")) { // expressão regular: \d{8} - Exatamente 8 dígitos
                     alertaDeErroOuInvalido
-                        ("Erro", "CEP inválido, somente números", "Exatamente 8 dígitos");
+                            ("Erro", "CEP inválido, somente números",
+                                    "Exatamente 8 dígitos");
                 } else if (cep.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                       ("Campo Obrigatório", "É obrigatório informar o CEP!", "");
+                            ("Campo Obrigatório", "É obrigatório informar o CEP!",
+                                    "");
                 } else if (ruaNumero.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                          ("Campo Obrigatório", "É obrigatório informar a rua!", "");
+                            ("Campo Obrigatório", "É obrigatório informar a rua!",
+                                    "");
                 } else if (bairro.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                        ("Campo Obrigatório", "É obrigatório informar o bairro!", "");
+                            ("Campo Obrigatório", "É obrigatório informar o bairro!",
+                                    "");
                 } else if (cidade.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                       ("Campo Obrigatório", "É obrigatório informar a cidade!", "");
+                            ("Campo Obrigatório", "É obrigatório informar a cidade!",
+                                    "");
                 } else if (uf.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                       ("Campo Obrigatório", "É obrigatório informar a sigla do estado!", "");
+                            ("Campo Obrigatório", "É obrigatório informar a sigla do estado!",
+                                    "");
                 } else if (!marca.getUf().matches("[a-zA-Z]{2}")) { // [a-zA-Z]{2} - Exatamente 2 dígitos e somente letras
                     alertaDeErroOuInvalido
                             ("Erro", "UF inválido", "Confira o tamanho");
                 } else if (pais.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo Obrigatório", "É obrigatório informar o país!", "");
+                            ("Campo Obrigatório", "É obrigatório informar o país!",
+                                    "");
                 } else if (telefone.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo Obrigatório", "É obrigatório informar o telefone!", "");
+                            ("Campo Obrigatório", "É obrigatório informar o telefone!",
+                                    "");
                 } else if(!marca.getTelefone().matches("[0-9]{0,14}")) {
-<
+                    alertaDeErroOuInvalido("Erro", "Telefone inválido, somente números",
+                            "Verifique se o telefone digitado está correto, digitar apenas números e no máximo 14 dígitos.");
+
                 } else {
                     // verificar se o ID de modelo existe
                     int idModelo = Integer.parseInt(marca.getCodigoModeloNaMarca());
                     if (!ModeloService.verificarExistenciaModeloPorId(idModelo)) {
-
+                        alertaDeErroOuInvalido("Erro", "Código do modelo inválido",
+                                "O código do modelo fornecido não existe. Verifique o " +
+                                        "código do veículo e tente novamente.");
                     }
 
                     if (index > -1) {
@@ -577,9 +582,7 @@ public class CadastroController {
         tabelaMarca.getItems().remove(0, tabelaMarca.getItems().size());
         List<Marca> marcaList = MarcaService.carregarMarcas();
         tabelaMarca.getItems().addAll(marcaList);
-
     }
-
     public void limparCamposMarca() {
         codigoModeloNaMarca.setText("");
         cnpj.setText("");
@@ -598,7 +601,6 @@ public class CadastroController {
         cnpj.setDisable(false); // Habilitar
 
     }
-
     private void alertaDeErroOuInvalido(String titulo, String textoDoAlerta, String textoExplicacaoDoPossivelMotivo) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle(titulo);
@@ -606,7 +608,7 @@ public class CadastroController {
         alerta.setContentText(textoExplicacaoDoPossivelMotivo); // Ex: "O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
         alerta.show();
     }
-     private void alertaRegistroExistenete(String nomeDoRegistro, String registroExistente) {
+    private void alertaRegistroExistenete(String nomeDoRegistro, String registroExistente) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Alerta");
         alert.setHeaderText(nomeDoRegistro + " " + registroExistente + " já existe.");
