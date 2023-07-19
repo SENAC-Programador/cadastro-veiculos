@@ -314,6 +314,7 @@ public class CadastroController {
             }
 
             this.carregarlistaVeiculos();
+
         }
     }
     public void executarExcluirNoVeiculo() {
@@ -534,25 +535,18 @@ public class CadastroController {
                     alertaDeErroOuInvalido
                             ("Campo Obrigatório", "É obrigatório informar o telefone!", "");
                 } else if(!marca.getTelefone().matches("[0-9]{0,14}")) {
-                    alertaDeErroOuInvalido
-                            ("Erro", "Telefone inválido, somente números", "");
+<
                 } else {
                     // verificar se o ID de modelo existe
                     int idModelo = Integer.parseInt(marca.getCodigoModeloNaMarca());
                     if (!ModeloService.verificarExistenciaModeloPorId(idModelo)) {
-                        alertaDeErroOuInvalido
-                          ("Erro", "Código do modelo inválido",
-                             "O código do modelo fornecido não existe. Verifique o ID do modelo e tente novamente.");
-                        return; // Precisa desse "return????"
+
                     }
 
                     if (index > -1) {
                         MarcaService.atualizarMarca(index, marca);
                         index = -1; // precisa resetar o index para poder incluir um registro novo
-                        this.limparCamposMarca();
-                    } else {
-                        MarcaService.inserirMarca(marca);
-                        this.limparCamposMarca();
+
                     }
                 }
             }
