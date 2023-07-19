@@ -503,11 +503,25 @@ public void executarSalvarNoModelo() {
                     alertaDeErroOuInvalido("Campo Obrigatório", "É obrigatório informar o telefone!");
                 } else if(!marca.getTelefone().matches("[0-9]{0,14}")) {
                     alertaDeErroOuInvalido("Erro", "Telefone inválido, somente números");
-                } else if (index > -1) {
-                    MarcaService.atualizarMarca(index, marca);
-                    index = -1; // precisa resetar o index, para poder incluir um registro novo
                 } else {
-                    MarcaService.inserirMarca(marca);
+                    // verificar se o ID de modelo existe
+                    int idModelo = Integer.parseInt(marca.getCodigoModeloNaMarca());
+                    if (!ModeloService.verificarExistenciaModeloPorId(idModelo)) {
+                        Alert alertInvalido = new Alert(Alert.AlertType.ERROR);
+                        alertInvalido.setTitle("Erro");
+                        alertInvalido.setHeaderText("ID do modelo inválido");
+                        alertInvalido.setContentText
+                                ("O ID do modelo fornecido não existe. Verifique o ID do modelo e tente novamente.");
+                        alertInvalido.show();
+                        return;
+                    }
+
+                    if (index > -1) {
+                        MarcaService.atualizarMarca(index, marca);
+                        index = -1; // precisa resetar o index para poder incluir um registro novo
+                    } else {
+                        MarcaService.inserirMarca(marca);
+                    }
                 }
             }
             this.carregarlistaMarcas();
@@ -516,7 +530,6 @@ public void executarSalvarNoModelo() {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
     public void executarExcluirNaMarca() {
         Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
@@ -535,6 +548,7 @@ public void executarSalvarNoModelo() {
         tabelaMarca.getItems().remove(0, tabelaMarca.getItems().size());
         List<Marca> marcaList = MarcaService.carregarMarcas();
         tabelaMarca.getItems().addAll(marcaList);
+
     }
 
     public void limparCamposMarca() {
