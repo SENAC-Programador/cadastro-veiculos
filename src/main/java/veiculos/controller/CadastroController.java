@@ -302,7 +302,7 @@ public class CadastroController {
                 e.printStackTrace();
             }
             this.carregarlistaVeiculos();
-            this.limparCamposDoVeiculo();
+
         }
     }
     public void executarExcluirNoVeiculo() {
@@ -323,6 +323,7 @@ public class CadastroController {
         tabelaVeiculo.getItems().remove(0, tabelaVeiculo.getItems().size());
         List<Veiculo> veiculoList = VeiculoService.carregarVeiculo();
         tabelaVeiculo.getItems().addAll(veiculoList);
+        this.limparCamposDoVeiculo();
     }
     public void limparCamposDoVeiculo() {
         chassi.setText(""); // zera o campo

@@ -7,7 +7,7 @@ public class ConexaoDatabase {
     public synchronized Connection getConexao() throws SQLException {
         if (conexao == null) {
             conexao = DriverManager.getConnection("jdbc:postgresql://localhost:5432/cadastro-veiculos",
-                    "postgres", "postgres");
+                    "postgres", "1661");
         }
         return conexao;
     }
