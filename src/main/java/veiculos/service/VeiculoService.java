@@ -116,15 +116,14 @@ public class VeiculoService {
     }
 
     public static boolean verificarExistenciaVeiculoPorId(int idVeiculo) {
-             List<Veiculo> listaVeiculos = VeiculoService.carregarVeiculo(); // Obtenha a lista de veículos existentes
+        List<Veiculo> listaVeiculos = VeiculoService.carregarVeiculo(); // Obtenha a lista de veículos existentes
 
-            for (Veiculo veiculo : listaVeiculos) {
-                if (veiculo.getIdVeiculo() == idVeiculo) {
-                    return true; // O veículo com o ID especificado existe
-                }
+        for (Veiculo veiculo : listaVeiculos) {
+            if (veiculo.getIdVeiculo() == idVeiculo) {
+                return true; // O veículo com o ID especificado existe
             }
-
-            return false; // O veículo com o ID especificado não existe
         }
-    }
 
+        return false; // O veículo com o ID especificado não existe
+    }
+}

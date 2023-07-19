@@ -7,10 +7,10 @@ import java.util.List;
 
 public class ModeloService {
 
-     private static ConexaoDatabase conexao = new ConexaoDatabase();
+    private static ConexaoDatabase conexao = new ConexaoDatabase();
 
-// MODELO: id, id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
-     public static List<Modelo> carregarModelos() {
+    // MODELO: id, id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
+    public static List<Modelo> carregarModelos() {
         List<Modelo> out = new ArrayList<>();
         try {
             Connection conexaoSelect = conexao.getConexao();
@@ -98,4 +98,29 @@ public class ModeloService {
         return false;
     }
 
+
+    public static boolean verificarExistenciaCodigoModelo(String codigoModelo) {
+        List<Modelo> modelos = ModeloService.carregarModelos(); // Obtenha a lista de modelos de veículos
+
+        for (Modelo modelo : modelos) {
+            if (modelo.getCodigoVeiculo().equals(codigoModelo)) {
+                return true; // O código do modelo existe na lista
+            }
+        }
+
+        return false; // O código do modelo não foi encontrado na lista
+    }
+
+    public static boolean verificarExistenciaModeloPorId(int idModelo) {
+        List<Modelo> modelos = ModeloService.carregarModelos(); // Obtenha a lista de modelos de veículos
+
+        for (Modelo modelo : modelos) {
+            if (modelo.getIdModelo() == idModelo) {
+                return true; // O código do modelo existe na lista
+            }
+        }
+
+        return false; // O código do modelo não foi encontrado na lista
+    }
 }
+

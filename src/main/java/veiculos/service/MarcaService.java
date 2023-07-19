@@ -5,8 +5,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 public class MarcaService {
- private static ConexaoDatabase conexao = new ConexaoDatabase();
-//MARCA: id, id_modelo, cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
+    private static ConexaoDatabase conexao = new ConexaoDatabase();
+    //MARCA: id, id_modelo, cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
     public static List<Marca> carregarMarcas() {
         List<Marca> out = new ArrayList<>();
         try {
@@ -37,7 +37,7 @@ public class MarcaService {
         return out;
     }
 
-// Inserir/Adicionar (INSERT)
+    // Inserir/Adicionar (INSERT)
 //MARCA: id, id_modelo, cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
     public static void inserirMarca(Marca marca) {
         try {
@@ -66,7 +66,7 @@ public class MarcaService {
         }
     }
 
-// Atualizar (UPDATE)
+    // Atualizar (UPDATE)
 //MARCA: id, id_modelo, cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
     public static boolean atualizarMarca(int codigoModelo, Marca marca) {
         try {
@@ -115,11 +115,15 @@ public class MarcaService {
     public static boolean buscarMarcaPorCnpj(String cnpj) {
         try {
             Connection conexaoBusca = conexao.getConexao();
-            String selectSql = "SELECT id FROM veiculos WHERE placa = '" + cnpj + "'"; // precisa colocar entre aspas simples
-            Statement buscaPlacaStatement = conexaoBusca.createStatement();
-            ResultSet buscaPlacaResultado = buscaPlacaStatement.executeQuery(selectSql);
-            return buscaPlacaResultado.next();
-        } catch (Exception e) {
+            String selectSql = "SELECT COUNT(*) FROM marcas WHERE cnpj = ?";
+            PreparedStatement buscaCnpjStatement = conexaoBusca.prepareStatement(selectSql);
+            buscaCnpjStatement.setString(1, cnpj);
+            ResultSet buscaCnpjResultado = buscaCnpjStatement.executeQuery();
+            if (buscaCnpjResultado.next()) {
+                int count = buscaCnpjResultado.getInt(1);
+                return count > 0; // Retorna true se o CNPJ já estiver cadastrado
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
