@@ -296,16 +296,9 @@ public class CadastroController {
                                  "Precisa ter no maximo 10 dígitos");
                 } else if (index < 0) {
                     if (VeiculoService.buscarVeiculoPorChassi(veiculo.getChassi())) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Alerta");
-                        alert.setHeaderText("Chassi " + chassi.getText() + " já existe.");
-                        alert.show(); // precisa para mostrar a tela do alerta
+                        alertaRegistroExistenete("Chassi", chassi.getText());
                     } else if (VeiculoService.buscarVeiculoPorPlaca(veiculo.getPlaca())) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Alerta");
-                        alert.setHeaderText("Placa " + placa.getText() + " já existe.");
-                        alert.show(); // precisa para mostrar a tela do alerta
-
+                        alertaRegistroExistenete("Placa", placa.getText());
                     } else {
                         VeiculoService.inserirVeiculo(veiculo); // INSERT
                         this.limparCamposDoVeiculo();
@@ -509,10 +502,7 @@ public class CadastroController {
                     alertaDeErroOuInvalido
                        ("Erro", "CNPJ inválido, tamanho incorreto", "Exatamente 14 dígitos");
                 } else if (MarcaService.buscarMarcaPorCnpj(marca.getCnpj())) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Alerta");
-                    alert.setHeaderText("CNPJ " + cnpj.getText() + " já existe.");
-                    alert.show();
+                    alertaRegistroExistenete("CNPJ", cnpj.getText());
                 } else if (razaoSocial.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                         ("Campo Obrigatório", "É obrigatório informar a Razão Social!", "");
@@ -621,5 +611,11 @@ public class CadastroController {
         alerta.setHeaderText(textoDoAlerta);
         alerta.setContentText(textoExplicacaoDoPossivelMotivo); // Ex: "O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
         alerta.show();
+    }
+     private void alertaRegistroExistenete(String nomeDoRegistro, String registroExistente) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Alerta");
+        alert.setHeaderText(nomeDoRegistro + " " + registroExistente + " já existe.");
+        alert.show();
     }
 }
