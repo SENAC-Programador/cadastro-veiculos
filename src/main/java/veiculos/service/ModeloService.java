@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModeloService {
-
     private static ConexaoDatabase conexao = new ConexaoDatabase();
 
-    // MODELO: id, id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
+// Consultar (SELECT)
     public static List<Modelo> carregarModelos() {
         List<Modelo> out = new ArrayList<>();
         try {
@@ -36,8 +35,7 @@ public class ModeloService {
         return out;
     }
 
-    // Inserir/Adicionar (INSERT) -
-    // MODELO: id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
+// Inserir/Adicionar (INSERT)
     public static void inserirModelo(Modelo modelo) {
         try {
             Connection conexaoInsert = conexao.getConexao();
@@ -60,8 +58,7 @@ public class ModeloService {
         }
     }
 
-    // Atualizar (UPDATE)
-    // MODELO: id_veiculo, nomeModelo, motor, potencia, anoLancamento, tipoCombustivel, numeroPortas
+// Atualizar (UPDATE)
     public static boolean atualizarModelo(int codigoVeiculo, Modelo modelo) {
         try {
             Connection conexaoUpdate = conexao.getConexao();
@@ -80,7 +77,7 @@ public class ModeloService {
         return false;
     }
 
-    // Excluir (DELETE)
+// Excluir (DELETE)
     public static boolean deletarModelo(int idModelo) {
         try {
             Connection conexaoDelete = conexao.getConexao();
@@ -95,16 +92,28 @@ public class ModeloService {
 
         return false;
     }
-    public static boolean verificarExistenciaModeloPorId(int idModelo) {
-        List<Modelo> listaModelo = ModeloService.carregarModelos(); // Obtenha a lista de veículos existentes
+//    public static boolean verificarExistenciaModeloPorId(int idModelo) {
+//        List<Modelo> listaModelo = ModeloService.carregarModelos(); // Obtenha a lista de veículos existentes
+//
+//        for (Modelo modelo : listaModelo) {
+//            if (modelo.getIdModelo() == idModelo) {
+//                return true; // O veículo com o ID especificado existe
+//            }
+//        }
+//
+//        return false; // O veículo com o ID especificado não existe
+//    }
+    public static boolean verificarExistenciaModeloPorId(int idVeiculo) {
+        try {
+            Connection conexaoVerificar = conexao.getConexao();
+            String selectSql = "SELECT id FROM modelos WHERE id_veiculo = '" + idVeiculo + "'"; // precisa colocar entre aspas simples
+            Statement verificarIdModeloStatement = conexaoVerificar.createStatement();
+            ResultSet resultado = verificarIdModeloStatement.executeQuery(selectSql);
+            return resultado.next();
+        } catch (Exception e) {
 
-        for (Modelo modelo : listaModelo) {
-            if (modelo.getIdModelo() == idModelo) {
-                return true; // O veículo com o ID especificado existe
-            }
+            e.printStackTrace();
         }
-
-        return false; // O veículo com o ID especificado não existe
+        return false;
     }
-
 }
