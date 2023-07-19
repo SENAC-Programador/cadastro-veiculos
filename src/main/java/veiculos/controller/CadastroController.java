@@ -181,6 +181,9 @@ public class CadastroController {
                     alertAlterar.setTitle("Confirmação de alterar");
                     alertAlterar.setHeaderText("Confirmar alteração do veículo?");
                     Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
+                    if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL)  {
+                        limparCamposDoVeiculo();
+                    }
                 }
             }
         });
@@ -242,7 +245,8 @@ public class CadastroController {
                     Alert alertAlterar = new Alert(Alert.AlertType.CONFIRMATION);
                     alertAlterar.setTitle("Confirmação de alterar");
                     alertAlterar.setHeaderText("Confirmar alteração da marca?");
-                    Optional<ButtonType> retornoAlerta = alertAlterar.showAndWait();
+                    Optional<ButtonType> option = alertAlterar.showAndWait();
+
                 }
             }
         });
@@ -387,7 +391,7 @@ public void executarSalvarNoModelo() {
                 if (!VeiculoService.verificarExistenciaVeiculoPorId(idVeiculo)) {
                     alertInvalido.setHeaderText("Código do veículo inválido");
                     alertInvalido.setContentText
-                         ("O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
+                       ("O código do veículo fornecido não existe. Verifique o código do veículo e tente novamente.");
                     alertInvalido.show();
                     return;
                 }
@@ -406,6 +410,7 @@ public void executarSalvarNoModelo() {
     } catch (Exception e) {
         e.printStackTrace();
     }
+
 }
     public void executarExcluirNoModelo() {
         Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
