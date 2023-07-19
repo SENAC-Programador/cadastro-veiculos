@@ -115,11 +115,15 @@ public class MarcaService {
     public static boolean buscarMarcaPorCnpj(String cnpj) {
         try {
             Connection conexaoBusca = conexao.getConexao();
-            String selectSql = "SELECT id FROM veiculos WHERE placa = '" + cnpj + "'"; // precisa colocar entre aspas simples
-            Statement buscaPlacaStatement = conexaoBusca.createStatement();
-            ResultSet buscaPlacaResultado = buscaPlacaStatement.executeQuery(selectSql);
-            return buscaPlacaResultado.next();
-        } catch (Exception e) {
+            String selectSql = "SELECT COUNT(*) FROM marcas WHERE cnpj = ?";
+            PreparedStatement buscaCnpjStatement = conexaoBusca.prepareStatement(selectSql);
+            buscaCnpjStatement.setString(1, cnpj);
+            ResultSet buscaCnpjResultado = buscaCnpjStatement.executeQuery();
+            if (buscaCnpjResultado.next()) {
+                int count = buscaCnpjResultado.getInt(1);
+                return count > 0; // Retorna true se o CNPJ já estiver cadastrado
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
