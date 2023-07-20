@@ -92,17 +92,7 @@ public class ModeloService {
 
         return false;
     }
-//    public static boolean verificarExistenciaModeloPorId(int idModelo) {
-//        List<Modelo> listaModelo = ModeloService.carregarModelos(); // Obtenha a lista de veículos existentes
-//
-//        for (Modelo modelo : listaModelo) {
-//            if (modelo.getIdModelo() == idModelo) {
-//                return true; // O veículo com o ID especificado existe
-//            }
-//        }
-//
-//        return false; // O veículo com o ID especificado não existe
-//    }
+
     public static boolean verificarExistenciaModeloPorId(int idVeiculo) {
         try {
             Connection conexaoVerificar = conexao.getConexao();

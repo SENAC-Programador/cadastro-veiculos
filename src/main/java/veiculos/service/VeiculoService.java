@@ -13,14 +13,20 @@ public class VeiculoService {
         try {
             Connection conexaoSelect = conexao.getConexao();
             Statement statementSelect = conexaoSelect.createStatement();
-            ResultSet resultadoSelect = statementSelect.executeQuery("SELECT * FROM veiculos");
+            ResultSet resultadoSelect = statementSelect.executeQuery
+                    ("SELECT vei.id, vei.chassi, vei.placa, vei.corVeiculo, vei.quilometragem, mo.nomeModelo, mar.razaosocial  \n" +
+                            "FROM veiculos vei \n" +
+                            "Left JOIN modelos mo ON mo.id_veiculo = vei.id\n" +
+                            "LEFT JOIN marcas mar ON mar.id_modelo = mo.id; ");
             while (resultadoSelect.next()) {
                 Veiculo veiculo = new Veiculo(
                         resultadoSelect.getInt("id"),
                         resultadoSelect.getString("chassi"),
                         resultadoSelect.getString("placa"),
                         resultadoSelect.getString("corVeiculo"),
-                        resultadoSelect.getString("quilometragem"));
+                        resultadoSelect.getString("quilometragem"),
+                        resultadoSelect.getString("nomeModelo"),
+                        resultadoSelect.getString("razaosocial"));
 
                 out.add(veiculo);
             }
