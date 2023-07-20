@@ -28,10 +28,12 @@
 								<TableView fx:id="tabelaVeiculo" layoutX="8.0" layoutY="329.0" prefHeight="384.0" prefWidth="980.0">
 									<columns>
 										<TableColumn fx:id="colunaCodigoVeiculo" prefWidth="107.0" text="Código Veículo" />
-										<TableColumn fx:id="colunaChassi" prefWidth="379.0" text="Chassi" />
-										<TableColumn fx:id="colunaPlaca" prefWidth="158.0" text="Placa" />
-										<TableColumn fx:id="colunaCorVeiculo" prefWidth="180.0" text="Cor do Veículo" />
-										<TableColumn fx:id="colunaQuilometragem" prefWidth="155.0" text="Quilometragem" />
+										<TableColumn fx:id="colunaChassi" prefWidth="210.0" text="Chassi" />
+										<TableColumn fx:id="colunaPlaca" prefWidth="109.0" text="Placa" />
+										<TableColumn fx:id="colunaCorVeiculo" prefWidth="117.0" text="Cor do Veículo" />
+										<TableColumn fx:id="colunaQuilometragem" prefWidth="151.0" text="Quilometragem" />
+                              <TableColumn fx:id="colunaModelo" prefWidth="152.0" text="Modelo" />
+                              <TableColumn fx:id="colunaMarca" prefWidth="133.0" text="Marca" />
 									</columns>
 								</TableView>
 							</children>
