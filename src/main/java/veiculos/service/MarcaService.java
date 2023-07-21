@@ -17,11 +17,10 @@ public class MarcaService {
             while (resultadoSelect.next()) {
                 Marca marca = new Marca(
                         resultadoSelect.getInt("id"),
-                        resultadoSelect.getString("id_modelo"),
                         resultadoSelect.getString("cnpj"),
-                        resultadoSelect.getString("razaoSocial"),
+                        resultadoSelect.getString("razao_social"),
                         resultadoSelect.getString("cep"),
-                        resultadoSelect.getString("ruaNumero"),
+                        resultadoSelect.getString("rua_numero"),
                         resultadoSelect.getString("bairro"),
                         resultadoSelect.getString("cidade"),
                         resultadoSelect.getString("uf"),
@@ -38,25 +37,24 @@ public class MarcaService {
         return out;
     }
 
-// Inserir/Adicionar (INSERT)
+// Inserir/Adicionar (INSERT) - cnpj, razao_social, cep, rua_numero, bairro, cidade, uf, pais, telefone, email, site
     public static void inserirMarca(Marca marca) {
         try {
             Connection conexaoInsert = conexao.getConexao();
-            String insertSql = "INSERT INTO marcas (id_modelo, cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, " +
-                    "uf, pais, telefone, email, site) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertSql = "INSERT INTO marcas (cnpj, razao_social, cep, rua_numero, bairro, cidade, " +
+                    "uf, pais, telefone, email, site) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement prepareStatementInsert = conexaoInsert.prepareStatement(insertSql);
-            prepareStatementInsert.setInt(1, Integer.parseInt(marca.getCodigoModeloNaMarca()));
-            prepareStatementInsert.setString(2, marca.getCnpj());
-            prepareStatementInsert.setString(3, marca.getRazaoSocial());
-            prepareStatementInsert.setString(4, marca.getCep());
-            prepareStatementInsert.setString(5, marca.getRuaNumero());
-            prepareStatementInsert.setString(6, marca.getBairro());
-            prepareStatementInsert.setString(7, marca.getCidade());
-            prepareStatementInsert.setString(8, marca.getUf());
-            prepareStatementInsert.setString(9, marca.getPais());
-            prepareStatementInsert.setString(10, marca.getTelefone());
-            prepareStatementInsert.setString(11, marca.getEmail());
-            prepareStatementInsert.setString(12, marca.getSite());
+            prepareStatementInsert.setString(1, marca.getCnpj());
+            prepareStatementInsert.setString(2, marca.getRazaoSocial());
+            prepareStatementInsert.setString(3, marca.getCep());
+            prepareStatementInsert.setString(4, marca.getRuaNumero());
+            prepareStatementInsert.setString(5, marca.getBairro());
+            prepareStatementInsert.setString(6, marca.getCidade());
+            prepareStatementInsert.setString(7, marca.getUf());
+            prepareStatementInsert.setString(8, marca.getPais());
+            prepareStatementInsert.setString(9, marca.getTelefone());
+            prepareStatementInsert.setString(10, marca.getEmail());
+            prepareStatementInsert.setString(11, marca.getSite());
 
             prepareStatementInsert.execute();
             prepareStatementInsert.close();
@@ -66,12 +64,12 @@ public class MarcaService {
         }
     }
 
-// Atualizar (UPDATE)
+// Atualizar (UPDATE) - cnpj, razao_social, cep, rua_numero, bairro, cidade, uf, pais, telefone, email, site
     public static boolean atualizarMarca(int codigoModelo, Marca marca) {
         try {
             Connection conn = conexao.getConexao();
             String updateSql = "UPDATE marcas " +
-                    "SET razaoSocial = ?, cep = ?, ruaNumero = ?, bairro = ?, " +
+                    "SET razao_social = ?, cep = ?, rua_numero = ?, bairro = ?, " +
                     "cidade = ?, uf = ?, pais = ?, telefone = ?, email = ?, site = ? WHERE id = ?";
             PreparedStatement prepareStatementUpdate = conn.prepareStatement(updateSql);
             prepareStatementUpdate.setString(1, marca.getRazaoSocial());
@@ -93,7 +91,7 @@ public class MarcaService {
         return false;
     }
 
-    // Excluir (DELETE)
+    // Excluir (DELETE) - cnpj, razao_social, cep, rua_numero, bairro, cidade, uf, pais, telefone, email, site
     public static boolean deletarMarca(int idMarca) {
         try {
             Connection conexaoDelete = conexao.getConexao();
@@ -108,23 +106,6 @@ public class MarcaService {
 
         return false;
     }
-//    public static boolean buscarMarcaPorCnpj(String cnpj) {
-//        try {
-//            Connection conexaoBusca = conexao.getConexao();
-//            String selectSql = "SELECT COUNT(*) FROM marcas WHERE cnpj = ?";
-//            PreparedStatement buscaCnpjStatement = conexaoBusca.prepareStatement(selectSql);
-//            buscaCnpjStatement.setString(1, cnpj);
-//            ResultSet buscaCnpjResultado = buscaCnpjStatement.executeQuery();
-//            if (buscaCnpjResultado.next()) {
-//                int count = buscaCnpjResultado.getInt(1);
-//                return count > 0; // Retorna true se o CNPJ já estiver cadastrado
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
-
     public static boolean buscarMarcaPorCnpj(String cnpj) {
         try {
             Connection conexaoVerificar = conexao.getConexao();
@@ -138,17 +119,5 @@ public class MarcaService {
         }
         return false;
     }
-    public static boolean verificarExistenciaModeloPorMarca(String codigoModelo) {
-        try {
-            Connection conexaoVerificar = conexao.getConexao();
-            String selectSql = "SELECT id FROM marcas WHERE id_modelo = '" + codigoModelo + "'"; // precisa colocar entre aspas simples
-            Statement verificarIdModeloStatement = conexaoVerificar.createStatement();
-            ResultSet resultado = verificarIdModeloStatement.executeQuery(selectSql);
-            return resultado.next();
-        } catch (Exception e) {
 
-            e.printStackTrace();
-        }
-        return false;
-    }
 }

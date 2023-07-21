@@ -14,19 +14,21 @@ public class VeiculoService {
             Connection conexaoSelect = conexao.getConexao();
             Statement statementSelect = conexaoSelect.createStatement();
             ResultSet resultadoSelect = statementSelect.executeQuery
-                    ("SELECT vei.id, vei.chassi, vei.placa, vei.corVeiculo, vei.quilometragem, mo.nomeModelo, mar.razaosocial  \n" +
+                    ("SELECT vei.id, vei.chassi, vei.placa, vei.cor_veiculo, vei.quilometragem, " +
+                            "mo.nome_modelo, mar.razao_social  \n" +
                             "FROM veiculos vei \n" +
-                            "Left JOIN modelos mo ON mo.id_veiculo = vei.id\n" +
-                            "LEFT JOIN marcas mar ON mar.id_modelo = mo.id; ");
+                            "INNER JOIN modelos mo ON mo.id = vei.id_modelo\n" +
+                            "INNER JOIN marcas mar ON mar.id = mo.id_marca; ");
             while (resultadoSelect.next()) {
                 Veiculo veiculo = new Veiculo(
                         resultadoSelect.getInt("id"),
+                        resultadoSelect.getString(Integer.parseInt("id_modelo")),
                         resultadoSelect.getString("chassi"),
                         resultadoSelect.getString("placa"),
-                        resultadoSelect.getString("corVeiculo"),
+                        resultadoSelect.getString("cor_veiculoo"),
                         resultadoSelect.getString("quilometragem"),
-                        resultadoSelect.getString("nomeModelo"),
-                        resultadoSelect.getString("razaosocial"));
+                        resultadoSelect.getString("nome_modelo"),
+                        resultadoSelect.getString("razao_social"));
 
                 out.add(veiculo);
             }
@@ -35,18 +37,19 @@ public class VeiculoService {
         }
         return out;
     }
-
+// // id_modelo, chassi, placa, cor_veiculo, quilometragem
 // Inserir (INSERT)
     public static void inserirVeiculo(Veiculo veiculo) {
         try {
             Connection conexaoInsert = conexao.getConexao();
-            String insertSql = "INSERT INTO veiculos (chassi, placa, corVeiculo, quilometragem) " +
-                    "VALUES ( ?, ?, ?, ?)";
+            String insertSql = "INSERT INTO veiculos (id_modelo, chassi, placa, cor_veiculo, quilometragem) " +
+                    "VALUES ( ?, ?, ?, ?, ?)";
             PreparedStatement prepareStatementInsert = conexaoInsert.prepareStatement(insertSql);
-            prepareStatementInsert.setString(1, veiculo.getChassi());
-            prepareStatementInsert.setString(2, veiculo.getPlaca());
-            prepareStatementInsert.setString(3, veiculo.getCorVeiculo());
-            prepareStatementInsert.setString(4, veiculo.getQuilometragem());
+            prepareStatementInsert.setInt(1, Integer.parseInt(veiculo.getCodigoModelo()));
+            prepareStatementInsert.setString(2, veiculo.getChassi());
+            prepareStatementInsert.setString(3, veiculo.getPlaca());
+            prepareStatementInsert.setString(4, veiculo.getCorVeiculo());
+            prepareStatementInsert.setInt(5, Integer.parseInt(veiculo.getQuilometragem()));
 
             prepareStatementInsert.execute();
             prepareStatementInsert.close();
@@ -56,12 +59,12 @@ public class VeiculoService {
         }
     }
 
-// Atualizar (UPDATE)
+// Atualizar (UPDATE) - id_modelo, chassi, placa, cor_veiculo, quilometragem
     public static boolean atualizarVeiculo(int idVeiculo, Veiculo veiculo) {
         try {
             Connection conexaoUpdate = conexao.getConexao();
             String updateSql = "UPDATE veiculos " +
-                    "SET corVeiculo = ?, quilometragem = ? WHERE id = ?";
+                    "SET cor_veiculo = ?, quilometragem = ? WHERE id = ?";
             PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
             prepareStatementUpdate.setString(1, veiculo.getCorVeiculo());
             prepareStatementUpdate.setString(2, veiculo.getQuilometragem());

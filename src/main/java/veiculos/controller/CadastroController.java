@@ -62,7 +62,7 @@ public class CadastroController {
     @FXML
     private TableView<Modelo> tabelaModelo;
     @FXML
-    private TableColumn<Modelo, Integer> colunaCodigoModelo;
+    private TableColumn<Modelo, Integer> colunaCodigoMarca;
     @FXML
     private TableColumn<Modelo, String> colunaNomeModelo;
     @FXML
@@ -78,7 +78,7 @@ public class CadastroController {
 
 // MARCA
     @FXML
-    private TextField codigoModeloNaMarca;
+    private TextField idMarca;
     @FXML
     private TextField cnpj;
     @FXML
@@ -141,7 +141,7 @@ public class CadastroController {
         colunaMarca.setCellValueFactory(new PropertyValueFactory<>("nomeMarca"));
 
 // MODELO:
-        colunaCodigoModelo.setCellValueFactory(new PropertyValueFactory<>("idModelo"));
+        colunaCodigoMarca.setCellValueFactory(new PropertyValueFactory<>("idModelo"));
         colunaNomeModelo.setCellValueFactory(new PropertyValueFactory<>("nomeModelo"));
         colunaMotor.setCellValueFactory(new PropertyValueFactory<>("motor"));
         colunaPotencia.setCellValueFactory(new PropertyValueFactory<>("potencia"));
@@ -266,6 +266,7 @@ public class CadastroController {
         Alert alertInclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertInclusao.setTitle("Confirmação de inclusão");
         alertInclusao.setHeaderText("Confirmar inclusão do veículo?");
+
         Optional<ButtonType> retornoAlerta = alertInclusao.showAndWait();
 
             try {
