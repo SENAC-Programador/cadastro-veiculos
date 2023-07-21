@@ -1,43 +1,26 @@
 package veiculos.model;
 
-import javafx.scene.control.cell.PropertyValueFactory;
-
 public class Veiculo {
-    private int idVeiculo; // idVeiculo/ - SERIAL PRIMARY KEY - executarSalvarNoVeiculo/executarExcluirNoVeiculo/tabelaVeiculo
-    private String chassi; // chassi/colunaChassi - VARCHAR(17) NOT NULL UNIQUE, -> pode variar de fabricante para fabricante, ex: 1HGCM82633A123456
-    private String placa; // placa/colunaPlaca - VARCHAR(7) NOT NULL UNIQUE, -> ex: ABC-1234, podem ter formatos diferentes em diferentes países ou regiões
-    private String corVeiculo; // corVeiculo/colunaCorVeiculo - VARCHAR(50) NOT NULL,
-    private String quilometragem; // quilometragem/colunaQuilometragem - VARCHAR(20) NOT NULL -> quilometragem atual do veículo, ex: 50.000 km
-
+// id_modelo, chassi, placa, corVeiculo, quilometragem
+    private int idVeiculo;
+    private String codigoModelo;
+    private String chassi; // ex: 1HGCM82633A123456
+    private String placa; // ex: ABC-1234
+    private String corVeiculo;
+    private String quilometragem; //  ex: 50.000 km
     private String nomeModelo;
     private String nomeMarca;
     public Veiculo() {
     }
 
-    public Veiculo(int idVeiculo, String chassi, String placa, String corVeiculo, String quilometragem,
-                   String nomeModelo, String nomeMarca) {
+    public Veiculo(int idVeiculo, String codigoModelo, String chassi, String placa, String corVeiculo, String quilometragem, String nomeModelo, String nomeMarca) {
         this.idVeiculo = idVeiculo;
+        this.codigoModelo = codigoModelo;
         this.chassi = chassi;
         this.placa = placa;
         this.corVeiculo = corVeiculo;
         this.quilometragem = quilometragem;
         this.nomeModelo = nomeModelo;
-        this.nomeMarca = nomeMarca;
-    }
-
-    public String getNomeModelo() {
-        return nomeModelo;
-    }
-
-    public void setNomeModelo(String nomeModelo) {
-        this.nomeModelo = nomeModelo;
-    }
-
-    public String getNomeMarca() {
-        return nomeMarca;
-    }
-
-    public void setNomeMarca(String nomeMarca) {
         this.nomeMarca = nomeMarca;
     }
 
@@ -47,6 +30,14 @@ public class Veiculo {
 
     public void setIdVeiculo(int idVeiculo) {
         this.idVeiculo = idVeiculo;
+    }
+
+    public String getCodigoModelo() {
+        return codigoModelo;
+    }
+
+    public void setCodigoModelo(String codigoModelo) {
+        this.codigoModelo = codigoModelo;
     }
 
     public String getChassi() {
@@ -79,5 +70,21 @@ public class Veiculo {
 
     public void setQuilometragem(String quilometragem) {
         this.quilometragem = quilometragem;
+    }
+
+    public String getNomeModelo() {
+        return nomeModelo;
+    }
+
+    public void setNomeModelo(String nomeModelo) {
+        this.nomeModelo = nomeModelo;
+    }
+
+    public String getNomeMarca() {
+        return nomeMarca;
+    }
+
+    public void setNomeMarca(String nomeMarca) {
+        this.nomeMarca = nomeMarca;
     }
 }

@@ -1,25 +1,24 @@
 package veiculos.model;
 public class Marca {
-    private int idMarca; // tabelaMarca/executarSalvarNaMarca/executarExcluirNaMarca - id SERIAL PRIMARY KEY,
-    private String codigoModeloNaMarca; // codigoModelo/codigoModeloNaMarca - id_modelo INT NOT NULL,
-    private String cnpj; // cnpj/colunaCnpj - VARCHAR(14) NOT NULL UNIQUE,
-    private String razaoSocial; // razaoSocial/colunaRazaoSocial - VARCHAR(100) NOT NULL,
-    private String cep; // cep/colunaCep -  VARCHAR(8) NOT NULL,
-    private String ruaNumero; // ruaNumero/colunaRuaNumero - VARCHAR(100) NOT NULL,
-    private String bairro; // bairro/colunaBairro - VARCHAR(100) NOT NULL,
-    private String cidade; // cidade/colunaCidade - VARCHAR(100) NOT NULL,
-    private String uf; // uf/colunaUf  - VARCHAR(2) NOT NULL,
-    private String pais; // pais/colunaPais - VARCHAR(100) NOT NULL,
-    private String telefone; // telefone/colunaTelefone - VARCHAR(20) NOT NULL,
-    private String email; // email/colunaEmail - VARCHAR(100) NOT NULL,
-    private String site; // site/colunaSite - VARCHAR(100) NOT NULL, -> site oficial da marca
+   // cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
+    private int idMarca;
+    private String cnpj;
+    private String razaoSocial;
+    private String cep;
+    private String ruaNumero;
+    private String bairro;
+    private String cidade;
+    private String uf;
+    private String pais;
+    private String telefone;
+    private String email;
+    private String site;
     public Marca() {
     }
 
-    public Marca(int idMarca, String codigoModeloNaMarca, String cnpj, String razaoSocial, String cep, String ruaNumero,
-                 String bairro, String cidade, String uf, String pais, String telefone, String email, String site) {
+    public Marca(int idMarca, String cnpj, String razaoSocial, String cep, String ruaNumero, String bairro,
+                 String cidade, String uf, String pais, String telefone, String email, String site) {
         this.idMarca = idMarca;
-        this.codigoModeloNaMarca = codigoModeloNaMarca;
         this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;
         this.cep = cep;
@@ -39,14 +38,6 @@ public class Marca {
 
     public void setIdMarca(int idMarca) {
         this.idMarca = idMarca;
-    }
-
-    public String getCodigoModeloNaMarca() {
-        return codigoModeloNaMarca;
-    }
-
-    public void setCodigoModeloNaMarca(String codigoModeloNaMarca) {
-        this.codigoModeloNaMarca = codigoModeloNaMarca;
     }
 
     public String getCnpj() {

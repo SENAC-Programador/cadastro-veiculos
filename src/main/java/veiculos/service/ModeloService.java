@@ -20,13 +20,13 @@ public class ModeloService {
             while (resultadoSelect.next()) {
                 Modelo modelo = new Modelo(
                         resultadoSelect.getInt("id"),
-                        resultadoSelect.getString("id_veiculo"),
-                        resultadoSelect.getString("nomeModelo"),
+                        resultadoSelect.getString("id_marca"),
+                        resultadoSelect.getString("nome_modelo"),
                         resultadoSelect.getString("motor"),
                         resultadoSelect.getString("potencia"),
-                        resultadoSelect.getString("anoLancamento"),
-                        resultadoSelect.getString("tipoCombustivel"),
-                        resultadoSelect.getString("numeroPortas"));
+                        resultadoSelect.getString("ano_lancamento"),
+                        resultadoSelect.getString("tipo_combustivel"),
+                        resultadoSelect.getString("numero_portas"));
                 out.add(modelo);
             }
         } catch (SQLException e) {
@@ -34,15 +34,15 @@ public class ModeloService {
         }
         return out;
     }
-
+    // id_marca, nome_modelo, motor, potencia, ano_lancamento, tipo_combustivel, numero_portas
 // Inserir/Adicionar (INSERT)
     public static void inserirModelo(Modelo modelo) {
         try {
             Connection conexaoInsert = conexao.getConexao();
-            String insertSql = "INSERT INTO modelos (id_veiculo, nomeModelo, motor, potencia, anoLancamento, " +
-                    "tipoCombustivel, numeroPortas) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+            String insertSql = "INSERT INTO modelos (id_marca, nome_modelo, motor, potencia, ano_lancamento, " +
+                    "tipo_combustivel, numero_portas) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement prepareStatementInsert = conexaoInsert.prepareStatement(insertSql);
-            prepareStatementInsert.setInt(1, Integer.parseInt(modelo.getCodigoVeiculo()));
+            prepareStatementInsert.setInt(1, Integer.parseInt(modelo.getCodigoMarca()));
             prepareStatementInsert.setString(2, modelo.getNomeModelo());
             prepareStatementInsert.setString(3, modelo.getMotor());
             prepareStatementInsert.setString(4, modelo.getPotencia());
@@ -58,12 +58,12 @@ public class ModeloService {
         }
     }
 
-// Atualizar (UPDATE)
+// Atualizar (UPDATE) - id_marca, nome_modelo, motor, potencia, ano_lancamento, tipo_combustivel, numero_portas
     public static boolean atualizarModelo(int codigoVeiculo, Modelo modelo) {
         try {
             Connection conexaoUpdate = conexao.getConexao();
             String updateSql = "UPDATE modelos " +
-                    "SET nomeModelo = ?, motor = ?, potencia = ?, tipoCombustivel = ? WHERE id = ?";
+                    "SET nome_modelo = ?, motor = ?, potencia = ?, tipo_combustivel = ? WHERE id = ?";
             PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
             prepareStatementUpdate.setString(1, modelo.getNomeModelo());
             prepareStatementUpdate.setString(2, modelo.getMotor());
@@ -77,7 +77,7 @@ public class ModeloService {
         return false;
     }
 
-// Excluir (DELETE)
+// Excluir (DELETE) - id_marca, nome_modelo, motor, potencia, ano_lancamento, tipo_combustivel, numero_portas
     public static boolean deletarModelo(int idModelo) {
         try {
             Connection conexaoDelete = conexao.getConexao();
@@ -93,10 +93,10 @@ public class ModeloService {
         return false;
     }
 
-    public static boolean verificarExistenciaModeloPorId(int idVeiculo) {
+    public static boolean verificarExistenciaModeloPorId(int idMarca) {
         try {
             Connection conexaoVerificar = conexao.getConexao();
-            String selectSql = "SELECT id FROM modelos WHERE id_veiculo = '" + idVeiculo + "'"; // precisa colocar entre aspas simples
+            String selectSql = "SELECT id FROM modelos WHERE id_marca = '" + idMarca + "'"; // precisa colocar entre aspas simples
             Statement verificarIdModeloStatement = conexaoVerificar.createStatement();
             ResultSet resultado = verificarIdModeloStatement.executeQuery(selectSql);
             return resultado.next();
