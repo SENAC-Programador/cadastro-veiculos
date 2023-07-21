@@ -9,7 +9,7 @@ public class Modelo {
     private String potencia; // potencia/colunaPotencia - VARCHAR(50) NOT NULL, ex: 1.8
     private String anoLancamento; // anoLancamento/colunaAnoLancamento -  VARCHAR(4) NOT NULL,
     private String tipoCombustivel; // tipoCombustivel/colunaTipoCombustivel - VARCHAR(50) NOT NULL, -> ex: gasolina, diesel, elétrico, etc.
-    private String numeroPortas; // numeroPortas/colunaNumeroPortas -  VARCHAR(2) NOT NULL,
+    private String numeroPortas;
 
     public Modelo() {
 
@@ -90,5 +90,7 @@ public class Modelo {
     public void setNumeroPortas(String numeroPortas) {
         this.numeroPortas = numeroPortas;
     }
+
+
 }
 
