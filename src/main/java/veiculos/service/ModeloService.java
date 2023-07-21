@@ -93,7 +93,7 @@ public class ModeloService {
         return false;
     }
 
-    public static boolean verificarExistenciaModeloPorId(int idMarca) {
+    public static boolean verificarExistenciaModeloPorId(String idMarca) {
         try {
             Connection conexaoVerificar = conexao.getConexao();
             String selectSql = "SELECT id FROM modelos WHERE id_marca = '" + idMarca + "'"; // precisa colocar entre aspas simples

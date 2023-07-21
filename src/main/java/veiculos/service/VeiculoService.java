@@ -15,18 +15,18 @@ public class VeiculoService {
             Statement statementSelect = conexaoSelect.createStatement();
             ResultSet resultadoSelect = statementSelect.executeQuery
                     ("SELECT vei.id, vei.chassi, vei.placa, vei.cor_veiculo, vei.quilometragem, " +
-                            "mo.nome_modelo, mar.razao_social  \n" +
+                            "vei.id_modelo, mo.nome_modelo, mar.razao_social  \n" +
                             "FROM veiculos vei \n" +
                             "INNER JOIN modelos mo ON mo.id = vei.id_modelo\n" +
                             "INNER JOIN marcas mar ON mar.id = mo.id_marca; ");
             while (resultadoSelect.next()) {
                 Veiculo veiculo = new Veiculo(
                         resultadoSelect.getInt("id"),
-                        resultadoSelect.getString(Integer.parseInt("id_modelo")),
                         resultadoSelect.getString("chassi"),
                         resultadoSelect.getString("placa"),
-                        resultadoSelect.getString("cor_veiculoo"),
+                        resultadoSelect.getString("cor_veiculo"),
                         resultadoSelect.getString("quilometragem"),
+                        resultadoSelect.getString("id_modelo"),
                         resultadoSelect.getString("nome_modelo"),
                         resultadoSelect.getString("razao_social"));
 
@@ -121,13 +121,17 @@ public class VeiculoService {
         return false;
     }
 
-    public static boolean verificarExistenciaVeiculoPorId(int idVeiculo) {
-        List<Veiculo> listaVeiculos = VeiculoService.carregarVeiculo(); // Obtenha a lista de veículos existentes
-        for (Veiculo veiculo : listaVeiculos) {
-            if (veiculo.getIdVeiculo() == idVeiculo) {
-                return true; // O veículo com o ID especificado existe
-            }
+    public static boolean buscarVeiculoPorCodigoModelo(String idModelo) {
+        try {
+            Connection conn = conexao.getConexao();
+            String selectSql = "SELECT id FROM veiculos WHERE id_modelo = '" + idModelo + "'"; // precisa colocar entre aspas simples
+            Statement buscaPlacaStatement = conn.createStatement();
+            ResultSet buscaPlacaResultado = buscaPlacaStatement.executeQuery(selectSql);
+            return buscaPlacaResultado.next();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false; // O veículo com o ID especificado não existe
+        return false;
     }
+
 }

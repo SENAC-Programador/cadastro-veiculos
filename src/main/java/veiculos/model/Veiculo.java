@@ -13,13 +13,14 @@ public class Veiculo {
     public Veiculo() {
     }
 
-    public Veiculo(int idVeiculo, String codigoModelo, String chassi, String placa, String corVeiculo, String quilometragem, String nomeModelo, String nomeMarca) {
+    public Veiculo(int idVeiculo, String chassi, String placa, String corVeiculo,
+                   String quilometragem, String codigoModelo, String nomeModelo, String nomeMarca) {
         this.idVeiculo = idVeiculo;
-        this.codigoModelo = codigoModelo;
         this.chassi = chassi;
         this.placa = placa;
         this.corVeiculo = corVeiculo;
         this.quilometragem = quilometragem;
+        this.codigoModelo = codigoModelo;
         this.nomeModelo = nomeModelo;
         this.nomeMarca = nomeMarca;
     }
@@ -87,4 +88,7 @@ public class Veiculo {
     public void setNomeMarca(String nomeMarca) {
         this.nomeMarca = nomeMarca;
     }
+
+
+
 }

@@ -20,6 +20,8 @@ import java.util.Optional;
 @FxmlView("/main.fxml") // para lincar com o arquivo "main.fxml"
 public class CadastroController {
     @FXML
+    private TextField codigoModelo;
+    @FXML
     private TextField chassi;
     @FXML
     private TextField placa;
@@ -30,7 +32,7 @@ public class CadastroController {
     @FXML
     private TableView<Veiculo> tabelaVeiculo;
     @FXML
-    private TableColumn<Veiculo, Integer> colunaCodigoVeiculo;
+    private TableColumn<Veiculo, String> colunaCodigoVeiculo;
     @FXML
     private TableColumn<Veiculo, String> colunaChassi;
     @FXML
@@ -40,13 +42,15 @@ public class CadastroController {
     @FXML
     private TableColumn<Veiculo, String> colunaQuilometragem;
     @FXML
+    private TableColumn<Veiculo, String> colunaCodigoModeloVeiculo;
+    @FXML
     private TableColumn<Veiculo, String> colunaModelo;
     @FXML
     private TableColumn<Veiculo, String> colunaMarca;
 
 // MODELO
     @FXML
-    private TextField codigoVeiculo;
+    private TextField codigoMarcaModelo;
     @FXML
     private TextField nomeModelo;
     @FXML
@@ -62,7 +66,7 @@ public class CadastroController {
     @FXML
     private TableView<Modelo> tabelaModelo;
     @FXML
-    private TableColumn<Modelo, Integer> colunaCodigoMarca;
+    private TableColumn<Modelo, String> colunaCodigoModelo;
     @FXML
     private TableColumn<Modelo, String> colunaNomeModelo;
     @FXML
@@ -75,10 +79,12 @@ public class CadastroController {
     private TableColumn<Modelo, String> colunaTipoCombustivel;
     @FXML
     private TableColumn<Modelo, String> colunaNumeroPortas;
+    @FXML
+    private TableColumn<Modelo, String> colunaCodigoMarcaModelo;
 
 // MARCA
     @FXML
-    private TextField idMarca;
+    private TextField codigoMarca;
     @FXML
     private TextField cnpj;
     @FXML
@@ -125,6 +131,8 @@ public class CadastroController {
     private TableColumn<Marca, String> colunaEmail;
     @FXML
     private TableColumn<Marca, String> colunaSite;
+    @FXML
+    private TableColumn<Marca, String> colunaCodigoMarca;
 
     private int index = -1;
 
@@ -137,19 +145,22 @@ public class CadastroController {
         colunaPlaca.setCellValueFactory(new PropertyValueFactory<>("placa"));
         colunaCorVeiculo.setCellValueFactory(new PropertyValueFactory<>("corVeiculo"));
         colunaQuilometragem.setCellValueFactory(new PropertyValueFactory<>("quilometragem"));
+        colunaCodigoModeloVeiculo.setCellValueFactory(new PropertyValueFactory<>("codigoModelo"));
         colunaModelo.setCellValueFactory(new PropertyValueFactory<>("nomeModelo"));
         colunaMarca.setCellValueFactory(new PropertyValueFactory<>("nomeMarca"));
 
 // MODELO:
-        colunaCodigoMarca.setCellValueFactory(new PropertyValueFactory<>("idModelo"));
+        colunaCodigoModelo.setCellValueFactory(new PropertyValueFactory<>("idModelo"));
         colunaNomeModelo.setCellValueFactory(new PropertyValueFactory<>("nomeModelo"));
         colunaMotor.setCellValueFactory(new PropertyValueFactory<>("motor"));
         colunaPotencia.setCellValueFactory(new PropertyValueFactory<>("potencia"));
         colunaAnoLancamento.setCellValueFactory(new PropertyValueFactory<>("anoLancamento"));
         colunaTipoCombustivel.setCellValueFactory(new PropertyValueFactory<>("tipoCombustivel"));
         colunaNumeroPortas.setCellValueFactory(new PropertyValueFactory<>("numeroPortas"));
+        colunaCodigoMarcaModelo.setCellValueFactory(new PropertyValueFactory<>("codigoMarca"));
 
 // MARCA:
+        codigoMarca.setDisable(true); // não habilitar o campo do código da marca para adicionar/edição
         colunaCnpj.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
         colunaRazaoSocial.setCellValueFactory(new PropertyValueFactory<>("razaoSocial"));
         colunaCep.setCellValueFactory(new PropertyValueFactory<>("cep"));
@@ -161,6 +172,7 @@ public class CadastroController {
         colunaTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
         colunaEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colunaSite.setCellValueFactory(new PropertyValueFactory<>("site"));
+        colunaCodigoMarca.setCellValueFactory(new PropertyValueFactory<>("idMarca"));
 
         // Trazer o método das classes Services
         this.carregarlistaVeiculos();
@@ -173,6 +185,8 @@ public class CadastroController {
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) { // qtde de cliques, dois cliques no evento
                     Veiculo veiculo = tabelaVeiculo.getSelectionModel().getSelectedItem(); // pegar o item que foi selecionado e sua posição
+                    codigoModelo.setText(String.valueOf(veiculo.getCodigoModelo()));
+                    codigoModelo.setDisable(true);
                     chassi.setText(veiculo.getChassi());
                     chassi.setDisable(true); // desabilitar o campo Chassi na alteração
                     placa.setText(veiculo.getPlaca());
@@ -200,8 +214,8 @@ public class CadastroController {
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
                     Modelo modelo = tabelaModelo.getSelectionModel().getSelectedItem();
-                    codigoVeiculo.setText(String.valueOf(modelo.getCodigoVeiculo()));
-                    codigoVeiculo.setDisable(true); // Desabilitar o campo Código do Veículo para edição ou exclusão
+                    codigoMarca.setText(String.valueOf(modelo.getCodigoMarca()));
+                    codigoMarca.setDisable(true); // Desabilitar o campo Código do Veículo para edição ou exclusão
                     nomeModelo.setText(modelo.getNomeModelo());
                     motor.setText(modelo.getMotor());
                     potencia.setText(modelo.getPotencia());
@@ -231,8 +245,7 @@ public class CadastroController {
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
                     Marca marca = tabelaMarca.getSelectionModel().getSelectedItem();
-                    codigoModeloNaMarca.setText(String.valueOf(marca.getCodigoModeloNaMarca()));
-                    codigoModeloNaMarca.setDisable(true); // Desabilitar
+                    codigoMarca.setDisable(true);
                     cnpj.setText(marca.getCnpj());
                     cnpj.setDisable(true); // Desabilitar
                     razaoSocial.setText(marca.getRazaoSocial());
@@ -272,6 +285,7 @@ public class CadastroController {
             try {
                 if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
                     Veiculo veiculo = new Veiculo();
+                    veiculo.setCodigoModelo(codigoModelo.getText());
                     veiculo.setChassi(chassi.getText()); // para mostrar as informações que estão na linha que pertecem a coluna documento da tabela
                     veiculo.setPlaca(placa.getText());
                     veiculo.setCorVeiculo(corVeiculo.getText());
@@ -303,6 +317,8 @@ public class CadastroController {
                             alertaRegistroExistenete("Chassi", chassi.getText());
                         } else if (VeiculoService.buscarVeiculoPorPlaca(veiculo.getPlaca())) {
                             alertaRegistroExistenete("Placa", placa.getText());
+                        } else if (VeiculoService.buscarVeiculoPorCodigoModelo(veiculo.getCodigoModelo())) {
+                                alertaRegistroExistenete("Código do modelo", codigoModelo.getText());
                         } else {
                             VeiculoService.inserirVeiculo(veiculo); // INSERT
                             this.limparCamposDoVeiculo();
@@ -319,22 +335,21 @@ public class CadastroController {
                 e.printStackTrace();
             }
     }
-    public void executarExcluirNoVeiculo() {
+    public void executarExcluirNoVeiculo() throws SQLException {
         Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertExclusao.setTitle("Confirmação de Exclusão");
         alertExclusao.setHeaderText("Confirmar exclusão do veículo?");
-        alertExclusao.setContentText
-           ("ANTES DE EXCLUIR, verifique se existe um modelo cadastrado com o código do veículo.");
 
         Optional<ButtonType> retornoAlerta = alertExclusao.showAndWait();
-            if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
-                limparCamposDoVeiculo();
-            } else if (index > -1) {
-                VeiculoService.deletarVeiculo(index);
-                this.carregarlistaVeiculos();
-                index = -1;
-                this.limparCamposDoVeiculo();
-            }
+        if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
+            limparCamposDoVeiculo();
+        } else if (index > -1) {
+            VeiculoService.deletarVeiculo(index);
+            this.carregarlistaVeiculos();
+            index = -1;
+            this.limparCamposDoVeiculo();
+        }
+
     }
 
     public void carregarlistaVeiculos() {
@@ -364,7 +379,7 @@ public class CadastroController {
             if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
                 Modelo modelo = new Modelo();
                 // para mostrar as informações que estão na linha que pertencem às colunas da tabela
-                modelo.setCodigoVeiculo(String.valueOf(codigoVeiculo.getText())); // coluna código do modelo
+                modelo.setCodigoMarca(String.valueOf(codigoMarca.getText())); // coluna código do modelo
                 modelo.setNomeModelo(nomeModelo.getText());
                 modelo.setMotor(motor.getText());
                 modelo.setPotencia(potencia.getText());
@@ -372,7 +387,7 @@ public class CadastroController {
                 modelo.setTipoCombustivel(tipoCombustivel.getText());
                 modelo.setNumeroPortas(numeroPortas.getText());
 
-                if (!modelo.getCodigoVeiculo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
+                if (!modelo.getCodigoMarca().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
                     alertaDeErroOuInvalido
                             ("Erro", "Código do veículo inválido, somente números","");
                 } else if (nomeModelo.getText().isEmpty()) {
@@ -402,8 +417,8 @@ public class CadastroController {
                             ("Erro", "Número de portas inválido, somente números", "");
                 } else if (index < 0) {
                     // Verificar se o ID do veículo existe
-                    if (ModeloService.verificarExistenciaModeloPorId(Integer.parseInt(modelo.getCodigoVeiculo()))) {
-                        alertaRegistroExistenete("Código do veículo", codigoVeiculo.getText());
+                    if (ModeloService.verificarExistenciaModeloPorId(modelo.getCodigoMarca())) {
+                        alertaRegistroExistenete("Código do veículo", codigoMarca.getText());
                     } else {
                         ModeloService.inserirModelo(modelo);
                         this.limparCamposModelo();
@@ -444,14 +459,14 @@ public class CadastroController {
         tabelaModelo.getItems().addAll(modeloList);
     }
     public void limparCamposModelo() {
-        codigoVeiculo.setText("");
+        codigoMarca.setText("");
         nomeModelo.setText(""); // zera o campo
         potencia.setText("");
         motor.setText("");
         anoLancamento.setText("");
         tipoCombustivel.setText("");
         numeroPortas.setText("");
-        codigoVeiculo.setDisable(false); // Habilitar novamento o campo
+        codigoMarca.setDisable(false); // Habilitar novamento o campo
         anoLancamento.setDisable(false);
         numeroPortas.setDisable(false);
 
@@ -467,7 +482,7 @@ public class CadastroController {
         try {
             if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
                 Marca marca = new Marca();
-                marca.setCodigoModeloNaMarca(String.valueOf(codigoModeloNaMarca.getText()));
+                codigoMarca.setDisable(true);
                 marca.setCnpj(cnpj.getText());
                 marca.setRazaoSocial(razaoSocial.getText());
                 marca.setCep(cep.getText()); // coluna CEP
@@ -480,11 +495,7 @@ public class CadastroController {
                 marca.setEmail(email.getText());
                 marca.setSite(site.getText());
 
-                if (codigoModeloNaMarca.getText().isEmpty()) {
-                    alertaDeErroOuInvalido
-                            ("Campo Obrigatório", "É obrigatório informar o código do modelo!",
-                                    "");
-                } else if (cnpj.getText().isEmpty()) {
+                if (cnpj.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo Obrigatório", "É obrigatório informar o CNPJ!",
                                     "");
@@ -539,9 +550,7 @@ public class CadastroController {
                         "Verifique se o telefone digitado está correto, digitar apenas números e no máximo 14 dígitos.");
                 } else if (index < 0) {
                     // verificar se o ID de modelo existe
-                    if (MarcaService.verificarExistenciaModeloPorMarca(marca.getCodigoModeloNaMarca())) {
-                        alertaRegistroExistenete("Código do modelo", codigoModeloNaMarca.getText());
-                    }else if (MarcaService.buscarMarcaPorCnpj(marca.getCnpj())) {
+                    if (MarcaService.buscarMarcaPorCnpj(marca.getCnpj())) {
                         alertaRegistroExistenete("CNPJ", cnpj.getText());
                     } else {
                         MarcaService.inserirMarca(marca);
@@ -581,7 +590,6 @@ public class CadastroController {
         tabelaMarca.getItems().addAll(marcaList);
     }
     public void limparCamposMarca() {
-        codigoModeloNaMarca.setText("");
         cnpj.setText("");
         razaoSocial.setText("");
         cep.setText(""); // zera o campo
@@ -594,7 +602,6 @@ public class CadastroController {
         email.setText("");
         site.setText("");
 
-        codigoModeloNaMarca.setDisable(false); // Habilitar
         cnpj.setDisable(false); // Habilitar
 
     }

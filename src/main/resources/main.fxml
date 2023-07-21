@@ -15,10 +15,10 @@
 					<content>
 						<AnchorPane fx:id="veiculo" prefHeight="1000.0" prefWidth="1200.0">
 							<children>
-								<Label layoutX="20.0" layoutY="20.0" text="Chassi" />
-								<TextField fx:id="chassi" layoutX="17.0" layoutY="37.0" prefWidth="400.0" />
-								<Label layoutX="21.0" layoutY="82.0" text="Placa" />
-								<TextField fx:id="placa" layoutX="18.0" layoutY="98.0" prefWidth="400.0" />
+								<Label layoutX="20.0" layoutY="82.0" text="Chassi" />
+								<TextField fx:id="chassi" layoutX="20.0" layoutY="99.0" prefWidth="400.0" />
+								<Label layoutX="476.0" layoutY="82.0" text="Placa" />
+								<TextField fx:id="placa" layoutX="473.0" layoutY="99.0" prefHeight="25.0" prefWidth="178.0" />
 								<Label layoutX="23.0" layoutY="143.0" text="Cor do Veículo" />
 								<TextField fx:id="corVeiculo" layoutX="20.0" layoutY="159.0" prefHeight="25.0" prefWidth="190.0" />
 								<Label layoutX="25.0" layoutY="205.0" text="Quilometragem" />
@@ -28,14 +28,17 @@
 								<TableView fx:id="tabelaVeiculo" layoutX="8.0" layoutY="329.0" prefHeight="384.0" prefWidth="980.0">
 									<columns>
 										<TableColumn fx:id="colunaCodigoVeiculo" prefWidth="107.0" text="Código Veículo" />
-										<TableColumn fx:id="colunaChassi" prefWidth="210.0" text="Chassi" />
-										<TableColumn fx:id="colunaPlaca" prefWidth="109.0" text="Placa" />
-										<TableColumn fx:id="colunaCorVeiculo" prefWidth="117.0" text="Cor do Veículo" />
-										<TableColumn fx:id="colunaQuilometragem" prefWidth="151.0" text="Quilometragem" />
-                              <TableColumn fx:id="colunaModelo" prefWidth="152.0" text="Modelo" />
-                              <TableColumn fx:id="colunaMarca" prefWidth="133.0" text="Marca" />
+										<TableColumn fx:id="colunaChassi" prefWidth="155.0" text="Chassi" />
+										<TableColumn fx:id="colunaPlaca" prefWidth="118.0" text="Placa" />
+										<TableColumn fx:id="colunaCorVeiculo" prefWidth="113.0" text="Cor do Veículo" />
+										<TableColumn fx:id="colunaQuilometragem" prefWidth="115.0" text="Quilometragem" />
+                              <TableColumn fx:id="colunaCodigoModeloVeiculo" prefWidth="122.0" text="Código do Modelo" />
+                              <TableColumn fx:id="colunaModelo" prefWidth="133.0" text="Modelo" />
+                              <TableColumn fx:id="colunaMarca" prefWidth="115.0" text="Marca" />
 									</columns>
 								</TableView>
+                        <Label layoutX="24.0" layoutY="21.0" text="Código do Modelo" />
+                        <TextField fx:id="codigoModelo" layoutX="21.0" layoutY="38.0" />
 							</children>
 							<opaqueInsets>
 								<Insets />
@@ -47,8 +50,8 @@
 					<content>
 						<AnchorPane prefHeight="600.0" prefWidth="800.0">
 							<children>
-								<Label layoutX="15.0" layoutY="17.0" text="Código Veículo" />
-								<TextField fx:id="codigoVeiculo" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="126.0" />
+								<Label layoutX="15.0" layoutY="17.0" text="Código da Marca" />
+								<TextField fx:id="codigoMarcaModelo" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="126.0" />
 								<Label layoutX="156.0" layoutY="17.0" text="Nome Modelo" />
 								<TextField fx:id="nomeModelo" layoutX="156.0" layoutY="37.0" prefHeight="25.0" prefWidth="537.0" />
 								<Label layoutX="14.0" layoutY="78.0" text="Motor" />
@@ -66,12 +69,13 @@
 								<TableView fx:id="tabelaModelo" layoutX="14.0" layoutY="265.0" prefHeight="305.0" prefWidth="966.0">
 									<columns>
 										<TableColumn fx:id="colunaCodigoModelo" prefWidth="108.0" text="Código Modelo" />
-										<TableColumn fx:id="colunaNomeModelo" prefWidth="179.0" text="Nome Modelo" />
-										<TableColumn fx:id="colunaMotor" prefWidth="113.0" text="Motor" />
-										<TableColumn fx:id="colunaPotencia" prefWidth="108.0" text="Potência" />
-										<TableColumn fx:id="colunaAnoLancamento" prefWidth="150.0" text="Ano de Lançamento" />
-										<TableColumn fx:id="colunaTipoCombustivel" prefWidth="180.0" text="Tipo de Combustível" />
-										<TableColumn fx:id="colunaNumeroPortas" prefWidth="127.0" text="Número de Portas" />
+										<TableColumn fx:id="colunaNomeModelo" prefWidth="133.0" text="Nome Modelo" />
+										<TableColumn fx:id="colunaMotor" prefWidth="90.0" text="Motor" />
+										<TableColumn fx:id="colunaPotencia" prefWidth="101.0" text="Potência" />
+										<TableColumn fx:id="colunaAnoLancamento" prefWidth="131.0" text="Ano de Lançamento" />
+										<TableColumn fx:id="colunaTipoCombustivel" prefWidth="137.0" text="Tipo de Combustível" />
+										<TableColumn fx:id="colunaNumeroPortas" prefWidth="153.0" text="Número de Portas" />
+                              <TableColumn fx:id="colunaCodigoMarcaModelo" prefWidth="112.0" text="Código da Marca" />
 									</columns>
 								</TableView>
 							</children>
@@ -82,8 +86,8 @@
 					<content>
 						<AnchorPane prefHeight="600.0" prefWidth="800.0">
 							<children>
-								<Label layoutX="14.0" layoutY="17.0" text="Código Modelo" />
-								<TextField fx:id="codigoModeloNaMarca" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="126.0" />
+								<Label layoutX="14.0" layoutY="17.0" text="Código da Marca" />
+								<TextField fx:id="codigoMarca" layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="126.0" />
 								<Label layoutX="169.0" layoutY="17.0" text="CNPJ" />
 								<TextField fx:id="cnpj" layoutX="169.0" layoutY="37.0" prefHeight="25.0" prefWidth="226.0" />
 								<Label layoutX="14.0" layoutY="78.0" text="Razão Social" />
@@ -110,17 +114,18 @@
 								<Button layoutX="76.0" layoutY="479.0" mnemonicParsing="false" onAction="#executarExcluirNaMarca" text="Excluir" />
 								<TableView fx:id="tabelaMarca" layoutX="14.0" layoutY="539.0" prefHeight="185.0" prefWidth="966.0">
 									<columns>
+                              <TableColumn fx:id="colunaCodigoMarca" prefWidth="75.0" text="Código Marca" />
 										<TableColumn fx:id="colunaCnpj" prefWidth="119.0" text="CNPJ" />
 										<TableColumn fx:id="colunaRazaoSocial" prefWidth="98.0" text="Razão Social" />
-										<TableColumn fx:id="colunaCep" prefWidth="85.0" text="CEP" />
-										<TableColumn fx:id="colunaRuaNumero" prefWidth="85.0" text="Rua" />
-										<TableColumn fx:id="colunaBairro" prefWidth="83.0" text="Bairro" />
+										<TableColumn fx:id="colunaCep" prefWidth="55.0" text="CEP" />
+										<TableColumn fx:id="colunaRuaNumero" prefWidth="115.0" text="Rua" />
+										<TableColumn fx:id="colunaBairro" prefWidth="93.0" text="Bairro" />
 										<TableColumn fx:id="colunaCidade" prefWidth="78.0" text="Cidade" />
-										<TableColumn fx:id="colunaUf" prefWidth="49.0" text="UF" />
-										<TableColumn fx:id="colunaPais" prefWidth="74.0" text="País" />
-										<TableColumn fx:id="colunaTelefone" prefWidth="98.0" text="Telefone" />
-										<TableColumn fx:id="colunaEmail" prefWidth="103.0" text="Email" />
-										<TableColumn fx:id="colunaSite" prefWidth="93.0" text="Site" />
+										<TableColumn fx:id="colunaUf" prefWidth="39.0" text="UF" />
+										<TableColumn fx:id="colunaPais" prefWidth="55.0" text="País" />
+										<TableColumn fx:id="colunaTelefone" text="Telefone" />
+										<TableColumn fx:id="colunaEmail" prefWidth="78.0" text="Email" />
+										<TableColumn fx:id="colunaSite" prefWidth="79.0" text="Site" />
 									</columns>
 								</TableView>
 							</children>
