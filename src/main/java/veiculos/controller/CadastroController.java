@@ -157,9 +157,10 @@ public class CadastroController {
         colunaAnoLancamento.setCellValueFactory(new PropertyValueFactory<>("anoLancamento"));
         colunaTipoCombustivel.setCellValueFactory(new PropertyValueFactory<>("tipoCombustivel"));
         colunaNumeroPortas.setCellValueFactory(new PropertyValueFactory<>("numeroPortas"));
-        colunaCodigoMarcaModelo.setCellValueFactory(new PropertyValueFactory<>("codigoMarca"));
+        colunaCodigoMarcaModelo.setCellValueFactory(new PropertyValueFactory<>("codigoMarcaModelo"));
 
 // MARCA:
+        colunaCodigoMarca.setCellValueFactory(new PropertyValueFactory<>("idMarca"));
         codigoMarca.setDisable(true); // não habilitar o campo do código da marca para adicionar/edição
         colunaCnpj.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
         colunaRazaoSocial.setCellValueFactory(new PropertyValueFactory<>("razaoSocial"));
@@ -172,7 +173,7 @@ public class CadastroController {
         colunaTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
         colunaEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colunaSite.setCellValueFactory(new PropertyValueFactory<>("site"));
-        colunaCodigoMarca.setCellValueFactory(new PropertyValueFactory<>("idMarca"));
+
 
         // Trazer o método das classes Services
         this.carregarlistaVeiculos();
@@ -299,15 +300,15 @@ public class CadastroController {
                         alertaDeErroOuInvalido
                                 ("Campo obrigatório", "É obrigatório informar a placa!",
                                         "");
-                    } else if (!veiculo.getPlaca().matches("[a-zA-Z0-9]{7}")) { // Aceita letras e números com 7 dígitos
-                        alertaDeErroOuInvalido("Erro", "Placa inválida.",
-                           "Confira se colocou letars e números, precisa ter exatamente 7 dígitos");
                     } else if (corVeiculo.getText().isEmpty()) {
                         alertaDeErroOuInvalido
                                 ("Campo obrigatório", "É obrigatório informar a cor do veículo!", "");
                     } else if (quilometragem.getText().isEmpty()) {
                         alertaDeErroOuInvalido
                                 ("Campo obrigatório", "É obrigatório informar a quilometragem!", "");
+                    } else if (!veiculo.getPlaca().matches("[a-zA-Z0-9]{7}")) { // Aceita letras e números com 7 dígitos
+                        alertaDeErroOuInvalido("Erro", "Placa inválida.",
+                           "Confira se colocou letars e números, precisa ter exatamente 7 dígitos");
                     } else if (!veiculo.getQuilometragem().matches("[0-9]{0,10}")) { // expressão regular
                         alertaDeErroOuInvalido
                                 ("Erro", "Quilometragem inválida, somente números.",
@@ -317,8 +318,9 @@ public class CadastroController {
                             alertaRegistroExistenete("Chassi", chassi.getText());
                         } else if (VeiculoService.buscarVeiculoPorPlaca(veiculo.getPlaca())) {
                             alertaRegistroExistenete("Placa", placa.getText());
-                        } else if (VeiculoService.buscarVeiculoPorCodigoModelo(veiculo.getCodigoModelo())) {
-                                alertaRegistroExistenete("Código do modelo", codigoModelo.getText());
+                        } else if(!ModeloService.saberSeExisteCodigoDoModelo(veiculo.getCodigoModelo())) {
+                            alertaDeErroOuInvalido("Erro", "Código do modelo não existe",
+                                    "Por favor, usar um código de modelo válido!");
                         } else {
                             VeiculoService.inserirVeiculo(veiculo); // INSERT
                             this.limparCamposDoVeiculo();
@@ -425,10 +427,11 @@ public class CadastroController {
                     alertaDeErroOuInvalido
                             ("Campo obrigatório", "É obrigatório informar o número de portas!", "");
                 } else if (index < 0) {
-                    // Verificar se o ID do veículo existe
-                    if (ModeloService.verificarExistenciaModeloPorId(modelo.getCodigoMarcaModelo())) {
-                        alertaRegistroExistenete("Código da marca", codigoMarcaModelo.getText());
-                    } else {
+                    // Verificar se o ID da marca existe, é no MarcaService o método
+                    if(!MarcaService.saberSeExisteCodigoDaMarca(modelo.getCodigoMarcaModelo())) {
+                    alertaDeErroOuInvalido("Erro", "Código da marca não existe",
+                            "Por favor, usar um código de marca válido!");
+                     }else {
                         ModeloService.inserirModelo(modelo);
                         this.limparCamposModelo();
                     }

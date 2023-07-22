@@ -119,5 +119,17 @@ public class MarcaService {
         }
         return false;
     }
+    public static boolean saberSeExisteCodigoDaMarca(String idMarca) {
+        try {
+            Connection conexaoVerificar = conexao.getConexao();
+            String selectSql = "SELECT * FROM marcas WHERE id = '" + idMarca + "'"; // precisa colocar entre aspas simples
+            Statement verificarIdModeloStatement = conexaoVerificar.createStatement();
+            ResultSet resultado = verificarIdModeloStatement.executeQuery(selectSql);
+            return resultado.next();
+        } catch (Exception e) {
 
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
