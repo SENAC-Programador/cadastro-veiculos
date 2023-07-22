@@ -67,7 +67,7 @@ public class VeiculoService {
                     "SET cor_veiculo = ?, quilometragem = ? WHERE id = ?";
             PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
             prepareStatementUpdate.setString(1, veiculo.getCorVeiculo());
-            prepareStatementUpdate.setString(2, veiculo.getQuilometragem());
+            prepareStatementUpdate.setInt(2, Integer.parseInt(veiculo.getQuilometragem()));
             prepareStatementUpdate.setInt(3, idVeiculo);
 
             return prepareStatementUpdate.execute();

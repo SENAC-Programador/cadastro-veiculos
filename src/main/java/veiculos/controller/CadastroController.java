@@ -214,8 +214,8 @@ public class CadastroController {
             public void handle(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
                     Modelo modelo = tabelaModelo.getSelectionModel().getSelectedItem();
-                    codigoMarca.setText(String.valueOf(modelo.getCodigoMarca()));
-                    codigoMarca.setDisable(true); // Desabilitar o campo Código do Veículo para edição ou exclusão
+                    codigoMarcaModelo.setText(modelo.getCodigoMarcaModelo());
+                    codigoMarcaModelo.setDisable(true); // Desabilitar o campo Código do Veículo para edição ou exclusão
                     nomeModelo.setText(modelo.getNomeModelo());
                     motor.setText(modelo.getMotor());
                     potencia.setText(modelo.getPotencia());
@@ -360,10 +360,12 @@ public class CadastroController {
         this.limparCamposDoVeiculo();
     }
     public void limparCamposDoVeiculo() {
+        codigoModelo.setText("");
         chassi.setText(""); // zera o campo
         placa.setText("");
         corVeiculo.setText("");
         quilometragem.setText("");
+        codigoModelo.setDisable(false);
         chassi.setDisable(false); // habilitar documento
         placa.setDisable(false); // habilitar nome
     }
@@ -379,7 +381,7 @@ public class CadastroController {
             if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.OK) {
                 Modelo modelo = new Modelo();
                 // para mostrar as informações que estão na linha que pertencem às colunas da tabela
-                modelo.setCodigoMarca(String.valueOf(codigoMarca.getText())); // coluna código do modelo
+                modelo.setCodigoMarcaModelo(codigoMarcaModelo.getText()); // coluna código do modelo
                 modelo.setNomeModelo(nomeModelo.getText());
                 modelo.setMotor(motor.getText());
                 modelo.setPotencia(potencia.getText());
@@ -387,38 +389,45 @@ public class CadastroController {
                 modelo.setTipoCombustivel(tipoCombustivel.getText());
                 modelo.setNumeroPortas(numeroPortas.getText());
 
-                if (!modelo.getCodigoMarca().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
+                if (!modelo.getCodigoMarcaModelo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
                     alertaDeErroOuInvalido
-                            ("Erro", "Código do veículo inválido, somente números","");
+                            ("Erro", "Código do veículo inválido, somente números", "");
+                } else if (!modelo.getAnoLancamento().matches("\\d{4}")) {
+                    alertaDeErroOuInvalido("Erro", "Ano de Lançamento inválido",
+                            "Confira se colocou apenas números ou somente o ano (4 dígitos)");
+                } else if (!modelo.getNumeroPortas().matches("[0-9]{1,2}")) {
+                    alertaDeErroOuInvalido
+                            ("Erro", "Número de portas inválido, somente números", "");
+                } else if (codigoMarcaModelo.getText().isEmpty()) {
+                    alertaDeErroOuInvalido
+                            ("Campo obrigatório", "É obrigatório informar o código da marca!",
+                                    "");
                 } else if (nomeModelo.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar o nome do modelo!", "");
+                            ("Campo obrigatório", "É obrigatório informar o nome do modelo!",
+                                    "");
                 } else if (motor.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar o motor!", "");
+                            ("Campo obrigatório", "É obrigatório informar o motor!",
+                                    "");
                 } else if (potencia.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar a potência", "");
+                            ("Campo obrigatório", "É obrigatório informar a potência",
+                                    "");
                 } else if (anoLancamento.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo obrigatório", "É obrigatório informar o ano do lançamento!",
                                     "");
-                } else if (!modelo.getAnoLancamento().matches("\\d{4}")) {
-                    alertaDeErroOuInvalido("Erro", "Ano de Lançamento inválido",
-                            "Confira se colocou apenas números ou somente o ano (4 dígitos)");
                 } else if (tipoCombustivel.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo obrigatório", "É obrigatório informar o tipo do combustivel!", "");
                 } else if (numeroPortas.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo obrigatório", "É obrigatório informar o número de portas!", "");
-                } else if (!modelo.getNumeroPortas().matches("[0-9]{1,2}")) {
-                    alertaDeErroOuInvalido
-                            ("Erro", "Número de portas inválido, somente números", "");
                 } else if (index < 0) {
                     // Verificar se o ID do veículo existe
-                    if (ModeloService.verificarExistenciaModeloPorId(modelo.getCodigoMarca())) {
-                        alertaRegistroExistenete("Código do veículo", codigoMarca.getText());
+                    if (ModeloService.verificarExistenciaModeloPorId(modelo.getCodigoMarcaModelo())) {
+                        alertaRegistroExistenete("Código da marca", codigoMarcaModelo.getText());
                     } else {
                         ModeloService.inserirModelo(modelo);
                         this.limparCamposModelo();
@@ -443,14 +452,17 @@ public class CadastroController {
             ("ANTES DE EXCLUIR, verifique se existe uma marca cadastrada com o código do modelo.");
 
         Optional<ButtonType> retornoAlerta = alertExclusao.showAndWait();
-        if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
-            limparCamposModelo();
-        } else if (index > -1) {
-            ModeloService.deletarModelo(index);
-            this.carregarlistaModelos();
-            index = -1;
-            this.limparCamposModelo();
-        }
+
+            if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
+                limparCamposModelo();
+            } else if (index > -1) {
+                ModeloService.deletarModelo(index);
+                this.carregarlistaModelos();
+                index = -1;
+                this.limparCamposModelo();
+            }
+
+
     }
     public void carregarlistaModelos() {
         // Trazer o método da classe ModeloService
@@ -459,14 +471,14 @@ public class CadastroController {
         tabelaModelo.getItems().addAll(modeloList);
     }
     public void limparCamposModelo() {
-        codigoMarca.setText("");
+        codigoMarcaModelo.setText("");
         nomeModelo.setText(""); // zera o campo
         potencia.setText("");
         motor.setText("");
         anoLancamento.setText("");
         tipoCombustivel.setText("");
         numeroPortas.setText("");
-        codigoMarca.setDisable(false); // Habilitar novamento o campo
+        codigoMarcaModelo.setDisable(false); // Habilitar novamento o campo
         anoLancamento.setDisable(false);
         numeroPortas.setDisable(false);
 

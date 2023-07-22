@@ -1,7 +1,6 @@
 package veiculos.service;
 import veiculos.db.ConexaoDatabase;
 import veiculos.model.Modelo;
-import veiculos.model.Veiculo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,13 +19,13 @@ public class ModeloService {
             while (resultadoSelect.next()) {
                 Modelo modelo = new Modelo(
                         resultadoSelect.getInt("id"),
-                        resultadoSelect.getString("id_marca"),
                         resultadoSelect.getString("nome_modelo"),
                         resultadoSelect.getString("motor"),
                         resultadoSelect.getString("potencia"),
                         resultadoSelect.getString("ano_lancamento"),
                         resultadoSelect.getString("tipo_combustivel"),
-                        resultadoSelect.getString("numero_portas"));
+                        resultadoSelect.getString("numero_portas"),
+                        resultadoSelect.getString("id_marca"));
                 out.add(modelo);
             }
         } catch (SQLException e) {
@@ -42,13 +41,13 @@ public class ModeloService {
             String insertSql = "INSERT INTO modelos (id_marca, nome_modelo, motor, potencia, ano_lancamento, " +
                     "tipo_combustivel, numero_portas) VALUES ( ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement prepareStatementInsert = conexaoInsert.prepareStatement(insertSql);
-            prepareStatementInsert.setInt(1, Integer.parseInt(modelo.getCodigoMarca()));
+            prepareStatementInsert.setInt(1, Integer.parseInt(modelo.getCodigoMarcaModelo()));
             prepareStatementInsert.setString(2, modelo.getNomeModelo());
             prepareStatementInsert.setString(3, modelo.getMotor());
             prepareStatementInsert.setString(4, modelo.getPotencia());
-            prepareStatementInsert.setString(5, modelo.getAnoLancamento());
+            prepareStatementInsert.setInt(5, Integer.parseInt(modelo.getAnoLancamento()));
             prepareStatementInsert.setString(6, modelo.getTipoCombustivel());
-            prepareStatementInsert.setString(7, modelo.getNumeroPortas());
+            prepareStatementInsert.setInt(7, Integer.parseInt(modelo.getNumeroPortas()));
 
             prepareStatementInsert.execute();
             prepareStatementInsert.close();
@@ -67,7 +66,7 @@ public class ModeloService {
             PreparedStatement prepareStatementUpdate = conexaoUpdate.prepareStatement(updateSql);
             prepareStatementUpdate.setString(1, modelo.getNomeModelo());
             prepareStatementUpdate.setString(2, modelo.getMotor());
-            prepareStatementUpdate.setString(3, modelo.getPotencia());
+            prepareStatementUpdate.setInt(3, Integer.parseInt(modelo.getPotencia()));
             prepareStatementUpdate.setString(4, modelo.getTipoCombustivel());
             prepareStatementUpdate.setInt(5, codigoVeiculo); // Não funciona dessa forma modelo.getIdMarca();
             return prepareStatementUpdate.execute();

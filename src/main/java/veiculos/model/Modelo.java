@@ -3,7 +3,7 @@ package veiculos.model;
 public class Modelo {
     // id_marca, nome_modelo, motor, potencia, ano_lancamento, tipo_combustivel, numero_portas
     private int idModelo; // colunaCodigoModelo/tabelaModelo/executarSalvarNoModelo/executarExcluirNoModelo - id SERIAL PRIMARY KEY-
-    private String codigoMarca; //  codigoVeiculo/ - id_veiculo INT NOT NULL,
+    private String codigoMarcaModelo; //  codigoVeiculo/ - id_veiculo INT NOT NULL,
     private String nomeModelo; // nomeModelo/colunaNomeModelo - VARCHAR(100) NOT NULL, ex: Parati ou Gol ou Golf
     private String motor; // motor/colunaMotor - VARCHAR(50) NOT NULL, 16V
     private String potencia; // potencia/colunaPotencia - VARCHAR(50) NOT NULL, ex: 1.8
@@ -15,16 +15,16 @@ public class Modelo {
 
     }
 
-    public Modelo(int idModelo, String codigoMarca, String nomeModelo, String motor, String potencia,
-                  String anoLancamento, String tipoCombustivel, String numeroPortas) {
+    public Modelo(int idModelo, String nomeModelo, String motor, String potencia,
+                  String anoLancamento, String tipoCombustivel, String numeroPortas, String codigoMarcaModelo) {
         this.idModelo = idModelo;
-        this.codigoMarca = codigoMarca;
         this.nomeModelo = nomeModelo;
         this.motor = motor;
         this.potencia = potencia;
         this.anoLancamento = anoLancamento;
         this.tipoCombustivel = tipoCombustivel;
         this.numeroPortas = numeroPortas;
+        this.codigoMarcaModelo = codigoMarcaModelo;
     }
 
     public int getIdModelo() {
@@ -35,12 +35,12 @@ public class Modelo {
         this.idModelo = idModelo;
     }
 
-    public String getCodigoMarca() {
-        return codigoMarca;
+    public String getCodigoMarcaModelo() {
+        return codigoMarcaModelo;
     }
 
-    public void setCodigoMarca(String codigoMarca) {
-        this.codigoMarca = codigoMarca;
+    public void setCodigoMarcaModelo(String codigoMarcaModelo) {
+        this.codigoMarcaModelo = codigoMarcaModelo;
     }
 
     public String getNomeModelo() {
