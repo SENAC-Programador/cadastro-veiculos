@@ -97,9 +97,9 @@ public class VeiculoService {
 // Validar o chassi unico,
     public static boolean buscarVeiculoPorChassi(String chassi) {
         try {
-            Connection conexaoBusca = conexao.getConexao();
+            Connection conexaoBuscaChassi = conexao.getConexao();
             String selectSql = "SELECT id FROM veiculos WHERE chassi = '" + chassi + "'"; // precisa colocar entre aspas simples
-            Statement buscaChassiStatement = conexaoBusca.createStatement();
+            Statement buscaChassiStatement = conexaoBuscaChassi.createStatement();
             ResultSet buscaChassiResultado = buscaChassiStatement.executeQuery(selectSql);
             return buscaChassiResultado.next();
         } catch (Exception e) {
@@ -110,22 +110,9 @@ public class VeiculoService {
 
     public static boolean buscarVeiculoPorPlaca(String placa) {
         try {
-            Connection conn = conexao.getConexao();
+            Connection conexaoBuscaPlaca = conexao.getConexao();
             String selectSql = "SELECT id FROM veiculos WHERE placa = '" + placa + "'"; // precisa colocar entre aspas simples
-            Statement buscaPlacaStatement = conn.createStatement();
-            ResultSet buscaPlacaResultado = buscaPlacaStatement.executeQuery(selectSql);
-            return buscaPlacaResultado.next();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static boolean buscarVeiculoPorCodigoModelo(String idModelo) {
-        try {
-            Connection conn = conexao.getConexao();
-            String selectSql = "SELECT id FROM veiculos WHERE id_modelo = '" + idModelo + "'"; // precisa colocar entre aspas simples
-            Statement buscaPlacaStatement = conn.createStatement();
+            Statement buscaPlacaStatement = conexaoBuscaPlaca.createStatement();
             ResultSet buscaPlacaResultado = buscaPlacaStatement.executeQuery(selectSql);
             return buscaPlacaResultado.next();
         } catch (Exception e) {

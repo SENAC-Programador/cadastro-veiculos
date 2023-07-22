@@ -25,7 +25,7 @@ public class ModeloService {
                         resultadoSelect.getString("ano_lancamento"),
                         resultadoSelect.getString("tipo_combustivel"),
                         resultadoSelect.getString("numero_portas"),
-                        resultadoSelect.getString("id_marca"));
+                        resultadoSelect.getString(("id_marca")));
                 out.add(modelo);
             }
         } catch (SQLException e) {
@@ -92,17 +92,17 @@ public class ModeloService {
         return false;
     }
 
-    public static boolean verificarExistenciaModeloPorId(String idMarca) {
-        try {
-            Connection conexaoVerificar = conexao.getConexao();
-            String selectSql = "SELECT id FROM modelos WHERE id_marca = '" + idMarca + "'"; // precisa colocar entre aspas simples
-            Statement verificarIdModeloStatement = conexaoVerificar.createStatement();
-            ResultSet resultado = verificarIdModeloStatement.executeQuery(selectSql);
-            return resultado.next();
-        } catch (Exception e) {
+    public static boolean saberSeExisteCodigoDoModelo(String idModelo) {
+            try {
+                Connection conexaoVerificar = conexao.getConexao();
+                String selectSql = "SELECT * FROM modelos WHERE id = '" + idModelo + "'"; // precisa colocar entre aspas simples
+                Statement verificarIdModeloStatement = conexaoVerificar.createStatement();
+                ResultSet resultado = verificarIdModeloStatement.executeQuery(selectSql);
+                return resultado.next();
+            } catch (Exception e) {
 
-            e.printStackTrace();
+                e.printStackTrace();
+            }
+            return false;
         }
-        return false;
-    }
 }

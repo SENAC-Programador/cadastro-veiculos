@@ -114,13 +114,13 @@
 								<Button layoutX="76.0" layoutY="479.0" mnemonicParsing="false" onAction="#executarExcluirNaMarca" text="Excluir" />
 								<TableView fx:id="tabelaMarca" layoutX="14.0" layoutY="539.0" prefHeight="185.0" prefWidth="966.0">
 									<columns>
-                              <TableColumn fx:id="colunaCodigoMarca" prefWidth="75.0" text="Código Marca" />
-										<TableColumn fx:id="colunaCnpj" prefWidth="119.0" text="CNPJ" />
-										<TableColumn fx:id="colunaRazaoSocial" prefWidth="98.0" text="Razão Social" />
-										<TableColumn fx:id="colunaCep" prefWidth="55.0" text="CEP" />
-										<TableColumn fx:id="colunaRuaNumero" prefWidth="115.0" text="Rua" />
-										<TableColumn fx:id="colunaBairro" prefWidth="93.0" text="Bairro" />
-										<TableColumn fx:id="colunaCidade" prefWidth="78.0" text="Cidade" />
+                              <TableColumn fx:id="colunaCodigoMarca" prefWidth="83.0" text="Código Marca" />
+										<TableColumn fx:id="colunaCnpj" prefWidth="118.0" text="CNPJ" />
+										<TableColumn fx:id="colunaRazaoSocial" prefWidth="91.0" text="Razão Social" />
+										<TableColumn fx:id="colunaCep" prefWidth="77.0" text="CEP" />
+										<TableColumn fx:id="colunaRuaNumero" prefWidth="135.0" text="Rua" />
+										<TableColumn fx:id="colunaBairro" prefWidth="68.0" text="Bairro" />
+										<TableColumn fx:id="colunaCidade" prefWidth="61.0" text="Cidade" />
 										<TableColumn fx:id="colunaUf" prefWidth="39.0" text="UF" />
 										<TableColumn fx:id="colunaPais" prefWidth="55.0" text="País" />
 										<TableColumn fx:id="colunaTelefone" text="Telefone" />
