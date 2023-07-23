@@ -3,7 +3,7 @@ CREATE TABLE marcas (
   id SERIAL PRIMARY KEY,
   cnpj VARCHAR(14) NOT NULL UNIQUE,
   razao_social VARCHAR(100) NOT NULL,
-  cep VARCHAR(8) NOT NULL,
+  cep VARCHAR(8) NOT NULL, 
   rua_numero VARCHAR(100) NOT NULL,
   bairro VARCHAR(100) NOT NULL,
   cidade VARCHAR(100) NOT NULL,
@@ -39,33 +39,6 @@ CREATE TABLE veiculos (
 );
 
 
--- Inserir
--- Marca
-INSERT INTO marcas (cnpj, razao_social, cep, rua_numero, bairro, cidade, uf, pais, telefone, email, site)
-VALUES ( '12345678000100', 'Honda', '88888000', 'Rua Flores, 200', 'Bairro', 'Cidade', 'UF', 'País', '5548988880000', 'honda@mail.com', 'www.honda.com');
--- Modelo
-INSERT INTO modelos (id_marca, nome_modelo, motor, potencia, ano_lancamento, tipo_combustivel, numero_portas)
-VALUES ( 1, 'Civic', '16', '200 cavalos', 2020, 'gasolina', 4);
-
--- Veículo
-INSERT INTO veiculos (id_modelo, chassi, placa, cor_veiculo, quilometragem)
-VALUES (1, '1HGCM82633A123456', 'ABC1234', 'Prata', 0);
-
---
-SELECT vei.id, vei.chassi, vei.placa, vei.cor_veiculo, vei.quilometragem, vei.id_modelo, mo.nome_modelo, mar.razao_social
-FROM veiculos vei
-INNER JOIN modelos mo ON mo.id = vei.id_modelo
-INNER JOIN marcas mar ON mar.id = mo.id_marca;
-
--- Consultar Tabelas
-SELECT * FROM veiculos;
-SELECT * FROM modelos;
-SELECT * FROM marcas;
-
--- Excluir Tabelas
-DROP TABLE veiculos;
-DROP TABLE modelos;
-DROP TABLE marcas;
 
 
 
