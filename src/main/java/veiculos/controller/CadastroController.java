@@ -337,12 +337,13 @@ public class CadastroController {
                 e.printStackTrace();
             }
     }
-    public void executarExcluirNoVeiculo() throws SQLException {
+    public void executarExcluirNoVeiculo() {
         Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertExclusao.setTitle("Confirmação de Exclusão");
         alertExclusao.setHeaderText("Confirmar exclusão do veículo?");
 
         Optional<ButtonType> retornoAlerta = alertExclusao.showAndWait();
+
         if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
             limparCamposDoVeiculo();
         } else if (index > -1) {
@@ -451,11 +452,10 @@ public class CadastroController {
         Alert alertExclusao = new Alert(Alert.AlertType.CONFIRMATION);
         alertExclusao.setTitle("Confirmação de Exclusão");
         alertExclusao.setHeaderText("Confirmar exclusão do modelo?");
-        alertExclusao.setContentText
-            ("ANTES DE EXCLUIR, verifique se existe uma marca cadastrada com o código do modelo.");
 
         Optional<ButtonType> retornoAlerta = alertExclusao.showAndWait();
 
+        try{
             if (retornoAlerta.get() != null && retornoAlerta.get() == ButtonType.CANCEL) {
                 limparCamposModelo();
             } else if (index > -1) {
@@ -464,6 +464,13 @@ public class CadastroController {
                 index = -1;
                 this.limparCamposModelo();
             }
+        } catch (Exception e) {
+           System.out.println("Não foi possivel excluir");
+        }
+
+
+
+
 
 
     }

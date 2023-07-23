@@ -1,4 +1,5 @@
 package veiculos.service;
+import javafx.scene.control.Alert;
 import veiculos.db.ConexaoDatabase;
 import veiculos.model.Modelo;
 
@@ -86,12 +87,17 @@ public class ModeloService {
 
             return prepareStatementDelete.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Alerta");
+            alerta.setHeaderText("Modelo não pode ser excluído!");
+            alerta.setContentText("Existe veículo cadastrado com o código do modelo, primeiro exclua o veículo, " +
+                    "para depois o modelo.");
+            alerta.show();
+
         }
 
         return false;
     }
-
     public static boolean saberSeExisteCodigoDoModelo(String idModelo) {
             try {
                 Connection conexaoVerificar = conexao.getConexao();
