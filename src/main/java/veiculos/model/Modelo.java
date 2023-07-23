@@ -1,14 +1,12 @@
 package veiculos.model;
-
 public class Modelo {
-    // id_marca, nome_modelo, motor, potencia, ano_lancamento, tipo_combustivel, numero_portas
-    private int idModelo; // colunaCodigoModelo/tabelaModelo/executarSalvarNoModelo/executarExcluirNoModelo - id SERIAL PRIMARY KEY-
-    private String codigoMarcaModelo; //  codigoVeiculo/ - id_veiculo INT NOT NULL,
-    private String nomeModelo; // nomeModelo/colunaNomeModelo - VARCHAR(100) NOT NULL, ex: Parati ou Gol ou Golf
-    private String motor; // motor/colunaMotor - VARCHAR(50) NOT NULL, 16V
-    private String potencia; // potencia/colunaPotencia - VARCHAR(50) NOT NULL, ex: 1.8
-    private String anoLancamento; // anoLancamento/colunaAnoLancamento -  VARCHAR(4) NOT NULL,
-    private String tipoCombustivel; // tipoCombustivel/colunaTipoCombustivel - VARCHAR(50) NOT NULL, -> ex: gasolina, diesel, elétrico, etc.
+    private int idModelo;
+    private String codigoMarcaModelo;
+    private String nomeModelo;
+    private String motor;
+    private String potencia;
+    private String anoLancamento;
+    private String tipoCombustivel;
     private String numeroPortas;
 
     public Modelo() {
@@ -90,7 +88,6 @@ public class Modelo {
     public void setNumeroPortas(String numeroPortas) {
         this.numeroPortas = numeroPortas;
     }
-
 
 }
 

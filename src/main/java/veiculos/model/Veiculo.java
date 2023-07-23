@@ -1,11 +1,9 @@
 package veiculos.model;
-
 public class Veiculo {
-// id_modelo, chassi, placa, corVeiculo, quilometragem
     private int idVeiculo;
     private String codigoModelo;
     private String chassi; // ex: 1HGCM82633A123456
-    private String placa; // ex: ABC-1234
+    private String placa; // ex: ABC1234
     private String corVeiculo;
     private String quilometragem; //  ex: 50.000 km
     private String nomeModelo;
