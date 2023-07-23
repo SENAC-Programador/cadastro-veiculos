@@ -38,7 +38,7 @@ public class MarcaService {
         return out;
     }
 
-// Inserir/Adicionar (INSERT) - cnpj, razao_social, cep, rua_numero, bairro, cidade, uf, pais, telefone, email, site
+// Inserir/Adicionar (INSERT)
     public static void inserirMarca(Marca marca) {
         try {
             Connection conexaoInsert = conexao.getConexao();
@@ -65,7 +65,7 @@ public class MarcaService {
         }
     }
 
-// Atualizar (UPDATE) - cnpj, razao_social, cep, rua_numero, bairro, cidade, uf, pais, telefone, email, site
+// Atualizar (UPDATE)
     public static boolean atualizarMarca(int codigoModelo, Marca marca) {
         try {
             Connection conn = conexao.getConexao();
@@ -92,7 +92,7 @@ public class MarcaService {
         return false;
     }
 
-    // Excluir (DELETE) - cnpj, razao_social, cep, rua_numero, bairro, cidade, uf, pais, telefone, email, site
+// Excluir (DELETE)
     public static boolean deletarMarca(int idMarca) {
         try {
             Connection conexaoDelete = conexao.getConexao();
@@ -104,7 +104,7 @@ public class MarcaService {
         } catch (Exception e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("Alerta");
-            alerta.setHeaderText("Modelo não pode ser excluído!");
+            alerta.setHeaderText("Marca não pode ser excluído!");
             alerta.setContentText("Existe modelo cadastrado com o código da marca, primeiro exclua o modelo, " +
                     "para depois a marca.");
             alerta.show();

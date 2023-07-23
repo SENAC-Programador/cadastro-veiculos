@@ -309,10 +309,10 @@ public class CadastroController {
                     } else if (!veiculo.getPlaca().matches("[a-zA-Z0-9]{7}")) { // Aceita letras e números com 7 dígitos
                         alertaDeErroOuInvalido("Erro", "Placa inválida.",
                            "Confira se colocou letars e números, precisa ter exatamente 7 dígitos");
-                    } else if (!veiculo.getQuilometragem().matches("[0-9]{0,10}")) { // expressão regular
+                    } else if (!veiculo.getQuilometragem().matches("[0-9]{0,8}")) { // expressão regular para aceita apenas números entre 0 à 8 dígitos
                         alertaDeErroOuInvalido
                                 ("Erro", "Quilometragem inválida, somente números.",
-                                        "Precisa ter no máximo 10 dígitos");
+                                        "Precisa ter no máximo 8 dígitos");
                     } else if (index < 0) {
                         if (VeiculoService.buscarVeiculoPorChassi(veiculo.getChassi())) {
                             alertaRegistroExistenete("Chassi", chassi.getText());
@@ -392,16 +392,7 @@ public class CadastroController {
                 modelo.setTipoCombustivel(tipoCombustivel.getText());
                 modelo.setNumeroPortas(numeroPortas.getText());
 
-                if (!modelo.getCodigoMarcaModelo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
-                    alertaDeErroOuInvalido
-                            ("Erro", "Código do veículo inválido, somente números", "");
-                } else if (!modelo.getAnoLancamento().matches("\\d{4}")) {
-                    alertaDeErroOuInvalido("Erro", "Ano de Lançamento inválido",
-                            "Confira se colocou apenas números ou somente o ano (4 dígitos)");
-                } else if (!modelo.getNumeroPortas().matches("[0-9]{1,2}")) {
-                    alertaDeErroOuInvalido
-                            ("Erro", "Número de portas inválido, somente números", "");
-                } else if (codigoMarcaModelo.getText().isEmpty()) {
+                if (codigoMarcaModelo.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo obrigatório", "É obrigatório informar o código da marca!",
                                     "");
@@ -423,10 +414,23 @@ public class CadastroController {
                                     "");
                 } else if (tipoCombustivel.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar o tipo do combustivel!", "");
+                            ("Campo obrigatório", "É obrigatório informar o tipo do combustivel!",
+                                    "");
                 } else if (numeroPortas.getText().isEmpty()) {
                     alertaDeErroOuInvalido
-                            ("Campo obrigatório", "É obrigatório informar o número de portas!", "");
+                            ("Campo obrigatório", "É obrigatório informar o número de portas!",
+                                    "");
+                } else if (!modelo.getCodigoMarcaModelo().matches("[0-9]*")) { // expressão regular: [0-9]*, ela só permite números de 0 a 9
+                    alertaDeErroOuInvalido
+                            ("Erro", "Código da marca inválido, somente números",
+                                    "");
+                } else if (!modelo.getAnoLancamento().matches("\\d{4}")) {
+                    alertaDeErroOuInvalido("Erro", "Ano de Lançamento inválido",
+                            "Apenas números e somente o ano (4 dígitos)");
+                } else if (!modelo.getNumeroPortas().matches("[0-9]{1,2}")) {
+                    alertaDeErroOuInvalido
+                            ("Erro", "Número de portas inválido, somente números",
+                                    "");
                 } else if (index < 0) {
                     // Verificar se o ID da marca existe, é no MarcaService o método
                     if(!MarcaService.saberSeExisteCodigoDaMarca(modelo.getCodigoMarcaModelo())) {
@@ -467,12 +471,6 @@ public class CadastroController {
         } catch (Exception e) {
            System.out.println("Não foi possivel excluir");
         }
-
-
-
-
-
-
     }
     public void carregarlistaModelos() {
         // Trazer o método da classe ModeloService
@@ -521,21 +519,10 @@ public class CadastroController {
                     alertaDeErroOuInvalido
                             ("Campo Obrigatório", "É obrigatório informar o CNPJ!",
                                     "");
-                } else if (!marca.getCnpj().matches("[0-9]*")) { // expressão regular: [0-9]*,
-                    alertaDeErroOuInvalido
-                            ("Erro", "CNPJ inválido, somente números", "");
-                } else if (!marca.getCnpj().matches("\\d{14}")) { // expressão regular: [0-9]*,
-                    alertaDeErroOuInvalido
-                            ("Erro", "CNPJ inválido, tamanho incorreto",
-                                    "Exatamente 14 dígitos");
                 } else if (razaoSocial.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo Obrigatório", "É obrigatório informar a Razão Social!",
                                     "");
-                } else if (!marca.getCep().matches("\\d{8}")) { // expressão regular: \d{8} - Exatamente 8 dígitos
-                    alertaDeErroOuInvalido
-                            ("Erro", "CEP inválido, somente números",
-                                    "Exatamente 8 dígitos");
                 } else if (cep.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo Obrigatório", "É obrigatório informar o CEP!",
@@ -556,9 +543,6 @@ public class CadastroController {
                     alertaDeErroOuInvalido
                             ("Campo Obrigatório", "É obrigatório informar a sigla do estado!",
                                     "");
-                } else if (!marca.getUf().matches("[a-zA-Z]{2}")) { // [a-zA-Z]{2} - Exatamente 2 dígitos e somente letras
-                    alertaDeErroOuInvalido
-                            ("Erro", "UF inválido", "Confira o tamanho");
                 } else if (pais.getText().isEmpty()) {
                     alertaDeErroOuInvalido
                             ("Campo Obrigatório", "É obrigatório informar o país!",
@@ -567,9 +551,26 @@ public class CadastroController {
                     alertaDeErroOuInvalido
                             ("Campo Obrigatório", "É obrigatório informar o telefone!",
                                     "");
+                } else if (!marca.getCnpj().matches("[0-9]*")) { // expressão regular: [0-9]*,
+                    alertaDeErroOuInvalido
+                            ("Erro", "CNPJ inválido, somente números", "");
+                } else if (!marca.getCnpj().matches("\\d{14}")) { // expressão regular: [0-9]*,
+                    alertaDeErroOuInvalido
+                            ("Erro", "CNPJ inválido, tamanho incorreto",
+                                    "Exatamente 14 dígitos");
+                } else if (!marca.getCep().matches("\\d{8}")) { // expressão regular: \d{8} - Exatamente 8 dígitos
+                    alertaDeErroOuInvalido
+                            ("Erro", "CEP inválido, somente números",
+                                    "Exatamente 8 dígitos");
+                } else if (!marca.getUf().matches("[a-zA-Z]{2}")) { // [a-zA-Z]{2} - Exatamente 2 dígitos e somente letras
+                    alertaDeErroOuInvalido
+                            ("Erro", "UF inválido",
+                                    "Verifique se o estado digitado está correto, digitar " +
+                                            "apenas a sigla e 2 dígitos, caso seja do exterior, usar EX");
                 } else if(!marca.getTelefone().matches("[0-9]{0,14}")) {
                     alertaDeErroOuInvalido("Erro", "Telefone inválido, somente números",
-                        "Verifique se o telefone digitado está correto, digitar apenas números e no máximo 14 dígitos.");
+                        "Verifique se o telefone digitado está correto, digitar apenas " +
+                                "números e no máximo 14 dígitos.");
                 } else if (index < 0) {
                     // verificar se o ID de modelo existe
                     if (MarcaService.buscarMarcaPorCnpj(marca.getCnpj())) {
