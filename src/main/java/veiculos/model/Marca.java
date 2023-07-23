@@ -1,6 +1,5 @@
 package veiculos.model;
 public class Marca {
-   // cnpj, razaoSocial, cep, ruaNumero, bairro, cidade, uf, pais, telefone, email, site
     private int idMarca;
     private String cnpj;
     private String razaoSocial;
