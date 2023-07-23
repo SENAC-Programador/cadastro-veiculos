@@ -1,4 +1,5 @@
 package veiculos.service;
+import javafx.scene.control.Alert;
 import veiculos.db.ConexaoDatabase;
 import veiculos.model.Marca;
 import java.sql.*;
@@ -101,7 +102,12 @@ public class MarcaService {
 
             return prepareStatementDelete.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Alerta");
+            alerta.setHeaderText("Modelo não pode ser excluído!");
+            alerta.setContentText("Existe modelo cadastrado com o código da marca, primeiro exclua o modelo, " +
+                    "para depois a marca.");
+            alerta.show();
         }
 
         return false;
