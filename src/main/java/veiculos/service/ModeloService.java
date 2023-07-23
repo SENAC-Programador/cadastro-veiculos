@@ -2,11 +2,9 @@ package veiculos.service;
 import javafx.scene.control.Alert;
 import veiculos.db.ConexaoDatabase;
 import veiculos.model.Modelo;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 public class ModeloService {
     private static ConexaoDatabase conexao = new ConexaoDatabase();
 
@@ -34,7 +32,7 @@ public class ModeloService {
         }
         return out;
     }
-    // id_marca, nome_modelo, motor, potencia, ano_lancamento, tipo_combustivel, numero_portas
+
 // Inserir/Adicionar (INSERT)
     public static void inserirModelo(Modelo modelo) {
         try {
@@ -58,7 +56,7 @@ public class ModeloService {
         }
     }
 
-// Atualizar (UPDATE) - id_marca, nome_modelo, motor, potencia, ano_lancamento, tipo_combustivel, numero_portas
+// Atualizar (UPDATE)
     public static boolean atualizarModelo(int codigoVeiculo, Modelo modelo) {
         try {
             Connection conexaoUpdate = conexao.getConexao();
@@ -77,7 +75,7 @@ public class ModeloService {
         return false;
     }
 
-// Excluir (DELETE) - id_marca, nome_modelo, motor, potencia, ano_lancamento, tipo_combustivel, numero_portas
+// Excluir (DELETE)
     public static boolean deletarModelo(int idModelo) {
         try {
             Connection conexaoDelete = conexao.getConexao();

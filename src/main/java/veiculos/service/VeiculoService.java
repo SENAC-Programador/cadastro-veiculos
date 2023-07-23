@@ -37,7 +37,7 @@ public class VeiculoService {
         }
         return out;
     }
-// // id_modelo, chassi, placa, cor_veiculo, quilometragem
+
 // Inserir (INSERT)
     public static void inserirVeiculo(Veiculo veiculo) {
         try {
@@ -59,7 +59,7 @@ public class VeiculoService {
         }
     }
 
-// Atualizar (UPDATE) - id_modelo, chassi, placa, cor_veiculo, quilometragem
+// Atualizar (UPDATE)
     public static boolean atualizarVeiculo(int idVeiculo, Veiculo veiculo) {
         try {
             Connection conexaoUpdate = conexao.getConexao();
